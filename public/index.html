@@ -35,21 +35,17 @@
         radial-gradient(circle at 25% 40%, rgba(249,115,22,0.14), transparent 30%),
         linear-gradient(180deg, #2a0a0a 0%, #160508 45%, #0d0306 100%);
     }
-    html[data-theme="green"] body::after{
-      background: transparent;
-    }
+    html[data-theme="green"] body::after{background:transparent}
     html[data-theme="green"] #settings-section,
     html[data-theme="green"] #extras-section,
-    html[data-theme="green"] #partners-section{
-      background:var(--bg);
-    }
+    html[data-theme="green"] #partners-section{background:var(--bg)}
 
     html,body{height:100%;overflow:hidden}
     body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s}
     canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--glass-border);border-radius:9px}
 
-    /* ── NAV BAR ─────────────────────────────────────────────── */
+    /* NAV */
     #topnav{
       position:fixed;top:0;left:0;right:0;height:46px;
       z-index:1000;display:flex;align-items:center;
@@ -77,105 +73,46 @@
     .nav-btn:hover{background:var(--glass);color:var(--text)}
     .nav-btn.active{background:var(--glass);color:var(--accent);border-bottom:2px solid var(--accent)}
 
-    /* ── SECTIONS ─────────────────────────────────────────────── */
+    /* SECTIONS */
     .section{position:fixed;inset:0;top:46px;z-index:10;display:none;flex-direction:column}
     .section.active{display:flex}
     .section.active:not(#games-section){background:var(--bg)}
     html[data-theme="green"] .section.active:not(#games-section){background:var(--bg)}
 
-    /* ── HOME ─────────────────────────────────────────────────── */
-    #home-inner{
-      flex:1;display:flex;flex-direction:column;
-      align-items:center;justify-content:center;gap:18px;padding:20px;
-    }
-    .home-greeting{
-      font-size:.9rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
-    }
-    .home-title{
-      font-family:'Schoolbell',cursive;
-      font-size:8rem;font-weight:400;line-height:1;
-      color:var(--text);
-      text-shadow:0 0 90px var(--accent-glow), 0 0 40px var(--accent-glow);
-      transition:color .3s, text-shadow .3s;
-    }
+    /* HOME */
+    #home-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px}
+    .home-greeting{font-size:.9rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+    .home-title{font-family:'Schoolbell',cursive;font-size:8rem;font-weight:400;line-height:1;color:var(--text);text-shadow:0 0 90px var(--accent-glow), 0 0 40px var(--accent-glow);transition:color .3s, text-shadow .3s}
     .home-slogan{color:var(--muted);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-top:-6px}
-    #proxy-loading{
-      position:fixed;inset:46px 0 0 0;z-index:1200;display:none;align-items:center;justify-content:center;
-      background:rgba(0,0,0,.92);backdrop-filter:blur(14px);color:var(--text);flex-direction:column;gap:14px;
-    }
-    #proxy-loading .ring{
-      width:44px;height:44px;border-radius:50%;border:4px solid var(--glass-border);
-      border-top-color:var(--accent);animation:spin 1s linear infinite;
-    }
+    #proxy-loading{position:fixed;inset:46px 0 0 0;z-index:1200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);color:var(--text);flex-direction:column;gap:14px}
+    #proxy-loading .ring{width:44px;height:44px;border-radius:50%;border:4px solid var(--glass-border);border-top-color:var(--accent);animation:spin 1s linear infinite}
     #proxy-loading .txt{font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .home-clock-block{
-      display:flex;flex-direction:column;align-items:center;gap:2px;
-      margin-top:8px
-    }
-    .clock-wrap{
-      display:flex;flex-direction:column;align-items:center;gap:2px;
-      margin-top:10px;color:var(--text)
-    }
-    .clock-time{
-      font-size:1.1rem;font-weight:600;letter-spacing:.02em
-    }
-    .clock-date{
-      font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase
-    }
-    .clock-popup{
-      position:absolute;top:58px;right:18px;z-index:20;
-      background:rgba(10,6,14,.88);border:1px solid var(--glass-border);
-      border-radius:14px;padding:10px 12px;backdrop-filter:blur(18px);
-      box-shadow:0 12px 28px rgba(0,0,0,.35)
-    }
+    .clock-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:10px;color:var(--text)}
+    .clock-time{font-size:1.1rem;font-weight:600;letter-spacing:.02em}
+    .clock-date{font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+    .clock-popup{position:absolute;top:58px;right:18px;z-index:20;background:rgba(10,6,14,.88);border:1px solid var(--glass-border);border-radius:14px;padding:10px 12px;backdrop-filter:blur(18px);box-shadow:0 12px 28px rgba(0,0,0,.35)}
     .clock-popup-time{font-size:1.1rem;font-weight:700;color:var(--text)}
     .clock-popup-date{font-size:.72rem;color:var(--muted);margin-top:2px}
 
-    body::before{
-      content:'';
-      position:fixed;inset:0;z-index:-2;
-      background: linear-gradient(180deg, #2a1437 0%, #130918 40%, #07050d 100%);
-      opacity:.95;
-    }
-    body::after{
-      content:'';
-      position:fixed;inset:0;z-index:-1;
-      pointer-events:none;
-    }
+    body::before{content:'';position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg, #2a1437 0%, #130918 40%, #07050d 100%);opacity:.95}
+    body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none}
 
-    /* ── GAMES ─────────────────────────────────────────────────── */
-    #games-controls{
-      display:flex;align-items:center;gap:6px;padding:6px 12px;
-      flex-shrink:0;background:rgba(11,7,18,0.85);
-      border-bottom:1px solid var(--glass-border);backdrop-filter:blur(12px);
-    }
+    /* GAMES */
+    #games-controls{display:flex;align-items:center;gap:6px;padding:6px 12px;flex-shrink:0;background:rgba(11,7,18,0.85);border-bottom:1px solid var(--glass-border);backdrop-filter:blur(12px)}
     .src-tabs{display:flex;gap:2px;flex-shrink:0}
-    .src-tab{
-      padding:5px 12px;border-radius:6px;
-      border:1px solid transparent;background:transparent;
-      color:var(--muted);font-size:.74rem;font-family:'Inter',sans-serif;
-      font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;
-    }
+    .src-tab{padding:5px 12px;border-radius:6px;border:1px solid transparent;background:transparent;color:var(--muted);font-size:.74rem;font-family:'Inter',sans-serif;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
     .src-tab:hover{color:var(--text);background:var(--glass)}
     .src-tab.active{background:var(--glass);border-color:var(--glass-border);color:var(--accent)}
     .search-wrap{flex:1;position:relative;max-width:260px}
     .search-wrap svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:12px;height:12px;color:var(--muted);pointer-events:none}
-    #game-search{
-      width:100%;padding:5px 8px 5px 26px;border-radius:6px;
-      border:1px solid var(--glass-border);background:rgba(255,255,255,0.04);
-      color:var(--text);font-size:.74rem;font-family:'Inter',sans-serif;outline:none;
-      transition:border .2s;
-    }
+    #game-search{width:100%;padding:5px 8px 5px 26px;border-radius:6px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.04);color:var(--text);font-size:.74rem;font-family:'Inter',sans-serif;outline:none;transition:border .2s}
     #game-search:focus{border-color:var(--accent)}
     #game-search::placeholder{color:var(--muted2)}
     #game-count{font-size:.68rem;color:var(--muted);white-space:nowrap;flex-shrink:0}
     #games-grid-wrap{flex:1;overflow-y:auto;padding:10px;scrollbar-width:thin;scrollbar-color:var(--glass-border) transparent}
     #games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-    .game-card{
-      background:var(--card);border:1px solid var(--glass-border);
-      border-radius:8px;overflow:hidden;cursor:pointer;transition:all .15s;
-    }
+    .game-card{background:var(--card);border:1px solid var(--glass-border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .15s}
     .game-card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 4px 18px rgba(0,0,0,0.5),0 0 8px var(--accent-glow)}
     .game-thumb{width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--bg3);display:block}
     .game-thumb-ph{width:100%;aspect-ratio:16/10;background:linear-gradient(135deg,var(--bg3),var(--bg2));display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:.68rem}
@@ -183,50 +120,24 @@
     .game-title{font-size:.7rem;font-weight:600;color:var(--text);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     #games-loading{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);font-size:.8rem}
     .spinner{width:24px;height:24px;border:2px solid var(--glass-border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
 
     /* GAME OVERLAY */
     #game-overlay{position:fixed;inset:0;z-index:500;background:var(--bg);display:none}
     #game-overlay.open{display:block}
     #game-overlay-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:var(--bg)}
-    #game-exit-btn{
-      position:absolute;top:12px;right:14px;z-index:503;
-      width:40px;height:40px;border-radius:50%;
-      background:rgba(20,8,30,0.88);border:2px solid rgba(239,68,68,0.75);
-      color:#f87171;font-size:18px;font-weight:700;line-height:1;
-      cursor:pointer;display:none;align-items:center;justify-content:center;
-      transition:all .15s;font-family:'Inter',sans-serif;
-      backdrop-filter:blur(6px);box-shadow:0 2px 12px rgba(0,0,0,0.5);
-    }
+    #game-exit-btn{position:absolute;top:12px;right:14px;z-index:503;width:40px;height:40px;border-radius:50%;background:rgba(20,8,30,0.88);border:2px solid rgba(239,68,68,0.75);color:#f87171;font-size:18px;font-weight:700;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all .15s;font-family:'Inter',sans-serif;backdrop-filter:blur(6px);box-shadow:0 2px 12px rgba(0,0,0,0.5)}
     #game-overlay.open #game-exit-btn{display:flex}
     #game-exit-btn:hover{background:rgba(239,68,68,0.55);color:#fff;border-color:#ef4444;transform:scale(1.12);box-shadow:0 0 16px rgba(239,68,68,0.4)}
 
-    /* BROWSE */
-    #browse-bar{
-      display:flex;align-items:center;gap:6px;padding:6px 12px;flex-shrink:0;
-      background:rgba(11,7,18,0.85);border-bottom:1px solid var(--glass-border);backdrop-filter:blur(12px);
-    }
-    /* ── HOME SEARCH ─────────────────────────────────────────── */
-    .home-search{
-      display:flex;align-items:center;gap:0;width:min(420px,90vw);
-      background:rgba(255,255,255,0.06);border:1px solid var(--glass-border);
-      border-radius:30px;overflow:hidden;backdrop-filter:blur(10px);
-      transition:border-color .2s, box-shadow .2s;
-    }
+    /* HOME SEARCH */
+    .home-search{display:flex;align-items:center;gap:0;width:min(420px,90vw);background:rgba(255,255,255,0.06);border:1px solid var(--glass-border);border-radius:30px;overflow:hidden;backdrop-filter:blur(10px);transition:border-color .2s, box-shadow .2s}
     .home-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px rgba(139,92,246,0.18)}
-    .home-search input{
-      flex:1;padding:10px 18px;background:transparent;border:none;
-      color:var(--text);font-size:.85rem;font-family:'Inter',sans-serif;outline:none;
-    }
+    .home-search input{flex:1;padding:10px 18px;background:transparent;border:none;color:var(--text);font-size:.85rem;font-family:'Inter',sans-serif;outline:none}
     .home-search input::placeholder{color:var(--muted2)}
-    .home-search button{
-      padding:8px 18px;border:none;background:var(--accent);color:#fff;
-      font-size:.78rem;font-family:'Inter',sans-serif;cursor:pointer;
-      font-weight:500;border-radius:0 30px 30px 0;transition:opacity .2s;flex-shrink:0;
-    }
+    .home-search button{padding:8px 18px;border:none;background:var(--accent);color:#fff;font-size:.78rem;font-family:'Inter',sans-serif;cursor:pointer;font-weight:500;border-radius:0 30px 30px 0;transition:opacity .2s;flex-shrink:0}
     .home-search button:hover{opacity:.85}
 
-    /* ── EXTRAS ──────────────────────────────────────────────── */
+    /* EXTRAS */
     #extras-inner{flex:1;overflow-y:auto;padding:14px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:10px;scrollbar-width:thin;scrollbar-color:var(--glass-border) transparent}
     .extras-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
     .extras-card-header{padding:9px 13px;border-bottom:1px solid var(--glass-border);display:flex;align-items:center;gap:6px;flex-shrink:0;background:rgba(0,0,0,0.2)}
@@ -243,251 +154,95 @@
     #dict-result strong{color:var(--accent);display:block;margin-bottom:4px;font-size:.82rem}
     #dict-result em{color:var(--muted);display:block;font-size:.72rem;margin-bottom:6px}
     #dict-result .def{margin:3px 0;padding-left:10px;border-left:2px solid var(--glass-border)}
-    #music-frame,#movies-frame{
-      width:100%;height:100%;flex:1;border:none;background:var(--bg);
-      min-height:0;display:block
-    }
-    #movies-frame{position:relative}
-    .music-head{
-      width:100%;display:flex;align-items:center;gap:8px
-    }
     @media(max-width:700px){#extras-inner{grid-template-columns:1fr}}
 
-    /* ── PARTNERS ────────────────────────────────────────────── */
-    #partners-inner{
-      flex:1;display:flex;flex-direction:column;align-items:center;
-      gap:18px;padding:28px 20px;overflow-y:auto;
-    }
-    .partners-title{
-      font-family:'Schoolbell',cursive;font-size:2.8rem;color:var(--accent);
-      text-shadow:0 0 40px var(--accent-glow);
-    }
+    /* MUSIC CARD (inside extras) */
+    .music-picker{display:flex;flex-direction:column;gap:8px;padding:10px}
+    .music-opt{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass);cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;color:var(--text);width:100%}
+    .music-opt:hover{border-color:var(--accent);transform:translateX(3px)}
+    .music-opt-icon{font-size:1.2rem;flex-shrink:0}
+    .music-opt-name{font-size:.82rem;font-weight:600;color:var(--text)}
+    .music-opt-desc{font-size:.66rem;color:var(--muted);margin-top:1px}
+    #music-frame-wrap{display:none;flex-direction:column;flex:1;min-height:0}
+    #music-frame{width:100%;flex:1;border:none;background:var(--bg);display:block;min-height:200px}
+    #music-back-btn{margin:6px 10px 0;padding:5px 12px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:.7rem;cursor:pointer;font-family:'Inter',sans-serif;align-self:flex-start}
+    #music-back-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+    /* PARTNERS */
+    #partners-inner{flex:1;display:flex;flex-direction:column;align-items:center;gap:18px;padding:28px 20px;overflow-y:auto}
+    .partners-title{font-family:'Schoolbell',cursive;font-size:2.8rem;color:var(--accent);text-shadow:0 0 40px var(--accent-glow)}
     .partners-sub{color:var(--muted);font-size:.88rem;letter-spacing:.08em;margin-top:-8px}
     .partner-cards{display:flex;flex-direction:column;gap:10px;width:100%;max-width:520px}
-    .partner-card{
-      display:flex;align-items:center;gap:14px;
-      background:var(--glass);border:1px solid var(--glass-border);
-      border-radius:12px;padding:14px 16px;transition:border-color .2s;
-    }
+    .partner-card{display:flex;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:14px 16px;transition:border-color .2s}
     .partner-card:hover{border-color:var(--accent)}
-    .partner-card-avatar{
-      width:44px;height:44px;border-radius:10px;flex-shrink:0;
-      background:var(--accent-glow);border:1px solid var(--glass-border);
-      display:flex;align-items:center;justify-content:center;
-      font-size:1.3rem;font-weight:700;color:var(--accent);font-family:'Schoolbell',cursive;
-    }
+    .partner-card-avatar{width:44px;height:44px;border-radius:10px;flex-shrink:0;background:var(--accent-glow);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:var(--accent);font-family:'Schoolbell',cursive}
     .partner-card-info{flex:1;min-width:0}
     .partner-card-name{font-size:.88rem;font-weight:600;color:var(--text)}
     .partner-card-desc{font-size:.7rem;color:var(--muted);margin-top:2px}
-    .partner-card-btn{
-      padding:7px 16px;border-radius:7px;border:1px solid var(--accent);
-      background:transparent;color:var(--accent);font-size:.74rem;
-      font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s;text-decoration:none;
-      font-weight:500;flex-shrink:0;
-    }
+    .partner-card-btn{padding:7px 16px;border-radius:7px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:.74rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s;text-decoration:none;font-weight:500;flex-shrink:0}
     .partner-card-btn:hover{background:var(--accent);color:#fff}
-    .partners-ad-slot{
-      width:100%;max-width:520px;min-height:80px;border-radius:10px;
-      border:1px dashed var(--glass-border);display:flex;align-items:center;justify-content:center;
-      color:var(--muted2);font-size:.68rem;letter-spacing:.06em;
-    }
+    .partners-ad-slot{width:100%;max-width:520px;min-height:80px;border-radius:10px;border:1px dashed var(--glass-border);display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:.68rem;letter-spacing:.06em}
 
-    /* ── MUSIC ───────────────────────────────────────────────── */
-    #music-inner{
-      flex:1;display:flex;flex-direction:column;gap:16px;padding:20px;overflow-y:auto;align-items:stretch;min-height:720px;
-    }
-    .music-top{display:block;height:100%}
-    .music-main{display:flex;flex-direction:column;align-items:stretch;gap:16px;min-width:0;height:100%}
-    .music-embed{
-      width:100%;min-height:760px;height:100%;border:none;border-radius:12px;background:var(--bg);
-    }
-    .music-actions{display:flex;gap:8px;flex-wrap:wrap}
-    .music-action{
-      padding:8px 12px;border-radius:8px;border:1px solid var(--glass-border);
-      background:var(--glass);color:var(--text);font-size:.72rem;cursor:pointer;
-    }
-    .music-action:hover{border-color:var(--accent);color:var(--accent)}
-    .music-title{
-      font-family:'Schoolbell',cursive;font-size:2.4rem;color:var(--accent);
-      text-shadow:0 0 40px var(--accent-glow);
-    }
-    .music-sub{color:var(--muted);font-size:.82rem;letter-spacing:.08em;margin-top:-8px}
-    .music-note{font-size:.68rem;color:var(--muted2);letter-spacing:.04em}
-    .music-opts{display:flex;flex-direction:column;gap:10px;width:100%;max-width:none}
-    .music-opt{
-      display:flex;align-items:center;gap:14px;
-      background:var(--glass);border:1px solid var(--glass-border);
-      border-radius:10px;padding:12px 16px;cursor:pointer;transition:all .15s;
-      text-align:left;width:100%;font-family:'Inter',sans-serif;color:var(--text);
-    }
-    .music-opt:hover{border-color:var(--accent);transform:translateX(3px)}
-    .music-opt-icon{font-size:1.5rem;flex-shrink:0}
-    .music-opt-name{font-size:.84rem;font-weight:600;color:var(--text)}
-    .music-opt-desc{font-size:.68rem;color:var(--muted);margin-top:2px}
-    #music-section #music-frame{
-      width:100%;flex:1;border:none;background:var(--bg);min-height:760px;height:100%;display:block;
-    }
-    #bottom-bar{height:72px;padding:12px 16px}
-
-    /* ── SETTINGS ─────────────────────────────────────────────── */
+    /* SETTINGS */
     #settings-inner{flex:1;overflow-y:auto;padding:18px;scrollbar-width:thin;scrollbar-color:var(--glass-border) transparent}
     .settings-wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
-    .settings-section-head{
-      font-size:.7rem;font-weight:600;color:var(--muted);
-      letter-spacing:.1em;text-transform:uppercase;
-      padding-bottom:7px;border-bottom:1px solid var(--glass-border);
-    }
+    .settings-section-head{font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding-bottom:7px;border-bottom:1px solid var(--glass-border)}
     .settings-group{display:flex;flex-direction:column;gap:8px}
-    .settings-row{
-      display:flex;align-items:center;justify-content:space-between;
-      background:var(--glass);border:1px solid var(--glass-border);
-      border-radius:9px;padding:12px 14px;gap:10px;
-    }
+    .settings-row{display:flex;align-items:center;justify-content:space-between;background:var(--glass);border:1px solid var(--glass-border);border-radius:9px;padding:12px 14px;gap:10px}
     .settings-row-label{font-size:.82rem;font-weight:500;color:var(--text)}
     .settings-row-sub{font-size:.68rem;color:var(--muted);margin-top:2px}
-    .settings-input{
-      padding:6px 10px;border-radius:6px;border:1px solid var(--glass-border);
-      background:rgba(255,255,255,0.06);color:var(--text);font-size:.76rem;
-      font-family:'Inter',sans-serif;outline:none;width:150px;
-    }
+    .settings-input{padding:6px 10px;border-radius:6px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.06);color:var(--text);font-size:.76rem;font-family:'Inter',sans-serif;outline:none;width:150px}
     .settings-input:focus{border-color:var(--accent)}
-    .settings-btn{
-      padding:6px 14px;border-radius:6px;border:none;
-      background:var(--accent);color:#fff;font-size:.74rem;
-      font-family:'Inter',sans-serif;cursor:pointer;font-weight:500;
-    }
-    /* THEME CARD */
+    .settings-btn{padding:6px 14px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:.74rem;font-family:'Inter',sans-serif;cursor:pointer;font-weight:500}
     .theme-card{border-radius:9px;overflow:hidden;border:1px solid var(--glass-border)}
-    .theme-card-header{
-      padding:14px 16px 10px;
-      background:linear-gradient(135deg,#1a0a00 0%,#3d1a00 25%,#6b2d1a 50%,#8b1a4a 75%,#4a0a6b 100%);
-      position:relative;overflow:hidden;
-    }
+    .theme-card-header{padding:14px 16px 10px;background:linear-gradient(135deg,#1a0a00 0%,#3d1a00 25%,#6b2d1a 50%,#8b1a4a 75%,#4a0a6b 100%);position:relative;overflow:hidden}
     .theme-card-title{font-size:.82rem;font-weight:600;color:#fff;position:relative;z-index:1}
     .theme-card-sub{font-size:.65rem;color:rgba(255,200,150,.8);margin-top:3px;position:relative;z-index:1;font-style:italic}
     .theme-card-body{padding:10px;background:var(--glass)}
     .theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-    .theme-swatch{
-      padding:9px 4px;border-radius:7px;border:2px solid transparent;
-      cursor:pointer;text-align:center;font-size:.65rem;font-weight:600;
-      transition:all .2s;color:#fff;letter-spacing:.02em;
-    }
+    .theme-swatch{padding:9px 4px;border-radius:7px;border:2px solid transparent;cursor:pointer;text-align:center;font-size:.65rem;font-weight:600;transition:all .2s;color:#fff;letter-spacing:.02em}
     .theme-swatch.active{border-color:#fff;box-shadow:0 0 10px rgba(255,255,255,.2)}
-
-    /* NAME PICKER */
     .name-pills{display:flex;gap:6px;flex-wrap:wrap}
-    .name-pill{
-      padding:7px 14px;border-radius:999px;border:1px solid var(--glass-border);
-      background:var(--glass);color:var(--muted);font-size:.74rem;font-family:'Inter',sans-serif;
-      cursor:pointer;transition:all .15s;
-    }
+    .name-pill{padding:7px 14px;border-radius:999px;border:1px solid var(--glass-border);background:var(--glass);color:var(--muted);font-size:.74rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s}
     .name-pill.active{border-color:var(--accent);color:var(--accent)}
     .name-custom-row{display:flex;gap:6px;margin-top:6px}
-
-    /* PROXY OPTS */
     .proxy-opts{display:flex;flex-direction:column;gap:5px}
-    .proxy-opt{
-      display:flex;align-items:center;gap:8px;
-      padding:9px 12px;border-radius:7px;border:1px solid var(--glass-border);
-      background:var(--glass);cursor:pointer;transition:all .15s;
-    }
+    .proxy-opt{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:1px solid var(--glass-border);background:var(--glass);cursor:pointer;transition:all .15s}
     .proxy-opt.active{border-color:var(--accent)}
     .proxy-dot{width:6px;height:6px;border-radius:50%;background:var(--muted2);flex-shrink:0;transition:background .2s}
     .proxy-opt.active .proxy-dot{background:var(--accent)}
     .proxy-label{font-size:.76rem;font-weight:500;color:var(--text)}
     .proxy-desc{font-size:.64rem;color:var(--muted);margin-left:auto}
-
-    /* BAR POSITION */
     .bar-options{display:flex;gap:6px;flex-wrap:wrap}
-    .bar-pill{
-      padding:7px 13px;border-radius:999px;border:1px solid var(--glass-border);
-      background:var(--glass);color:var(--muted);font-size:.7rem;font-family:'Inter',sans-serif;
-      cursor:pointer;transition:all .15s;
-    }
+    .bar-pill{padding:7px 13px;border-radius:999px;border:1px solid var(--glass-border);background:var(--glass);color:var(--muted);font-size:.7rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s}
     .bar-pill.active{border-color:var(--accent);color:var(--accent)}
-
-    /* BAR POSITION LAYOUTS */
-    /* ── BOTTOM DOCK (macOS-style floating pill) ── */
-    body.bar-bottom #topnav{
-      top:auto;bottom:18px;left:50%;right:auto;
-      width:auto;max-width:calc(100vw - 32px);
-      transform:translateX(-50%);
-      border-radius:20px;
-      border:1px solid var(--glass-border);
-      border-bottom:1px solid var(--glass-border);
-      padding:5px 10px;gap:4px;
-      box-shadow:0 8px 32px rgba(0,0,0,0.7),0 0 20px var(--accent-glow);
-    }
+    body.bar-bottom #topnav{top:auto;bottom:18px;left:50%;right:auto;width:auto;max-width:calc(100vw - 32px);transform:translateX(-50%);border-radius:20px;border:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);padding:5px 10px;gap:4px;box-shadow:0 8px 32px rgba(0,0,0,0.7),0 0 20px var(--accent-glow)}
     body.bar-bottom .section{top:0;bottom:0}
     body.bar-bottom .section.active{z-index:10}
     body.bar-bottom .nav-logo{display:none}
-    body.bar-bottom .nav-btn{
-      width:40px;height:40px;padding:0;justify-content:center;
-      font-size:0;border-radius:12px;
-    }
+    body.bar-bottom .nav-btn{width:40px;height:40px;padding:0;justify-content:center;font-size:0;border-radius:12px}
     body.bar-bottom .nav-btn svg{width:17px;height:17px}
-    body.bar-bottom .nav-btn.active{
-      background:var(--accent-glow);border-bottom:none;
-      box-shadow:0 0 10px var(--accent-glow);
-    }
-
-    /* SECRET CODE in settings */
-    #secret-settings-row{display:flex;flex-direction:column;gap:6px;width:100%}
-    #secret-settings-input{
-      flex:1;padding:7px 12px;border-radius:7px;border:1px solid var(--glass-border);
-      background:rgba(255,255,255,0.04);color:var(--text);font-size:.76rem;
-      font-family:'Inter',sans-serif;outline:none;letter-spacing:.06em;
-    }
-    #secret-settings-input:focus{border-color:var(--accent)}
-    #secret-settings-input::placeholder{color:var(--muted2);letter-spacing:0}
-    .secret-unlock-row{display:flex;gap:6px;width:100%}
-
-    /* SOURCE BADGE on game cards */
-    .game-src-badge{
-      display:inline-block;font-size:.54rem;font-weight:600;
-      padding:1px 5px;border-radius:4px;margin-left:4px;
-      background:var(--glass);border:1px solid var(--glass-border);
-      color:var(--muted);letter-spacing:.02em;vertical-align:middle;white-space:nowrap;
-    }
-
-    /* TOAST */
-    #toast{
-      position:fixed;bottom:50px;left:50%;transform:translateX(-50%) translateY(20px);
-      z-index:9999;padding:8px 18px;border-radius:8px;
-      background:var(--accent);color:#fff;font-size:.74rem;font-weight:600;
-      opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;
-    }
-    #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-    /* UNLOCK BADGE */
-    .unlock-badge{
-      display:inline-flex;align-items:center;gap:5px;
-      padding:3px 9px;border-radius:999px;font-size:.62rem;font-weight:600;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      color:#fff;letter-spacing:.04em;
-    }
-
+    body.bar-bottom .nav-btn.active{background:var(--accent-glow);border-bottom:none;box-shadow:0 0 10px var(--accent-glow)}
+    .unlock-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:.62rem;font-weight:600;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;letter-spacing:.04em}
     .settings-version{text-align:center;font-size:.6rem;color:var(--muted2);margin-top:4px}
-
-    /* CLOAK */
     .cloak-grid{display:grid;grid-template-columns:repeat(2,minmax(130px,1fr));gap:6px}
     @media(max-width:520px){.cloak-grid{grid-template-columns:1fr}}
-    .cloak-opt{
-      display:flex;flex-direction:column;align-items:center;gap:5px;
-      padding:10px 6px;border-radius:8px;border:1px solid var(--glass-border);
-      background:var(--glass);cursor:pointer;transition:all .15s;
-    }
+    .cloak-opt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass);cursor:pointer;transition:all .15s}
     .cloak-opt:hover{border-color:var(--accent)}
     .cloak-opt.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
     .cloak-icon{font-size:1.3rem;line-height:1}
     .cloak-label{font-size:.64rem;font-weight:500;color:var(--muted);text-align:center;line-height:1.3}
     .cloak-opt.active .cloak-label{color:var(--accent)}
+    .game-src-badge{display:inline-block;font-size:.54rem;font-weight:600;padding:1px 5px;border-radius:4px;margin-left:4px;background:var(--glass);border:1px solid var(--glass-border);color:var(--muted);letter-spacing:.02em;vertical-align:middle;white-space:nowrap}
+    #toast{position:fixed;bottom:50px;left:50%;transform:translateX(-50%) translateY(20px);z-index:9999;padding:8px 18px;border-radius:8px;background:var(--accent);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap}
+    #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
 <div id="toast"></div>
-<!-- TOP BAR -->
+
+<!-- NAV -->
 <nav id="topnav">
   <span class="nav-logo" id="nav-logo-text">13</span>
   <button class="nav-btn active" onclick="showSection('home-section')" id="btn-home">
@@ -535,7 +290,9 @@
 <div class="section" id="games-section">
   <div id="games-controls">
     <div class="src-tabs">
-      <button class="src-tab" onclick="setSource('original')" id="tab-original">fyinx.wtf</button>
+      <button class="src-tab active" onclick="setSource('original')" id="tab-original">fyinx.wtf</button>
+      <button class="src-tab" onclick="setSource('truffled')" id="tab-truffled">Truffled</button>
+      <button class="src-tab" onclick="setSource('radon')" id="tab-radon">Radon</button>
     </div>
     <div class="search-wrap">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -562,9 +319,7 @@
         <a class="partner-card-btn" href="https://mizumath.com" target="_blank" rel="noopener noreferrer">Visit</a>
       </div>
     </div>
-    <div class="partners-ad-slot" id="partners-ad">
-      <!-- ad slot — place your ad code here -->
-    </div>
+    <div class="partners-ad-slot" id="partners-ad"></div>
   </div>
 </div>
 
@@ -576,9 +331,6 @@
       <div class="clock-popup-date" id="clock-popup-date"></div>
     </div>
     <div class="settings-wrap">
-
-      <!-- SECRET -->
-      <!-- THEME -->
       <div class="settings-section-head">Appearance</div>
       <div class="settings-group">
         <div class="theme-card">
@@ -589,14 +341,10 @@
           <div class="theme-card-body">
             <div class="theme-grid">
               <div class="theme-swatch active" data-theme="black" style="background:linear-gradient(135deg,#000,#111)" onclick="setTheme('black')">Black</div>
-              <div class="theme-swatch" data-theme="green"
-                style="background:linear-gradient(135deg,#2a0a0a,#160508)"
-                onclick="setTheme('green')">Jibanyan</div>
+              <div class="theme-swatch" data-theme="green" style="background:linear-gradient(135deg,#2a0a0a,#160508)" onclick="setTheme('green')">Jibanyan</div>
             </div>
           </div>
         </div>
-
-        <!-- SITE NAME -->
         <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:10px">
           <div style="display:flex;align-items:center;gap:10px;width:100%">
             <div>
@@ -615,8 +363,6 @@
             <button class="settings-btn" onclick="saveCustomName()">Save</button>
           </div>
         </div>
-
-        <!-- BAR POSITION -->
         <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
           <div>
             <div class="settings-row-label">Navigation Bar</div>
@@ -628,16 +374,12 @@
           </div>
         </div>
       </div>
-
-      <!-- PROXY -->
       <div class="settings-section-head">Proxy</div>
       <div class="settings-group">
         <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
-          <div style="display:flex;align-items:center;gap:10px;width:100%">
-            <div>
-              <div class="settings-row-label">Proxy Engine</div>
-              <div class="settings-row-sub">Engine used for routing requests</div>
-            </div>
+          <div>
+            <div class="settings-row-label">Proxy Engine</div>
+            <div class="settings-row-sub">Engine used for routing requests</div>
           </div>
           <div class="proxy-opts" style="width:100%">
             <div class="proxy-opt active" id="proxy-scramjet" onclick="setProxy('scramjet')">
@@ -653,8 +395,6 @@
           </div>
         </div>
       </div>
-
-      <!-- TAB CLOAK -->
       <div class="settings-section-head">Tab Cloak</div>
       <div class="settings-group">
         <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
@@ -663,34 +403,15 @@
             <div class="settings-row-sub">Changes what teachers see in your browser tabs</div>
           </div>
           <div class="cloak-grid" id="cloak-grid">
-            <div class="cloak-opt active" data-cloak="none" onclick="setCloak('none')">
-              <span class="cloak-icon">🔓</span>
-              <span class="cloak-label">None<br>(default)</span>
-            </div>
-            <div class="cloak-opt" data-cloak="classroom" onclick="setCloak('classroom')">
-              <span class="cloak-icon">🎓</span>
-              <span class="cloak-label">Google<br>Classroom</span>
-            </div>
-            <div class="cloak-opt" data-cloak="docs" onclick="setCloak('docs')">
-              <span class="cloak-icon">📄</span>
-              <span class="cloak-label">Google<br>Docs</span>
-            </div>
-            <div class="cloak-opt" data-cloak="khan" onclick="setCloak('khan')">
-              <span class="cloak-icon">📚</span>
-              <span class="cloak-label">Khan<br>Academy</span>
-            </div>
-            <div class="cloak-opt" data-cloak="duolingo" onclick="setCloak('duolingo')">
-              <span class="cloak-icon">🦉</span>
-              <span class="cloak-label">Duolingo</span>
-            </div>
-            <div class="cloak-opt" data-cloak="desmos" onclick="setCloak('desmos')">
-              <span class="cloak-icon">📐</span>
-              <span class="cloak-label">Desmos</span>
-            </div>
+            <div class="cloak-opt active" data-cloak="none" onclick="setCloak('none')"><span class="cloak-icon">🔓</span><span class="cloak-label">None<br>(default)</span></div>
+            <div class="cloak-opt" data-cloak="classroom" onclick="setCloak('classroom')"><span class="cloak-icon">🎓</span><span class="cloak-label">Google<br>Classroom</span></div>
+            <div class="cloak-opt" data-cloak="docs" onclick="setCloak('docs')"><span class="cloak-icon">📄</span><span class="cloak-label">Google<br>Docs</span></div>
+            <div class="cloak-opt" data-cloak="khan" onclick="setCloak('khan')"><span class="cloak-icon">📚</span><span class="cloak-label">Khan<br>Academy</span></div>
+            <div class="cloak-opt" data-cloak="duolingo" onclick="setCloak('duolingo')"><span class="cloak-icon">🦉</span><span class="cloak-label">Duolingo</span></div>
+            <div class="cloak-opt" data-cloak="desmos" onclick="setCloak('desmos')"><span class="cloak-icon">📐</span><span class="cloak-label">Desmos</span></div>
           </div>
         </div>
       </div>
-
       <div class="settings-version" id="settings-version">v3.1 · 13</div>
     </div>
   </div>
@@ -699,6 +420,7 @@
 <!-- EXTRAS -->
 <div class="section" id="extras-section">
   <div id="extras-inner">
+    <!-- Notes -->
     <div class="extras-card">
       <div class="extras-card-header">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -708,6 +430,7 @@
         <textarea id="notes-area" placeholder="Write anything..." autocomplete="off"></textarea>
       </div>
     </div>
+    <!-- Dictionary -->
     <div class="extras-card">
       <div class="extras-card-header">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
@@ -715,48 +438,41 @@
       </div>
       <div class="extras-card-body">
         <div class="dict-bar">
-          <input type="text" id="dict-input" placeholder="Look up a word..." autocomplete="off"
-            onkeydown="if(event.key==='Enter')lookupWord()"/>
+          <input type="text" id="dict-input" placeholder="Look up a word..." autocomplete="off" onkeydown="if(event.key==='Enter')lookupWord()"/>
           <button id="dict-go" onclick="lookupWord()">Look up</button>
         </div>
         <div id="dict-result"><span style="color:var(--muted2);font-size:.74rem">Type a word above to get its definition.</span></div>
       </div>
     </div>
+    <!-- Music (FIXED) -->
     <div class="extras-card">
       <div class="extras-card-header">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         <span class="extras-card-title">Music</span>
-        <button id="music-back-btn" onclick="backMusic()" style="margin-left:auto;display:none;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);border-radius:8px;padding:6px 10px;font-size:.7rem;cursor:pointer">← back</button>
+        <button id="music-back-btn" onclick="backMusic()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);border-radius:8px;padding:5px 10px;font-size:.7rem;cursor:pointer;font-family:'Inter',sans-serif">← back</button>
       </div>
-      <div class="extras-card-body" id="music-inner">
-        <div class="music-top">
-          <div class="music-main">
-            <div class="music-head">
-              <div class="music-title">Music</div>
-            </div>
-            <div class="music-sub">pick a player below</div>
-            <div class="music-actions">
-              <button class="music-action" onclick="openMusicPlayer('https://freefy.app')">freefy.app</button>
-              <button class="music-action" onclick="openMusicPlayer('https://lofi.cafe')">Lofi Cafe</button>
-            </div>
-            <div class="music-opts">
-              <button class="music-opt" onclick="openMusicPlayer('https://lofi.cafe')">
-                <span class="music-opt-icon">🎵</span>
-                <div><div class="music-opt-name">Lofi Cafe</div><div class="music-opt-desc">chill beats to study to</div></div>
-              </button>
-              <button class="music-opt" onclick="openMusicPlayer('https://freefy.app')">
-                <span class="music-opt-icon">🎧</span>
-                <div><div class="music-opt-name">freefy.app</div><div class="music-opt-desc">music streaming</div></div>
-              </button>
-            </div>
-            <div class="music-note">Use back to return to the player list.</div>
-            <iframe id="music-frame" style="display:none"
-              allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-              referrerpolicy="no-referrer"></iframe>
-          </div>
+      <div class="extras-card-body">
+        <!-- Picker -->
+        <div class="music-picker" id="music-picker">
+          <button class="music-opt" onclick="openMusicPlayer('https://lofi.cafe')">
+            <span class="music-opt-icon">🎵</span>
+            <div><div class="music-opt-name">Lofi Cafe</div><div class="music-opt-desc">chill beats to study to</div></div>
+          </button>
+          <button class="music-opt" onclick="openMusicPlayer('https://freefy.app')">
+            <span class="music-opt-icon">🎧</span>
+            <div><div class="music-opt-name">freefy.app</div><div class="music-opt-desc">music streaming</div></div>
+          </button>
+        </div>
+        <!-- Frame (hidden until picked) -->
+        <div id="music-frame-wrap" style="display:none;flex-direction:column;flex:1;min-height:0;height:100%">
+          <iframe id="music-frame"
+            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+            referrerpolicy="no-referrer"
+            style="flex:1;width:100%;height:100%;min-height:260px;border:none;background:var(--bg);display:block"></iframe>
         </div>
       </div>
     </div>
+    <!-- Weather -->
     <div class="extras-card">
       <div class="extras-card-header">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
@@ -776,6 +492,7 @@
   <div id="movies-inner" style="height:100%;position:relative">
     <iframe id="movies-frame"
       src="/proxy?url=https%3A%2F%2Findica.bond"
+      style="width:100%;height:100%;border:none;background:var(--bg);display:block"
       allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write; clipboard-read; microphone; camera"
       referrerpolicy="no-referrer"></iframe>
   </div>
@@ -790,11 +507,8 @@
 </div>
 
 <script>
-// ── CONSTANTS ────────────────────────────────────────────────
-const SECRET_CODE = '';
+// ── CONSTANTS ──────────────────────────────────────────────
 const ALLOWED_NAMES = ['13hrsofstudying','13','mizumath copy'];
-
-// ── STATE ────────────────────────────────────────────────────
 const THEME_MAP = {purple:'',blue:'blue',black:'black',green:'green'};
 const CLOAK_MAP = {
   none:      { title: null, favicon: null },
@@ -805,15 +519,15 @@ const CLOAK_MAP = {
   desmos:    { title: 'Desmos | Graphing Calculator', favicon: 'https://www.desmos.com/assets/img/favicon.ico' },
 };
 const S = {
-  theme:    localStorage.getItem('s_theme')   || 'purple',
-  name:     localStorage.getItem('s_name')    || '13',
-  proxy:    localStorage.getItem('s_proxy')   || 'scramjet',
-  bar:      localStorage.getItem('s_bar')     || 'top',
-  cloak:    localStorage.getItem('s_cloak')   || 'none',
+  theme:    localStorage.getItem('s_theme')    || 'black',
+  name:     localStorage.getItem('s_name')     || '13',
+  proxy:    localStorage.getItem('s_proxy')    || 'scramjet',
+  bar:      localStorage.getItem('s_bar')      || 'top',
+  cloak:    localStorage.getItem('s_cloak')    || 'none',
   unlocked: localStorage.getItem('s_unlocked') === '1',
 };
 
-// ── THEME ────────────────────────────────────────────────────
+// ── THEME ──────────────────────────────────────────────────
 function applyTheme(t) {
   const attr = THEME_MAP[t] || '';
   if (attr) document.documentElement.setAttribute('data-theme', attr);
@@ -822,20 +536,17 @@ function applyTheme(t) {
 }
 function setTheme(t) { S.theme = t; localStorage.setItem('s_theme', t); applyTheme(t); }
 
-// ── NAME ─────────────────────────────────────────────────────
+// ── NAME ──────────────────────────────────────────────────
 function applyName(n) {
   const label = n || '13';
   document.getElementById('nav-logo-text').textContent = label;
   document.getElementById('home-title-text').textContent = label;
   document.getElementById('page-title').textContent = label;
-  // Highlight active pill (use data attribute to avoid space issues in IDs)
-  document.querySelectorAll('.name-pill').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent.trim() === label);
-  });
+  document.querySelectorAll('.name-pill').forEach(btn =>
+    btn.classList.toggle('active', btn.textContent.trim() === label)
+  );
 }
-function pickName(n) {
-  S.name = n; localStorage.setItem('s_name', n); applyName(n);
-}
+function pickName(n) { S.name = n; localStorage.setItem('s_name', n); applyName(n); }
 function saveCustomName() {
   const v = document.getElementById('name-input').value.trim();
   if (!v) return;
@@ -843,78 +554,53 @@ function saveCustomName() {
   showToast('Name saved: ' + v);
 }
 
-// ── TAB CLOAK ────────────────────────────────────────────────
-let _cloakFavOrig = null;
+// ── TAB CLOAK ─────────────────────────────────────────────
 function applyCloak(c) {
   const cfg = CLOAK_MAP[c] || CLOAK_MAP.none;
-  // Title
-  if (cfg.title) {
-    document.getElementById('page-title').textContent = cfg.title;
-  } else {
-    document.getElementById('page-title').textContent = S.name || '13';
-  }
-  // Favicon
+  document.getElementById('page-title').textContent = cfg.title || (S.name || '13');
   let link = document.querySelector("link[rel~='icon']");
   if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
-  if (cfg.favicon) {
-    link.href = cfg.favicon;
-  } else {
-    link.href = '/favicon.ico';
-  }
-  // Highlight active cloak opt
+  link.href = cfg.favicon || '/favicon.ico';
   document.querySelectorAll('.cloak-opt').forEach(el =>
     el.classList.toggle('active', el.dataset.cloak === c)
   );
 }
 function setCloak(c) {
-  S.cloak = c;
-  localStorage.setItem('s_cloak', c);
-  applyCloak(c);
+  S.cloak = c; localStorage.setItem('s_cloak', c); applyCloak(c);
   showToast(c === 'none' ? 'Tab cloak removed.' : 'Tab cloaked as ' + (CLOAK_MAP[c]?.title?.split(' - ')[0] || c));
 }
 
-// ── PROXY ────────────────────────────────────────────────────
+// ── PROXY ─────────────────────────────────────────────────
 function setProxy(p) {
   S.proxy = p; localStorage.setItem('s_proxy', p);
   document.querySelectorAll('.proxy-opt').forEach(o => o.classList.remove('active'));
   document.getElementById('proxy-' + p)?.classList.add('active');
 }
 
-// ── BAR POSITION ─────────────────────────────────────────────
+// ── BAR POSITION ──────────────────────────────────────────
 function applyBarPosition(p) {
   document.body.classList.remove('bar-bottom');
   if (p === 'bottom') document.body.classList.add('bar-bottom');
   document.querySelectorAll('.bar-pill').forEach(b => b.classList.toggle('active', b.id === 'bar-' + p));
 }
-function setBarPosition(p) {
-  S.bar = p; localStorage.setItem('s_bar', p); applyBarPosition(p);
-}
+function setBarPosition(p) { S.bar = p; localStorage.setItem('s_bar', p); applyBarPosition(p); }
 
-// ── UNLOCK ───────────────────────────────────────────────────
+// ── UNLOCK ─────────────────────────────────────────────────
 function applyUnlocked() {
-  const el_badge     = document.getElementById('unlock-badge-name');
-  const el_custom    = document.getElementById('name-custom-row');
-  const el_ver       = document.getElementById('settings-version');
-  const el_sec_sub   = document.getElementById('secret-status-sub');
-  const el_sec_row   = document.getElementById('secret-input-row');
+  const badge  = document.getElementById('unlock-badge-name');
+  const custom = document.getElementById('name-custom-row');
+  const ver    = document.getElementById('settings-version');
   if (S.unlocked) {
-    if (el_badge)     el_badge.style.display     = 'inline-flex';
-    if (el_custom)    el_custom.style.display    = 'flex';
-    if (el_ver)       el_ver.textContent         = 'v3.1 · 13 · 🔓 unlocked';
-    if (el_sec_sub)   el_sec_sub.textContent     = 'Code accepted — custom features active';
-    if (el_sec_row)   el_sec_row.style.display   = 'none';
+    if (badge)  badge.style.display  = 'inline-flex';
+    if (custom) custom.style.display = 'flex';
+    if (ver)    ver.textContent      = 'v3.1 · 13 · 🔓 unlocked';
   } else {
-    if (el_badge)     el_badge.style.display     = 'none';
-    if (el_custom)    el_custom.style.display    = 'none';
-    if (el_sec_row)   el_sec_row.style.display   = 'flex';
+    if (badge)  badge.style.display  = 'none';
+    if (custom) custom.style.display = 'none';
   }
 }
 
-function checkSecret(val) {
-  return;
-}
-
-// ── TOAST ────────────────────────────────────────────────────
+// ── TOAST ─────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -922,17 +608,17 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── GREETING ─────────────────────────────────────────────────
+// ── GREETING ──────────────────────────────────────────────
 (function() {
   const h = new Date().getHours();
-  const g = h >= 5 && h < 12 ? 'good morning'
+  document.getElementById('home-greeting').textContent =
+    h >= 5 && h < 12 ? 'good morning'
     : h >= 12 && h < 18 ? 'good afternoon'
     : h >= 18 && h < 22 ? 'good evening'
     : 'good night';
-  document.getElementById('home-greeting').textContent = g;
 })();
 
-// ── PARTICLES ────────────────────────────────────────────────
+// ── PARTICLES ─────────────────────────────────────────────
 (()=>{
   const c=document.getElementById('bg'),ctx=c.getContext('2d');
   let pts=[];
@@ -959,15 +645,15 @@ function showToast(msg) {
   rs();window.addEventListener('resize',rs);draw();
 })();
 
-// ── NAV ──────────────────────────────────────────────────────
+// ── NAV ───────────────────────────────────────────────────
 const SECTION_BTNS = {
   'home-section':     'btn-home',
   'games-section':    'btn-games',
   'extras-section':   'btn-extras',
   'partners-section': 'btn-partners',
   'settings-section': 'btn-settings',
+  'movies-section':   'btn-movies',
 };
-
 function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -976,38 +662,34 @@ function showSection(id) {
   if (id === 'extras-section') loadWeather();
 }
 
-// ── GAMES ─────────────────────────────────────────────────────
+// ── GAMES ─────────────────────────────────────────────────
 let currentSrc = 'original', allGames = [];
+
+const SRC_LABEL = { original:'fyinx.wtf', truffled:'Truffled', radon:'Radon' };
 
 function setSource(src) {
   currentSrc = src;
   document.querySelectorAll('.src-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + src)?.classList.add('active');
-  const search = document.getElementById('game-search');
-  if (search) search.value = '';
-
-  const gridWrap = document.getElementById('games-grid-wrap');
-  const loading  = document.getElementById('games-loading');
-  gridWrap.style.display = 'none';
-  loading.style.display  = 'none';
-
-  loading.style.display = 'flex';
+  document.getElementById('game-search').value = '';
+  document.getElementById('games-grid-wrap').style.display = 'none';
+  document.getElementById('games-loading').style.display = 'flex';
   loadGames(src);
 }
 
 async function loadGames(src) {
+  const loading = document.getElementById('games-loading');
+  loading.innerHTML = '<div class="spinner"></div><span>Loading...</span>';
   try {
-  const endpoints = { original: '/api/games/original' };
-    const endpoint = endpoints[src] || '/api/games/original';
-    const r = await fetch(endpoint);
+    const r = await fetch('/api/games/' + src);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     const games = await r.json();
     if (currentSrc === src) { allGames = games; renderGames(games); }
   } catch(e) {
-    document.getElementById('games-loading').innerHTML = '<span style="color:var(--muted)">Failed to load — refresh to retry.</span>';
+    if (currentSrc === src)
+      loading.innerHTML = '<span style="color:var(--muted)">Failed to load — refresh to retry.</span>';
   }
 }
-
-const SRC_LABEL = {original:'fyinx.wtf'};
 
 function renderGames(list) {
   const loading  = document.getElementById('games-loading');
@@ -1047,7 +729,7 @@ function openGame(g) {
   document.getElementById('game-overlay').classList.add('open');
   document.getElementById('topnav').style.display = 'none';
 }
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && document.getElementById('game-overlay').classList.contains('open')) closeGame();
 });
 function closeGame() {
@@ -1056,61 +738,42 @@ function closeGame() {
   document.getElementById('topnav').style.display = '';
 }
 
-// ── MUSIC ─────────────────────────────────────────────────────
-function loadMusic(url) {
-  const inner = document.getElementById('music-inner');
-  const frame = document.getElementById('music-frame');
-  const back = document.getElementById('music-back-btn');
-  // hide picker, show full-screen frame
-  inner.style.padding = '0';
-  inner.style.gap = '0';
-  document.querySelector('.music-title') && (document.querySelector('.music-title').style.display = 'none');
-  document.querySelector('.music-sub') && (document.querySelector('.music-sub').style.display = 'none');
-  document.querySelector('.music-opts') && (document.querySelector('.music-opts').style.display = 'none');
-  if (back) back.style.display = 'inline-flex';
-  frame.style.display = 'block';
-  frame.style.flex = '1';
-  frame.src = url;
-}
+// ── MUSIC ─────────────────────────────────────────────────
 function openMusicPlayer(url) {
-  showSection('music-section');
-  loadMusic(url);
-}
-function backMusic() {
-  const inner = document.getElementById('music-inner');
-  const frame = document.getElementById('music-frame');
-  const back = document.getElementById('music-back-btn');
-  frame.src = '';
-  frame.style.display = 'none';
-  if (back) back.style.display = 'none';
-  inner.style.padding = '';
-  inner.style.gap = '';
-  document.querySelector('.music-title') && (document.querySelector('.music-title').style.display = '');
-  document.querySelector('.music-sub') && (document.querySelector('.music-sub').style.display = '');
-  document.querySelector('.music-opts') && (document.querySelector('.music-opts').style.display = '');
-}
-function openMovieFullscreen() {
-  const frame = document.getElementById('movies-frame');
-  frame.requestFullscreen?.();
+  const picker    = document.getElementById('music-picker');
+  const frameWrap = document.getElementById('music-frame-wrap');
+  const frame     = document.getElementById('music-frame');
+  const backBtn   = document.getElementById('music-back-btn');
+  picker.style.display         = 'none';
+  frameWrap.style.display      = 'flex';
+  frameWrap.style.flexDirection= 'column';
+  frameWrap.style.flex         = '1';
+  frameWrap.style.minHeight    = '0';
+  backBtn.style.display        = 'inline-flex';
+  frame.src = '/proxy?url=' + encodeURIComponent(url);
 }
 
-// ── PARTNERS ──────────────────────────────────────────────────
-const PARTNER_URLS = {
-  'mizumath': 'https://mizumath.com',
-};
+function backMusic() {
+  const picker    = document.getElementById('music-picker');
+  const frameWrap = document.getElementById('music-frame-wrap');
+  const frame     = document.getElementById('music-frame');
+  const backBtn   = document.getElementById('music-back-btn');
+  frame.src                = '';
+  frameWrap.style.display  = 'none';
+  picker.style.display     = 'flex';
+  backBtn.style.display    = 'none';
+}
+
+// ── HOME SEARCH ───────────────────────────────────────────
 function homeSearchGo() {
   const val = document.getElementById('home-search-input').value.trim();
   if (!val) return;
   document.getElementById('home-search-input').value = '';
-  showProxyLoading();
+  document.getElementById('proxy-loading').style.display = 'flex';
   window.location.href = '/go?url=' + encodeURIComponent(val);
 }
-function showProxyLoading() {
-  const el = document.getElementById('proxy-loading');
-  if (el) el.style.display = 'flex';
-}
 
-// ── DICTIONARY ───────────────────────────────────────────────
+// ── DICTIONARY ────────────────────────────────────────────
 async function lookupWord() {
   const word = document.getElementById('dict-input').value.trim();
   if (!word) return;
@@ -1136,23 +799,30 @@ async function lookupWord() {
   }
 }
 
-// ── WEATHER ──────────────────────────────────────────────────
+// ── WEATHER ───────────────────────────────────────────────
 let weatherLoaded = false;
 function loadWeather() {
   if (weatherLoaded) return;
   const wd = document.getElementById('weather-display');
+  wd.innerHTML = '<span style="color:var(--muted2)">Fetching weather...</span>';
   if (!navigator.geolocation) { fetchWeatherByIP(wd); return; }
   navigator.geolocation.getCurrentPosition(
     pos => fetchWeather(pos.coords.latitude, pos.coords.longitude, wd),
-    ()  => fetchWeatherByIP(wd)
+    ()  => fetchWeatherByIP(wd),
+    { timeout: 6000 }
   );
 }
 async function fetchWeatherByIP(el) {
   try {
     const ip = await fetch('https://ipapi.co/json/').then(r => r.json());
-    if (ip.latitude) fetchWeather(ip.latitude, ip.longitude, el, ip.city);
-    else el.innerHTML = '<span style="color:var(--muted2)">Could not get location.</span>';
-  } catch { el.innerHTML = '<span style="color:var(--muted2)">Weather unavailable.</span>'; }
+    if (ip.latitude) { fetchWeather(ip.latitude, ip.longitude, el, ip.city); return; }
+  } catch {}
+  // fallback: try freeipapi
+  try {
+    const ip2 = await fetch('https://freeipapi.com/api/json').then(r => r.json());
+    if (ip2.latitude) { fetchWeather(ip2.latitude, ip2.longitude, el, ip2.cityName); return; }
+  } catch {}
+  el.innerHTML = '<span style="color:var(--muted2)">Weather unavailable.</span>';
 }
 async function fetchWeather(lat, lon, el, city) {
   try {
@@ -1160,7 +830,7 @@ async function fetchWeather(lat, lon, el, city) {
     const d = await r.json();
     const w = d.current_weather;
     const codes = {0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Icy fog',51:'Light drizzle',53:'Moderate drizzle',55:'Dense drizzle',61:'Slight rain',63:'Moderate rain',65:'Heavy rain',71:'Slight snow',73:'Moderate snow',75:'Heavy snow',80:'Slight showers',81:'Moderate showers',82:'Violent showers',95:'Thunderstorm',99:'Thunderstorm with hail'};
-    const desc = codes[w.weathercode] || 'Unknown';
+    const desc  = codes[w.weathercode] || 'Unknown';
     const tempC = Math.round(w.temperature);
     const tempF = Math.round(tempC * 9/5 + 32);
     const wind  = Math.round(w.windspeed);
@@ -1170,44 +840,30 @@ async function fetchWeather(lat, lon, el, city) {
   } catch { el.innerHTML = '<span style="color:var(--muted2)">Weather unavailable.</span>'; }
 }
 
-// ── NOTES AUTOSAVE ────────────────────────────────────────────
+// ── NOTES AUTOSAVE ─────────────────────────────────────────
 const notesArea = document.getElementById('notes-area');
 notesArea.value = localStorage.getItem('notes') || '';
 notesArea.addEventListener('input', () => localStorage.setItem('notes', notesArea.value));
 
-// ── INIT ─────────────────────────────────────────────────────
+// ── CLOCK ──────────────────────────────────────────────────
+function updateClock() {
+  const n = new Date();
+  const t = n.toLocaleTimeString([], { hour:'numeric', minute:'2-digit' });
+  document.getElementById('clock-time').textContent = t;
+  document.getElementById('clock-date').textContent = n.toLocaleDateString([], { month:'numeric', day:'numeric', year:'2-digit' });
+  document.getElementById('clock-popup-time').textContent = t;
+  document.getElementById('clock-popup-date').textContent = n.toLocaleDateString([], { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── INIT ───────────────────────────────────────────────────
 applyTheme(S.theme);
 applyName(S.name);
 setProxy(S.proxy);
 applyBarPosition(S.bar);
 applyUnlocked();
 applyCloak(S.cloak);
-function updateClock() {
-  const n = new Date();
-  const t = n.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-  document.getElementById("clock-time").textContent = t;
-  document.getElementById("clock-date").textContent =
-    n.toLocaleDateString([], {
-      month: "numeric",
-      day: "numeric",
-      year: "2-digit",
-    });
-  document.getElementById("clock-popup-time").textContent = t;
-  document.getElementById("clock-popup-date").textContent =
-    n.toLocaleDateString([], {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-}
-updateClock();
-setInterval(updateClock, 1000);
-
-// Show games tab on default source
 setSource('original');
 </script>
 </body>
