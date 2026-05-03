@@ -201,7 +201,7 @@
     #game-search::placeholder{color:var(--muted2)}
     #game-count{font-size:.65rem;color:var(--muted);white-space:nowrap;flex-shrink:0;font-family:'DM Mono',monospace}
 
-    #games-grid-wrap{flex:1;overflow-y:auto;padding:12px;scrollbar-width:thin}
+    #games-grid-wrap{flex:1;overflow-y:auto;padding:12px;scrollbar-width:thin;min-height:0;height:0}
     #games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:9px}
 
     .game-card{
@@ -773,13 +773,21 @@
             <span class="music-opt-icon">🎵</span>
             <div><div class="music-opt-name">Lofi Cafe</div><div class="music-opt-desc">chill beats to study to</div></div>
           </button>
-          <button class="music-opt" onclick="openMusicPlayer('https://freefy.app')">
-            <span class="music-opt-icon">🎧</span>
-            <div><div class="music-opt-name">freefy.app</div><div class="music-opt-desc">music streaming</div></div>
+          <button class="music-opt" onclick="openMusicPlayer('https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1')">
+            <span class="music-opt-icon">📺</span>
+            <div><div class="music-opt-name">Lofi Hip Hop</div><div class="music-opt-desc">lofi girl · youtube live</div></div>
           </button>
-          <button class="music-opt" onclick="openMusicPlayer('https://open.spotify.com')">
-            <span class="music-opt-icon">🎶</span>
-            <div><div class="music-opt-name">Spotify Web</div><div class="music-opt-desc">open spotify in browser</div></div>
+          <button class="music-opt" onclick="openMusicPlayer('https://www.youtube.com/embed/4xDzrJKXOOY?autoplay=1')">
+            <span class="music-opt-icon">🌙</span>
+            <div><div class="music-opt-name">Chillhop Radio</div><div class="music-opt-desc">jazzy beats · youtube live</div></div>
+          </button>
+          <button class="music-opt" onclick="window.open('https://open.spotify.com','_blank')">
+            <span class="music-opt-icon">🎧</span>
+            <div><div class="music-opt-name">Spotify</div><div class="music-opt-desc">opens in new tab ↗</div></div>
+          </button>
+          <button class="music-opt" onclick="window.open('https://soundcloud.com','_blank')">
+            <span class="music-opt-icon">☁️</span>
+            <div><div class="music-opt-name">SoundCloud</div><div class="music-opt-desc">opens in new tab ↗</div></div>
           </button>
         </div>
         <div id="music-frame-wrap">
@@ -836,32 +844,39 @@ const CLOAK_MAP = {
   desmos:    { title: 'Desmos | Graphing Calculator', favicon: 'https://www.desmos.com/assets/img/favicon.ico' },
 };
 
-// Truffled games — hardcoded list to avoid CORS/scraping issues
+// Truffled games — hardcoded list, routed through proxy
 const TRUFFLED_GAMES = [
-  {name:'Among Us',url:'https://truffled.lol/games/among-us',thumb:'',src:'truffled'},
-  {name:'Bloons TD 6',url:'https://truffled.lol/games/bloons-td-6',thumb:'',src:'truffled'},
-  {name:'Cookie Clicker',url:'https://truffled.lol/games/cookie-clicker',thumb:'',src:'truffled'},
-  {name:'Cut the Rope',url:'https://truffled.lol/games/cut-the-rope',thumb:'',src:'truffled'},
-  {name:'Drift Boss',url:'https://truffled.lol/games/drift-boss',thumb:'',src:'truffled'},
-  {name:'Flappy Bird',url:'https://truffled.lol/games/flappy-bird',thumb:'',src:'truffled'},
-  {name:'Geometry Dash',url:'https://truffled.lol/games/geometry-dash',thumb:'',src:'truffled'},
-  {name:'Happy Wheels',url:'https://truffled.lol/games/happy-wheels',thumb:'',src:'truffled'},
-  {name:'Minecraft Classic',url:'https://truffled.lol/games/minecraft-classic',thumb:'',src:'truffled'},
-  {name:'Moto X3M',url:'https://truffled.lol/games/moto-x3m',thumb:'',src:'truffled'},
-  {name:'Pacman',url:'https://truffled.lol/games/pacman',thumb:'',src:'truffled'},
-  {name:'Papa\'s Pizzeria',url:'https://truffled.lol/games/papas-pizzeria',thumb:'',src:'truffled'},
-  {name:'Retro Bowl',url:'https://truffled.lol/games/retro-bowl',thumb:'',src:'truffled'},
-  {name:'Run 3',url:'https://truffled.lol/games/run-3',thumb:'',src:'truffled'},
-  {name:'Shell Shockers',url:'https://truffled.lol/games/shell-shockers',thumb:'',src:'truffled'},
-  {name:'Slope',url:'https://truffled.lol/games/slope',thumb:'',src:'truffled'},
-  {name:'Snake',url:'https://truffled.lol/games/snake',thumb:'',src:'truffled'},
-  {name:'Subway Surfers',url:'https://truffled.lol/games/subway-surfers',thumb:'',src:'truffled'},
-  {name:'Super Smash Flash 2',url:'https://truffled.lol/games/super-smash-flash-2',thumb:'',src:'truffled'},
-  {name:'Tetris',url:'https://truffled.lol/games/tetris',thumb:'',src:'truffled'},
-  {name:'Uno Online',url:'https://truffled.lol/games/uno-online',thumb:'',src:'truffled'},
-  {name:'Vex 5',url:'https://truffled.lol/games/vex-5',thumb:'',src:'truffled'},
-  {name:'Wordle',url:'https://truffled.lol/games/wordle',thumb:'',src:'truffled'},
-];
+  'slope','run-3','cookie-clicker','drift-boss','basketball-stars','retro-bowl',
+  'moto-x3m','flappy-bird','geometry-dash','subway-surfers','among-us','tetris',
+  'minecraft-classic','pacman','snake','wordle','uno-online','vex-5','vex-4',
+  'vex-3','shell-shockers','happy-wheels','cut-the-rope','bloons-td-6',
+  'super-smash-flash-2','papa-s-pizzeria','papa-s-burgeria','papa-s-cupcakeria',
+  'papa-s-freezeria','papa-s-wingeria','papa-s-scooperia','papa-s-taco-mia',
+  'drift-hunters','moto-x3m-pool-party','moto-x3m-winter','moto-x3m-spooky-land',
+  'fireboy-and-watergirl','fireboy-and-watergirl-2','fireboy-and-watergirl-3',
+  'fireboy-and-watergirl-4','fireboy-and-watergirl-5','basket-random',
+  'soccer-random','boxing-random','volley-random','tennis-random',
+  'car-rush','rooftop-snipers','stick-fight','stickman-hook',
+  'only-up','skribbl-io','krunker-io','1v1-lol','zombs-royale',
+  'paper-io-2','agar-io','diep-io','slither-io','lordz-io',
+  'build-royale','smash-karts','crazy-bikes','madalin-stunt-cars-2',
+  'hill-climb-racing','car-drawing-game','getaway-shootout','narrow-one',
+  'crossy-road','dino-game','2048','chess','mahjong','solitaire',
+  'minesweeper','sudoku','bubble-shooter','merge-fruit','candy-crush',
+  'fall-boys','stumble-guys','friday-night-funkin','friday-night-funkin-week-7',
+  'sans-undertale','cuphead-online','geometry-dash-subzero',
+  'temple-run-2','angry-birds','jetpack-joyride','plants-vs-zombies',
+  'tower-defense','bloons-tower-defense-5','kingdom-rush',
+  'age-of-war','age-of-war-2','warfare-1917','strike-force-heroes',
+  'strike-force-heroes-2','raze','raze-2','raze-3',
+  'super-mario-flash','mario-kart','sonic-the-hedgehog',
+  'pokemon-showdown','pokemon-emerald','fnaf','fnaf-2','fnaf-3',
+].map(slug => ({
+  name: slug.replace(/-+/g,' ').replace(/\b\w/g,c=>c.toUpperCase()),
+  url: 'https://truffled.lol/games/' + slug,
+  thumb: '',
+  src: 'truffled',
+}));
 
 const S = {
   theme:    localStorage.getItem('s_theme')    || 'purple',
