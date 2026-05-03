@@ -1,7 +1,7 @@
 // ─── SOURCES ──────────────────────────────────────────────────
 const FYINX_BASE    = 'https://fyinx.wtf';
 const TRUFFLED_BASE = 'https://truffled.lol';
-const RADON_BASE    = 'https://raw.githubusercontent.com/Radon-Games/Radon-Games-Assets/main/html';
+const RADON_BASE    = 'https://radon.games';
 const INTERCEPT_DOMAINS = ['truffled.lol', 'fyinx.wtf', 'indica.bond'];
 
 // ─── RADON GAMES LIST ─────────────────────────────────────────
@@ -56,8 +56,8 @@ function prettifyRadonName(slug) {
 function fetchRadon() {
   return RADON_SLUGS.map(slug => ({
     name:  prettifyRadonName(slug),
-    url:   RADON_BASE + '/' + slug + '/index.html',
-    thumb: '',
+    url:   RADON_BASE + '/games/' + slug,
+    thumb: RADON_BASE + '/cdn/thumbnails/' + slug + '.webp',
     src:   'radon',
   }));
 }
@@ -95,26 +95,48 @@ async function fetchFyinx() {
 
 async function fetchTruffled() {
   if (cache.truffled && Date.now() - cache.ts.truffled < CACHE_TTL) return cache.truffled;
-  const r = await fetch(TRUFFLED_BASE + '/js/json/g.json', {
+  const r = await fetch(TRUFFLED_BASE + '/', {
     headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36' },
     signal: AbortSignal.timeout(12000),
   });
-  const data = await r.json();
-  const raw = data.games || [];
-  const entries = raw
-    .filter(g => g.name && g.url)
-    .map(g => {
-      const relUrl   = g.url.startsWith('/')       ? g.url       : '/' + g.url;
-      const relThumb = g.thumbnail ? (g.thumbnail.startsWith('/') ? g.thumbnail : '/' + g.thumbnail) : '';
-      return {
-        name:  g.name,
-        url:   TRUFFLED_BASE + relUrl,
-        thumb: relThumb ? TRUFFLED_BASE + relThumb : '',
-        src:   'truffled',
-      };
-    });
+  const text = await r.text();
+  const entries = [];
+
+  // Try embedded JSON array first (games=[...] or data=[...])
+  const jsonMatch = text.match(/(?:gamesData|games|data)\s*[=:]\s*(\[[\s\S]{10,}\])/);
+  if (jsonMatch) {
+    try {
+      const arr = JSON.parse(jsonMatch[1]);
+      arr.filter(g => g.name && (g.url || g.path || g.slug)).forEach(g => {
+        const rel = g.url || g.path || ('/' + g.slug);
+        const absUrl = rel.startsWith('http') ? rel : TRUFFLED_BASE + (rel.startsWith('/') ? rel : '/' + rel);
+        const t = g.thumbnail || g.thumb || g.image || '';
+        entries.push({
+          name: g.name,
+          url: absUrl,
+          thumb: t ? (t.startsWith('http') ? t : TRUFFLED_BASE + (t.startsWith('/') ? t : '/' + t)) : '',
+          src: 'truffled',
+        });
+      });
+    } catch {}
+  }
+
+  // Fallback: scrape anchor + img combos from HTML
+  if (entries.length === 0) {
+    const re = /<a[^>]+href=["']([^"'#?]+)["'][^>]*>[\s\S]{0,600}?<img[^>]+(?:src=["']([^"']+)["'][^>]*alt=["']([^"']+)["']|alt=["']([^"']+)["'][^>]*src=["']([^"']+)["'])/gi;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const href = m[1], imgSrc = m[2] || m[5] || '', alt = m[3] || m[4] || '';
+      if (!alt || alt.length < 2) continue;
+      const absUrl   = href.startsWith('http') ? href : TRUFFLED_BASE + (href.startsWith('/') ? href : '/' + href);
+      const absThumb = imgSrc ? (imgSrc.startsWith('http') ? imgSrc : TRUFFLED_BASE + (imgSrc.startsWith('/') ? imgSrc : '/' + imgSrc)) : '';
+      entries.push({ name: alt, url: absUrl, thumb: absThumb, src: 'truffled' });
+    }
+  }
+
   cache.truffled = entries;
   cache.ts.truffled = Date.now();
+  console.log('Fetched', entries.length, 'Truffled games via scrape');
   return entries;
 }
 
