@@ -14,7 +14,7 @@
       --accent:#8b5cf6;--accent2:#a78bfa;--accent-glow:rgba(139,92,246,0.3);
       --text:#f0eaff;--muted:#9d93b8;--muted2:#3d3558;
       --card:#120e20;--star-h:270;
-      --nav-h:52px;
+      --nav-h:64px;
       --radius:12px;
     }
     [data-theme="black"]{
@@ -58,7 +58,7 @@
                  linear-gradient(180deg,#2a0a0a 0%,#120406 50%,#080203 100%);
     }
 
-    /* ── NAV ── */
+    /* ── NAV (default top) ── */
     #topnav{
       position:fixed;top:0;left:0;right:0;height:var(--nav-h);
       z-index:1000;display:flex;align-items:center;
@@ -80,13 +80,13 @@
       text-shadow:0 0 20px var(--accent-glow);
     }
     .nav-btn{
-      display:flex;align-items:center;gap:5px;padding:7px 11px;
+      display:flex;align-items:center;gap:5px;padding:9px 13px;
       border-radius:9px;border:none;background:transparent;
-      color:var(--muted);font-size:.75rem;font-family:'DM Sans',sans-serif;
+      color:var(--muted);font-size:.78rem;font-family:'DM Sans',sans-serif;
       font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap;
       letter-spacing:.01em;
     }
-    .nav-btn svg{width:13px;height:13px;flex-shrink:0;transition:color .18s}
+    .nav-btn svg{width:15px;height:15px;flex-shrink:0;transition:color .18s}
     .nav-btn:hover{background:var(--glass);color:var(--text)}
     .nav-btn.active{
       background:var(--glass);color:var(--accent);
@@ -237,20 +237,42 @@
     }
 
     /* ── GAME OVERLAY ── */
-    #game-overlay{position:fixed;inset:0;z-index:500;background:var(--bg);display:none}
-    #game-overlay.open{display:block}
-    #game-overlay-iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-    #game-exit-btn{
-      position:absolute;top:14px;right:16px;z-index:503;
-      width:38px;height:38px;border-radius:50%;
-      background:rgba(15,8,25,0.9);border:2px solid rgba(239,68,68,.7);
-      color:#f87171;font-size:16px;font-weight:700;
-      cursor:pointer;display:none;align-items:center;justify-content:center;
-      transition:all .15s;font-family:'DM Sans',sans-serif;
-      backdrop-filter:blur(8px);box-shadow:0 2px 14px rgba(0,0,0,.6);
+    #game-overlay{position:fixed;inset:0;z-index:500;background:var(--bg);display:none;flex-direction:column}
+    #game-overlay.open{display:flex}
+    /* Proxy browser bar inside game overlay */
+    #proxy-bar{
+      display:flex;align-items:center;gap:8px;
+      padding:7px 12px;flex-shrink:0;
+      background:rgba(8,6,15,0.95);
+      border-bottom:1px solid var(--glass-border);
+      backdrop-filter:blur(20px);
     }
-    #game-overlay.open #game-exit-btn{display:flex}
-    #game-exit-btn:hover{background:rgba(239,68,68,.5);color:#fff;border-color:#ef4444;transform:scale(1.1)}
+    .proxy-nav-btn{
+      width:30px;height:30px;border-radius:7px;border:1px solid var(--glass-border);
+      background:var(--glass);color:var(--muted);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;transition:all .15s;flex-shrink:0;
+      font-size:14px;
+    }
+    .proxy-nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .proxy-nav-btn:disabled{opacity:.3;cursor:not-allowed}
+    #proxy-url-bar{
+      flex:1;padding:7px 12px;border-radius:8px;
+      border:1px solid var(--glass-border);
+      background:rgba(255,255,255,0.05);
+      color:var(--text);font-size:.74rem;font-family:'DM Mono',monospace;
+      outline:none;transition:border .2s;
+    }
+    #proxy-url-bar:focus{border-color:var(--accent)}
+    #game-overlay-iframe{flex:1;width:100%;border:none;background:var(--bg);display:block}
+    #game-exit-btn{
+      width:30px;height:30px;border-radius:7px;
+      background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);
+      color:#f87171;font-size:14px;font-weight:700;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;
+      transition:all .15s;font-family:'DM Sans',sans-serif;flex-shrink:0;
+    }
+    #game-exit-btn:hover{background:rgba(239,68,68,.4);color:#fff;border-color:#ef4444}
 
     /* ── EXTRAS ── */
     #extras-inner{
@@ -450,21 +472,143 @@
     }
     .bar-pill.active{border-color:var(--accent);color:var(--accent)}
 
-    /* bottom nav */
+    /* ── BOTTOM NAV (bigger, bottom-left) ── */
     body.bar-bottom #topnav{
-      top:auto;bottom:16px;left:50%;right:auto;
-      width:auto;max-width:calc(100vw - 32px);
-      transform:translateX(-50%);
+      top:auto;bottom:16px;left:16px;right:auto;
+      width:auto;max-width:calc(100vw - 200px);
+      transform:none;
       border-radius:22px;border:1px solid var(--glass-border);
-      padding:6px 10px;gap:4px;
+      padding:8px 14px;gap:6px;
       box-shadow:0 10px 40px rgba(0,0,0,.8),0 0 24px var(--accent-glow);
+      height:auto;
     }
     body.bar-bottom .section{top:0;bottom:0}
     body.bar-bottom .section.active{z-index:10}
     body.bar-bottom .nav-logo{display:none}
-    body.bar-bottom .nav-btn{width:42px;height:42px;padding:0;justify-content:center;font-size:0;border-radius:12px}
-    body.bar-bottom .nav-btn svg{width:18px;height:18px}
-    body.bar-bottom .nav-btn.active{background:var(--accent-glow);box-shadow:0 0 12px var(--accent-glow)}
+    body.bar-bottom .nav-btn{
+      width:52px;height:52px;padding:0;justify-content:center;
+      font-size:0;border-radius:14px;
+    }
+    body.bar-bottom .nav-btn svg{width:22px;height:22px}
+    body.bar-bottom .nav-btn.active{
+      background:var(--accent-glow);
+      box-shadow:0 0 14px var(--accent-glow);
+    }
+
+    /* ── STATUS BAR (bottom-right corner) ── */
+    #status-bar{
+      position:fixed;bottom:16px;right:16px;z-index:1001;
+      display:none;
+      align-items:center;gap:10px;
+      padding:8px 10px 8px 14px;
+      border-radius:18px;border:1px solid var(--glass-border);
+      background:rgba(8,6,15,0.88);
+      backdrop-filter:blur(20px);
+      box-shadow:0 10px 40px rgba(0,0,0,.8),0 0 24px var(--accent-glow);
+      transition:opacity .3s;
+      cursor:pointer;
+    }
+    #status-bar:hover{border-color:var(--accent)}
+    body.bar-bottom #status-bar{display:flex}
+    .status-username{
+      font-size:.72rem;font-family:'DM Mono',monospace;
+      color:var(--text);font-weight:600;white-space:nowrap;max-width:120px;
+      overflow:hidden;text-overflow:ellipsis;
+    }
+    .status-username.guest{color:var(--muted);font-weight:400}
+    .status-avatar{
+      width:30px;height:30px;border-radius:8px;border:1px solid var(--glass-border);
+      background:var(--accent-glow);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--accent);font-size:.8rem;font-weight:700;font-family:'DM Mono',monospace;
+      flex-shrink:0;
+    }
+
+    /* ── ACCOUNT MODAL ── */
+    #account-overlay{
+      position:fixed;inset:0;z-index:2000;
+      display:none;align-items:center;justify-content:center;
+      background:rgba(0,0,0,.7);backdrop-filter:blur(10px);
+    }
+    #account-overlay.open{display:flex}
+    #account-modal{
+      width:min(380px,92vw);
+      background:var(--bg2);
+      border:1px solid var(--glass-border);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 40px var(--accent-glow);
+      animation:modalIn .28s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .modal-header{
+      padding:20px 20px 14px;
+      background:linear-gradient(135deg,rgba(139,92,246,.15),transparent);
+      border-bottom:1px solid var(--glass-border);
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .modal-title{font-family:'Schoolbell',cursive;font-size:1.5rem;color:var(--accent);text-shadow:0 0 20px var(--accent-glow)}
+    .modal-close{
+      width:28px;height:28px;border-radius:7px;border:1px solid var(--glass-border);
+      background:transparent;color:var(--muted);font-size:14px;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;
+      transition:all .15s;
+    }
+    .modal-close:hover{border-color:var(--accent);color:var(--accent)}
+    .modal-body{padding:20px;display:flex;flex-direction:column;gap:12px}
+    .modal-tabs{display:flex;gap:4px;background:rgba(0,0,0,.2);border-radius:10px;padding:3px}
+    .modal-tab{
+      flex:1;padding:7px;border-radius:8px;border:none;background:transparent;
+      color:var(--muted);font-size:.74rem;font-family:'DM Sans',sans-serif;
+      font-weight:600;cursor:pointer;transition:all .15s;
+    }
+    .modal-tab.active{background:var(--accent);color:#fff}
+    .modal-panel{display:none;flex-direction:column;gap:10px}
+    .modal-panel.active{display:flex}
+    .modal-input{
+      width:100%;padding:10px 13px;border-radius:9px;
+      border:1px solid var(--glass-border);
+      background:rgba(255,255,255,0.04);color:var(--text);
+      font-size:.8rem;font-family:'DM Sans',sans-serif;outline:none;
+      transition:border .2s;
+    }
+    .modal-input:focus{border-color:var(--accent)}
+    .modal-input::placeholder{color:var(--muted2)}
+    .modal-btn{
+      width:100%;padding:11px;border-radius:9px;border:none;
+      background:var(--accent);color:#fff;
+      font-size:.8rem;font-family:'DM Sans',sans-serif;font-weight:700;
+      cursor:pointer;transition:opacity .2s,transform .1s;letter-spacing:.02em;
+    }
+    .modal-btn:hover{opacity:.88}
+    .modal-btn:active{transform:scale(.98)}
+    .modal-err{font-size:.7rem;color:#f87171;text-align:center;min-height:16px}
+    .modal-ok{font-size:.7rem;color:#4ade80;text-align:center;min-height:16px}
+    /* logged-in profile panel */
+    .profile-avatar-big{
+      width:64px;height:64px;border-radius:16px;
+      background:var(--accent-glow);border:2px solid var(--accent);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.8rem;font-weight:700;font-family:'DM Mono',monospace;
+      color:var(--accent);margin:0 auto 4px;
+    }
+    .profile-name-big{text-align:center;font-size:1rem;font-weight:700;color:var(--text)}
+    .profile-since{text-align:center;font-size:.64rem;color:var(--muted);margin-top:2px}
+    .profile-stats{display:flex;gap:8px;margin-top:4px}
+    .profile-stat{
+      flex:1;padding:10px 8px;border-radius:9px;
+      background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);
+      text-align:center;
+    }
+    .profile-stat-val{font-size:.9rem;font-weight:700;color:var(--accent);font-family:'DM Mono',monospace}
+    .profile-stat-label{font-size:.58rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
+    .modal-danger-btn{
+      width:100%;padding:9px;border-radius:9px;
+      border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.08);
+      color:#f87171;font-size:.74rem;font-family:'DM Sans',sans-serif;
+      font-weight:600;cursor:pointer;transition:all .15s;
+    }
+    .modal-danger-btn:hover{background:rgba(239,68,68,.2);border-color:#ef4444}
 
     /* cloak */
     .cloak-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
@@ -543,6 +687,64 @@
 
 <!-- Jibanyan mascot -->
 <img id="jibanyan-mascot" src="/jibanyan.png" alt="Jibanyan" draggable="false"/>
+
+<!-- STATUS BAR (bottom-right, shown when bar-bottom) -->
+<div id="status-bar" onclick="openAccountModal()">
+  <div class="status-username guest" id="status-username-text">Guest</div>
+  <div class="status-avatar" id="status-avatar-text">?</div>
+</div>
+
+<!-- ACCOUNT MODAL -->
+<div id="account-overlay" onclick="if(event.target===this)closeAccountModal()">
+  <div id="account-modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title-text">Account</div>
+      <button class="modal-close" onclick="closeAccountModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Auth tabs (shown when logged out) -->
+      <div id="auth-panel">
+        <div class="modal-tabs">
+          <button class="modal-tab active" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</button>
+          <button class="modal-tab" id="tab-login" onclick="switchAuthTab('login')">Log In</button>
+        </div>
+        <!-- Sign Up -->
+        <div class="modal-panel active" id="panel-signup">
+          <input class="modal-input" type="text" id="su-username" placeholder="Username" maxlength="20" autocomplete="off"/>
+          <input class="modal-input" type="password" id="su-password" placeholder="Password" maxlength="64" autocomplete="new-password"/>
+          <input class="modal-input" type="password" id="su-confirm" placeholder="Confirm password" maxlength="64" autocomplete="new-password"/>
+          <div class="modal-err" id="su-err"></div>
+          <button class="modal-btn" onclick="doSignUp()">Create Account</button>
+        </div>
+        <!-- Log In -->
+        <div class="modal-panel" id="panel-login">
+          <input class="modal-input" type="text" id="li-username" placeholder="Username" maxlength="20" autocomplete="off"/>
+          <input class="modal-input" type="password" id="li-password" placeholder="Password" maxlength="64" autocomplete="current-password"/>
+          <div class="modal-err" id="li-err"></div>
+          <button class="modal-btn" onclick="doLogIn()">Log In</button>
+        </div>
+      </div>
+      <!-- Profile (shown when logged in) -->
+      <div id="profile-panel" style="display:none;flex-direction:column;gap:12px">
+        <div class="profile-avatar-big" id="profile-avatar-big">?</div>
+        <div class="profile-name-big" id="profile-name-big"></div>
+        <div class="profile-since" id="profile-since"></div>
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <div class="profile-stat-val" id="stat-theme">—</div>
+            <div class="profile-stat-label">Theme</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-val" id="stat-sitename">—</div>
+            <div class="profile-stat-label">Site Name</div>
+          </div>
+        </div>
+        <div class="modal-ok" id="profile-ok"></div>
+        <button class="modal-danger-btn" onclick="doLogOut()">Log Out</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav id="topnav">
@@ -761,7 +963,7 @@
         <div id="dict-result"><span style="color:var(--muted2);font-size:.72rem">Type a word above to get its definition.</span></div>
       </div>
     </div>
-    <!-- Music -->
+    <!-- Music (Spotify removed) -->
     <div class="extras-card">
       <div class="extras-card-header">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -785,11 +987,6 @@
             <span class="music-opt-icon">🎧</span>
             <div><div class="music-opt-name">freefy.app</div><div class="music-opt-desc">music streaming</div></div>
           </button>
-          <button class="music-opt" onclick="window.open('https://open.spotify.com','_blank')">
-            <span class="music-opt-icon">🎧</span>
-            <div><div class="music-opt-name">Spotify</div><div class="music-opt-desc">opens in new tab ↗</div></div>
-          </button>
-
         </div>
         <div id="music-frame-wrap">
           <div class="music-back-btn-wrap">
@@ -826,12 +1023,26 @@
   </div>
 </div>
 
-<!-- GAME OVERLAY -->
+<!-- GAME OVERLAY — now has proxy browser bar -->
 <div id="game-overlay">
+  <!-- Proxy browser bar -->
+  <div id="proxy-bar">
+    <button class="proxy-nav-btn" id="proxy-back-btn" onclick="proxyBack()" title="Back">
+      ←
+    </button>
+    <button class="proxy-nav-btn" id="proxy-fwd-btn" onclick="proxyForward()" title="Forward">
+      →
+    </button>
+    <button class="proxy-nav-btn" onclick="proxyRefresh()" title="Refresh">
+      ↻
+    </button>
+    <input type="text" id="proxy-url-bar" placeholder="Enter URL or search…"
+           onkeydown="if(event.key==='Enter')proxyNavigate(this.value)"/>
+    <button id="game-exit-btn" onclick="closeGame()" title="Exit">✕</button>
+  </div>
   <iframe id="game-overlay-iframe"
     allow="fullscreen; autoplay; gamepad; encrypted-media"
     referrerpolicy="no-referrer"></iframe>
-  <button id="game-exit-btn" onclick="closeGame()" title="Exit game">✕</button>
 </div>
 
 <script>
@@ -898,7 +1109,6 @@ function applyTheme(t) {
   document.querySelectorAll('.theme-swatch').forEach(s =>
     s.classList.toggle('active', s.dataset.theme === t)
   );
-  // re-seed particles with correct hue
   seedParticles();
 }
 function setTheme(t) { S.theme = t; localStorage.setItem('s_theme', t); applyTheme(t); }
@@ -993,7 +1203,7 @@ function getHue() {
   const theme = document.documentElement.getAttribute('data-theme');
   if (theme === 'black') return 240;
   if (theme === 'jibanyan') return 5;
-  return 270; // purple default
+  return 270;
 }
 
 function seedParticles() {
@@ -1069,13 +1279,10 @@ async function loadGames(src) {
 
   try {
     if (src === 'truffled') {
-      // Use hardcoded list — no fetch needed, instant
       allGames = TRUFFLED_GAMES;
       renderGames(allGames);
       return;
     }
-
-    // fyinx (original)
     const r = await fetch('/api/games/' + src);
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const games = await r.json();
@@ -1120,11 +1327,73 @@ function filterGames() {
   renderGames(q ? allGames.filter(g => g.name.toLowerCase().includes(q)) : allGames);
 }
 
+// ── PROXY BROWSER BAR ────────────────────────────────────
+let proxyHistory = [];
+let proxyHistoryIndex = -1;
+
 function openGame(g) {
-  document.getElementById('game-overlay-iframe').src = '/proxy?url=' + encodeURIComponent(g.url);
+  const proxyUrl = '/proxy?url=' + encodeURIComponent(g.url);
+  proxyHistory = [g.url];
+  proxyHistoryIndex = 0;
+  document.getElementById('proxy-url-bar').value = g.url;
+  document.getElementById('game-overlay-iframe').src = proxyUrl;
   document.getElementById('game-overlay').classList.add('open');
   document.getElementById('topnav').style.display = 'none';
+  updateProxyNavBtns();
 }
+
+function proxyNavigate(input) {
+  let url = input.trim();
+  if (!url) return;
+  // If it looks like a URL, use it; otherwise treat as search
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    if (url.includes('.') && !url.includes(' ')) {
+      url = 'https://' + url;
+    } else {
+      url = 'https://www.google.com/search?q=' + encodeURIComponent(url);
+    }
+  }
+  document.getElementById('proxy-url-bar').value = url;
+  // Trim forward history
+  proxyHistory = proxyHistory.slice(0, proxyHistoryIndex + 1);
+  proxyHistory.push(url);
+  proxyHistoryIndex = proxyHistory.length - 1;
+  document.getElementById('game-overlay-iframe').src = '/proxy?url=' + encodeURIComponent(url);
+  updateProxyNavBtns();
+}
+
+function proxyBack() {
+  if (proxyHistoryIndex > 0) {
+    proxyHistoryIndex--;
+    const url = proxyHistory[proxyHistoryIndex];
+    document.getElementById('proxy-url-bar').value = url;
+    document.getElementById('game-overlay-iframe').src = '/proxy?url=' + encodeURIComponent(url);
+    updateProxyNavBtns();
+  }
+}
+
+function proxyForward() {
+  if (proxyHistoryIndex < proxyHistory.length - 1) {
+    proxyHistoryIndex++;
+    const url = proxyHistory[proxyHistoryIndex];
+    document.getElementById('proxy-url-bar').value = url;
+    document.getElementById('game-overlay-iframe').src = '/proxy?url=' + encodeURIComponent(url);
+    updateProxyNavBtns();
+  }
+}
+
+function proxyRefresh() {
+  const iframe = document.getElementById('game-overlay-iframe');
+  const src = iframe.src;
+  iframe.src = '';
+  setTimeout(() => { iframe.src = src; }, 50);
+}
+
+function updateProxyNavBtns() {
+  document.getElementById('proxy-back-btn').disabled = proxyHistoryIndex <= 0;
+  document.getElementById('proxy-fwd-btn').disabled  = proxyHistoryIndex >= proxyHistory.length - 1;
+}
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && document.getElementById('game-overlay').classList.contains('open')) closeGame();
 });
@@ -1132,17 +1401,17 @@ function closeGame() {
   document.getElementById('game-overlay').classList.remove('open');
   document.getElementById('game-overlay-iframe').src = '';
   document.getElementById('topnav').style.display = '';
+  proxyHistory = [];
+  proxyHistoryIndex = -1;
 }
 
-// ── MUSIC — fixed: no proxy, open directly ─────────────────
+// ── MUSIC ─────────────────────────────────────────────────
 function openMusicPlayer(url) {
   const picker    = document.getElementById('music-picker');
   const frameWrap = document.getElementById('music-frame-wrap');
   const frame     = document.getElementById('music-frame');
-
   picker.style.display    = 'none';
   frameWrap.style.display = 'flex';
-  // Set src directly without proxy so it loads fast
   frame.src = url;
 }
 
@@ -1234,6 +1503,7 @@ async function fetchWeather(lat, lon, el, city) {
 const notesArea = document.getElementById('notes-area');
 notesArea.value = localStorage.getItem('notes') || '';
 notesArea.addEventListener('input', () => localStorage.setItem('notes', notesArea.value));
+// (account autosave for notes is wired below in the account system)
 
 // ── CLOCK ──────────────────────────────────────────────────
 function updateClock() {
@@ -1246,6 +1516,197 @@ function updateClock() {
 }
 updateClock();
 setInterval(updateClock, 1000);
+
+// ── ACCOUNT SYSTEM ─────────────────────────────────────────
+// Accounts stored in localStorage as JSON: { username: { hash, created, settings } }
+// Current session stored as s_session = username
+
+function hashPassword(pw) {
+  // Simple deterministic hash (not cryptographic but fine for localStorage-only storage)
+  let h = 0x811c9dc5;
+  for (let i = 0; i < pw.length; i++) {
+    h ^= pw.charCodeAt(i);
+    h = (h * 0x01000193) >>> 0;
+  }
+  return h.toString(16);
+}
+
+function getAccounts() {
+  try { return JSON.parse(localStorage.getItem('accounts') || '{}'); } catch { return {}; }
+}
+function saveAccounts(a) { localStorage.setItem('accounts', JSON.stringify(a)); }
+function getCurrentUser() { return localStorage.getItem('s_session') || null; }
+
+function updateStatusBar() {
+  const user = getCurrentUser();
+  const usernameEl = document.getElementById('status-username-text');
+  const avatarEl   = document.getElementById('status-avatar-text');
+  if (user) {
+    usernameEl.textContent = user;
+    usernameEl.className   = 'status-username';
+    avatarEl.textContent   = user[0].toUpperCase();
+  } else {
+    usernameEl.textContent = 'Guest';
+    usernameEl.className   = 'status-username guest';
+    avatarEl.textContent   = '?';
+  }
+}
+
+function openAccountModal() {
+  const user = getCurrentUser();
+  document.getElementById('account-overlay').classList.add('open');
+  if (user) {
+    showProfilePanel(user);
+  } else {
+    document.getElementById('auth-panel').style.display = '';
+    document.getElementById('profile-panel').style.display = 'none';
+    switchAuthTab('signup');
+  }
+}
+function closeAccountModal() {
+  document.getElementById('account-overlay').classList.remove('open');
+  // clear inputs
+  ['su-username','su-password','su-confirm','li-username','li-password'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  ['su-err','li-err','profile-ok'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.textContent = '';
+  });
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('panel-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('panel-login').classList.toggle('active', tab === 'login');
+}
+
+function doSignUp() {
+  const username = document.getElementById('su-username').value.trim();
+  const password = document.getElementById('su-password').value;
+  const confirm  = document.getElementById('su-confirm').value;
+  const err      = document.getElementById('su-err');
+  err.textContent = '';
+
+  if (!username || username.length < 2) { err.textContent = 'Username must be at least 2 characters.'; return; }
+  if (!/^[a-zA-Z0-9_]+$/.test(username)) { err.textContent = 'Only letters, numbers and underscores.'; return; }
+  if (!password || password.length < 4)  { err.textContent = 'Password must be at least 4 characters.'; return; }
+  if (password !== confirm) { err.textContent = 'Passwords do not match.'; return; }
+
+  const accounts = getAccounts();
+  if (accounts[username.toLowerCase()]) { err.textContent = 'Username already taken.'; return; }
+
+  // Save account with current settings snapshot
+  accounts[username.toLowerCase()] = {
+    display: username,
+    hash: hashPassword(password),
+    created: Date.now(),
+    settings: captureSettings(),
+  };
+  saveAccounts(accounts);
+  localStorage.setItem('s_session', username.toLowerCase());
+  updateStatusBar();
+  showProfilePanel(username.toLowerCase());
+  showToast('Account created! Welcome, ' + username + '!');
+}
+
+function doLogIn() {
+  const username = document.getElementById('li-username').value.trim().toLowerCase();
+  const password = document.getElementById('li-password').value;
+  const err      = document.getElementById('li-err');
+  err.textContent = '';
+
+  if (!username || !password) { err.textContent = 'Please fill in all fields.'; return; }
+
+  const accounts = getAccounts();
+  const account  = accounts[username];
+  if (!account) { err.textContent = 'No account found with that username.'; return; }
+  if (account.hash !== hashPassword(password)) { err.textContent = 'Incorrect password.'; return; }
+
+  // Restore saved settings
+  localStorage.setItem('s_session', username);
+  if (account.settings) restoreSettings(account.settings);
+  updateStatusBar();
+  showProfilePanel(username);
+  showToast('Welcome back, ' + (account.display || username) + '!');
+}
+
+function doLogOut() {
+  localStorage.removeItem('s_session');
+  updateStatusBar();
+  closeAccountModal();
+  showToast('Logged out.');
+}
+
+function showProfilePanel(username) {
+  const accounts = getAccounts();
+  const account  = accounts[username] || {};
+  document.getElementById('auth-panel').style.display    = 'none';
+  document.getElementById('profile-panel').style.display = 'flex';
+
+  const display = account.display || username;
+  document.getElementById('profile-avatar-big').textContent = display[0].toUpperCase();
+  document.getElementById('profile-name-big').textContent   = display;
+  const created = account.created ? new Date(account.created).toLocaleDateString([], {month:'short',day:'numeric',year:'numeric'}) : '—';
+  document.getElementById('profile-since').textContent = 'Member since ' + created;
+  document.getElementById('stat-theme').textContent    = (account.settings?.theme || S.theme || 'purple');
+  document.getElementById('stat-sitename').textContent = (account.settings?.name  || S.name  || '13');
+}
+
+// Capture current settings to save to account
+function captureSettings() {
+  return {
+    theme: S.theme, name: S.name, proxy: S.proxy,
+    bar: S.bar, cloak: S.cloak,
+    notes: localStorage.getItem('notes') || '',
+  };
+}
+
+// Restore settings from saved account data
+function restoreSettings(saved) {
+  if (saved.theme) { S.theme = saved.theme; localStorage.setItem('s_theme', saved.theme); applyTheme(saved.theme); }
+  if (saved.name)  { S.name  = saved.name;  localStorage.setItem('s_name',  saved.name);  applyName(saved.name);  }
+  if (saved.proxy) { S.proxy = saved.proxy; localStorage.setItem('s_proxy', saved.proxy); setProxy(saved.proxy); }
+  if (saved.bar)   { S.bar   = saved.bar;   localStorage.setItem('s_bar',   saved.bar);   applyBarPosition(saved.bar); }
+  if (saved.cloak) { S.cloak = saved.cloak; localStorage.setItem('s_cloak', saved.cloak); applyCloak(saved.cloak); }
+  if (saved.notes !== undefined) {
+    localStorage.setItem('notes', saved.notes);
+    const na = document.getElementById('notes-area');
+    if (na) na.value = saved.notes;
+  }
+}
+
+// Auto-save settings to account whenever something changes (hook into existing setters)
+function autosaveToAccount() {
+  const user = getCurrentUser();
+  if (!user) return;
+  const accounts = getAccounts();
+  if (!accounts[user]) return;
+  accounts[user].settings = captureSettings();
+  saveAccounts(accounts);
+}
+
+// Patch existing setters to autosave
+const _setTheme = setTheme;
+setTheme = function(t) { _setTheme(t); autosaveToAccount(); };
+const _setProxy = setProxy;
+setProxy = function(p) { _setProxy(p); autosaveToAccount(); };
+const _setBarPosition = setBarPosition;
+setBarPosition = function(p) { _setBarPosition(p); autosaveToAccount(); };
+const _setCloak = setCloak;
+setCloak = function(c) { _setCloak(c); autosaveToAccount(); };
+const _pickName = pickName;
+pickName = function(n) { _pickName(n); autosaveToAccount(); };
+const _saveCustomName = saveCustomName;
+saveCustomName = function() { _saveCustomName(); autosaveToAccount(); };
+
+// Notes autosave also triggers account save
+document.getElementById('notes-area').addEventListener('input', () => {
+  setTimeout(autosaveToAccount, 500);
+});
+
+// Init status bar
+updateStatusBar();
 
 // ── INIT ───────────────────────────────────────────────────
 applyTheme(S.theme);
