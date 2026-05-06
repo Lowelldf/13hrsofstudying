@@ -2,21 +2,21 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title id="page-title">13</title>
-  <link href="https://fonts.googleapis.com/css2?family=Schoolbell&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
+ <meta charset="UTF-8"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title id="page-title">13</title>
+ <link href="https://fonts.googleapis.com/css2?family=Schoolbell&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+ <style>
+ *{box-sizing:border-box;margin:0;padding:0}
 
 ```
 :root{
-  --bg:#050508;--bg2:#0c0c12;--bg3:#141420;
-  --glass:rgba(255,255,255,0.05);--glass-border:rgba(255,255,255,0.1);
-  --accent:#c4c4d4;--accent2:#9090a8;--accent-glow:rgba(200,200,220,0.12);
-  --text:#f8f8fc;--muted:#606070;--muted2:#1c1c24;--card:#0a0a10;
-  --radius:12px;
-  --nav-w:64px;--nav-h:64px;
+ --bg:#050508;--bg2:#0c0c12;--bg3:#141420;
+ --glass:rgba(255,255,255,0.05);--glass-border:rgba(255,255,255,0.1);
+ --accent:#c4c4d4;--accent2:#9090a8;--accent-glow:rgba(200,200,220,0.12);
+ --text:#f8f8fc;--muted:#606070;--muted2:#1c1c24;--card:#0a0a10;
+ --radius:12px;
+ --nav-w:64px;--nav-h:64px;
 }
 
 html,body{height:100%;overflow:hidden}
@@ -28,40 +28,40 @@ canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 ::-webkit-scrollbar-thumb{background:var(--glass-border);border-radius:9px}
 
 body::before{
-  content:'';position:fixed;inset:0;z-index:-2;
-  background:radial-gradient(ellipse at 60% 30%,rgba(80,80,120,0.08) 0%,transparent 60%),linear-gradient(180deg,#0d0d18 0%,#05050a 100%);
+ content:'';position:fixed;inset:0;z-index:-2;
+ background:radial-gradient(ellipse at 60% 30%,rgba(80,80,120,0.08) 0%,transparent 60%),linear-gradient(180deg,#0d0d18 0%,#05050a 100%);
 }
 
 /* ── PASSCODE GATE ── */
 #gate{
-  position:fixed;inset:0;z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg);
+ position:fixed;inset:0;z-index:9999;
+ display:flex;align-items:center;justify-content:center;
+ background:var(--bg);
 }
 #gate-box{
-  display:flex;flex-direction:column;align-items:center;gap:20px;
-  padding:40px 32px;
-  background:rgba(255,255,255,0.03);
-  border:1px solid var(--glass-border);
-  border-radius:20px;
-  backdrop-filter:blur(20px);
-  box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 40px var(--accent-glow);
-  width:min(360px,90vw);
+ display:flex;flex-direction:column;align-items:center;gap:20px;
+ padding:40px 32px;
+ background:rgba(255,255,255,0.03);
+ border:1px solid var(--glass-border);
+ border-radius:20px;
+ backdrop-filter:blur(20px);
+ box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 40px var(--accent-glow);
+ width:min(360px,90vw);
 }
 #gate-logo{font-family:'Schoolbell',cursive;font-size:4rem;color:var(--accent);text-shadow:0 0 40px var(--accent-glow);line-height:1;}
 #gate-label{font-size:.72rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
 #gate-input{
-  width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--glass-border);
-  background:rgba(255,255,255,0.05);color:var(--text);font-size:.9rem;font-family:'DM Mono',monospace;
-  outline:none;text-align:center;letter-spacing:.06em;transition:border .2s,box-shadow .2s;
+ width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--glass-border);
+ background:rgba(255,255,255,0.05);color:var(--text);font-size:.9rem;font-family:'DM Mono',monospace;
+ outline:none;text-align:center;letter-spacing:.06em;transition:border .2s,box-shadow .2s;
 }
 #gate-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,200,220,0.1);}
 #gate-input.shake{animation:shake .35s ease;}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 #gate-btn{
-  width:100%;padding:12px;border-radius:10px;border:none;
-  background:var(--accent);color:#000;font-size:.85rem;font-family:'DM Sans',sans-serif;font-weight:700;
-  cursor:pointer;transition:opacity .2s,transform .1s;letter-spacing:.03em;
+ width:100%;padding:12px;border-radius:10px;border:none;
+ background:var(--accent);color:#000;font-size:.85rem;font-family:'DM Sans',sans-serif;font-weight:700;
+ cursor:pointer;transition:opacity .2s,transform .1s;letter-spacing:.03em;
 }
 #gate-btn:hover{opacity:.88}
 #gate-btn:active{transform:scale(.97)}
@@ -92,8 +92,8 @@ body::before{
 /* ── NAV MODES ── */
 /* BOTTOM MODE (default) */
 body[data-nav="bottom"] #topnav{
-  position:fixed;bottom:16px;left:16px;right:auto;top:auto;
-  flex-direction:row;width:auto;padding:8px 14px;gap:6px;border-radius:22px;
+ position:fixed;bottom:16px;left:16px;right:auto;top:auto;
+ flex-direction:row;width:auto;padding:8px 14px;gap:6px;border-radius:22px;
 }
 body[data-nav="bottom"] #status-bar{bottom:16px;right:16px;}
 body[data-nav="bottom"] .section{left:0;right:0;top:0;bottom:0;}
@@ -101,50 +101,50 @@ body[data-nav="bottom"] .nav-btn{width:52px;height:52px;}
 
 /* LEFT MODE — tall pill nav + square status */
 body[data-nav="left"] #topnav{
-  position:fixed;left:10px;top:50%;transform:translateY(-50%);right:auto;bottom:auto;
-  flex-direction:column;
-  width:54px;height:auto;
-  padding:16px 6px;gap:6px;
-  border-radius:28px; /* tall rounded pill */
-  border:1px solid var(--glass-border);
-  justify-content:center;align-items:center;
+ position:fixed;left:10px;top:50%;transform:translateY(-50%);right:auto;bottom:auto;
+ flex-direction:column;
+ width:54px;height:auto;
+ padding:16px 6px;gap:6px;
+ border-radius:28px; /* tall rounded pill */
+ border:1px solid var(--glass-border);
+ justify-content:center;align-items:center;
 }
 body[data-nav="left"] #topnav .nav-logo{display:flex;}
 body[data-nav="left"] #topnav .nav-divider{display:block;}
 body[data-nav="left"] #status-bar{
-  position:fixed;bottom:10px;left:10px;
-  width:54px;height:54px;
-  border-radius:14px; /* square with rounded corners */
-  border:1px solid var(--glass-border);
-  justify-content:center;align-items:center;
-  padding:0;gap:0;
-  flex-direction:column;
+ position:fixed;bottom:10px;left:10px;
+ width:54px;height:54px;
+ border-radius:14px; /* square with rounded corners */
+ border:1px solid var(--glass-border);
+ justify-content:center;align-items:center;
+ padding:0;gap:0;
+ flex-direction:column;
 }
 body[data-nav="left"] .status-username{
-  font-size:.42rem;text-align:center;max-width:44px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+ font-size:.42rem;text-align:center;max-width:44px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 /* In left mode, show "13" as the short label under avatar */
 body[data-nav="left"] #status-username-text{
-  display:none;
+ display:none;
 }
 body[data-nav="left"] #status-bar::after{
-  content:'13';
-  font-size:.42rem;font-family:'DM Mono',monospace;color:var(--muted);
-  text-align:center;display:block;line-height:1;margin-top:2px;
+ content:'13';
+ font-size:.42rem;font-family:'DM Mono',monospace;color:var(--muted);
+ text-align:center;display:block;line-height:1;margin-top:2px;
 }
 body[data-nav="left"] .status-avatar{
-  width:28px;height:28px;font-size:.75rem;
+ width:28px;height:28px;font-size:.75rem;
 }
 body[data-nav="left"] .section{left:76px;right:0;top:0;bottom:0;}
 body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 
 #topnav{
-  z-index:1000;display:flex;align-items:center;
-  background:rgba(5,5,8,0.92);
-  border:1px solid var(--glass-border);
-  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
-  box-shadow:0 10px 40px rgba(0,0,0,.8),0 0 24px var(--accent-glow);
-  transition:border-color .3s,background .3s;
+ z-index:1000;display:flex;align-items:center;
+ background:rgba(5,5,8,0.92);
+ border:1px solid var(--glass-border);
+ backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+ box-shadow:0 10px 40px rgba(0,0,0,.8),0 0 24px var(--accent-glow);
+ transition:border-color .3s,background .3s;
 }
 
 .nav-logo{font-family:'Schoolbell',cursive;font-size:1.2rem;color:var(--accent);text-shadow:0 0 20px var(--accent-glow);display:none;padding:4px 0 8px;text-align:center;width:100%;}
@@ -220,9 +220,9 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 
 /* Coming Soon banner */
 .coming-soon-banner{
-  display:flex;align-items:center;gap:14px;padding:16px 18px;
-  background:rgba(200,200,220,0.03);border:1px solid var(--glass-border);
-  border-radius:12px;min-width:260px;flex-shrink:0;
+ display:flex;align-items:center;gap:14px;padding:16px 18px;
+ background:rgba(200,200,220,0.03);border:1px solid var(--glass-border);
+ border-radius:12px;min-width:260px;flex-shrink:0;
 }
 .coming-soon-banner-icon{font-size:2rem;line-height:1}
 .coming-soon-banner-title{font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:3px}
@@ -335,12 +335,12 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 
 /* ── STATUS BAR ── */
 #status-bar{
-  position:fixed;z-index:1001;display:flex;
-  align-items:center;gap:8px;padding:8px 10px 8px 14px;
-  border-radius:18px;border:1px solid var(--glass-border);
-  background:rgba(5,5,8,0.92);backdrop-filter:blur(20px);
-  box-shadow:0 10px 40px rgba(0,0,0,.8),0 0 24px var(--accent-glow);
-  cursor:pointer;transition:border-color .2s;
+ position:fixed;z-index:1001;display:flex;
+ align-items:center;gap:8px;padding:8px 10px 8px 14px;
+ border-radius:18px;border:1px solid var(--glass-border);
+ background:rgba(5,5,8,0.92);backdrop-filter:blur(20px);
+ box-shadow:0 10px 40px rgba(0,0,0,.8),0 0 24px var(--accent-glow);
+ cursor:pointer;transition:border-color .2s;
 }
 #status-bar:hover{border-color:var(--accent)}
 .status-username{font-size:.72rem;font-family:'DM Mono',monospace;color:var(--text);font-weight:600;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;}
@@ -373,7 +373,7 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 .clock-popup-date{font-size:.7rem;color:var(--muted);margin-top:2px}
 ```
 
-  </style>
+ </style>
 </head>
 <body data-nav="bottom">
 <canvas id="bg"></canvas>
@@ -382,109 +382,109 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 <!-- ── PASSCODE GATE ── -->
 
 <div id="gate">
-  <div id="gate-box">
-    <div id="gate-logo">13</div>
-    <div id="gate-label">Enter passcode to continue</div>
-    <input type="password" id="gate-input" placeholder="passcode…" autocomplete="off"/>
-    <div id="gate-err"></div>
-    <button id="gate-btn" onclick="checkGate()">Enter</button>
-  </div>
+ <div id="gate-box">
+ <div id="gate-logo">13</div>
+ <div id="gate-label">Enter passcode to continue</div>
+ <input type="password" id="gate-input" placeholder="passcode…" autocomplete="off"/>
+ <div id="gate-err"></div>
+ <button id="gate-btn" onclick="checkGate()">Enter</button>
+ </div>
 </div>
 
 <!-- ── GAMERTAG MODAL ── -->
 
 <div id="tag-overlay" onclick="if(event.target===this)closeTagModal()">
-  <div id="tag-modal">
-    <div class="tag-header">
-      <div class="tag-title">Gamertag</div>
-      <button class="tag-close" onclick="closeTagModal()">✕</button>
-    </div>
-    <div class="tag-body">
-      <div class="tag-avatar-row">
-        <div class="tag-avatar-big" id="tag-avatar-big">?</div>
-        <div class="tag-name-display" id="tag-name-display">No tag set</div>
-        <div class="tag-sub">your display name</div>
-      </div>
-      <input class="tag-input" type="text" id="tag-input" placeholder="Enter gamertag…" maxlength="20" autocomplete="off"/>
-      <div class="tag-err" id="tag-err"></div>
-      <button class="tag-btn" onclick="saveTag()">Save Gamertag</button>
-    </div>
-  </div>
+ <div id="tag-modal">
+ <div class="tag-header">
+ <div class="tag-title">Gamertag</div>
+ <button class="tag-close" onclick="closeTagModal()">✕</button>
+ </div>
+ <div class="tag-body">
+ <div class="tag-avatar-row">
+ <div class="tag-avatar-big" id="tag-avatar-big">?</div>
+ <div class="tag-name-display" id="tag-name-display">No tag set</div>
+ <div class="tag-sub">your display name</div>
+ </div>
+ <input class="tag-input" type="text" id="tag-input" placeholder="Enter gamertag…" maxlength="20" autocomplete="off"/>
+ <div class="tag-err" id="tag-err"></div>
+ <button class="tag-btn" onclick="saveTag()">Save Gamertag</button>
+ </div>
+ </div>
 </div>
 
 <!-- STATUS BAR -->
 
 <div id="status-bar" onclick="openTagModal()">
-  <div class="status-username guest" id="status-username-text">Guest</div>
-  <div class="status-avatar" id="status-avatar-text">?</div>
+ <div class="status-username guest" id="status-username-text">Guest</div>
+ <div class="status-avatar" id="status-avatar-text">?</div>
 </div>
 
 <!-- NAV -->
 
 <nav id="topnav">
-  <div class="nav-logo" id="nav-logo-text" style="font-family:'Schoolbell',cursive">13</div>
-  <div class="nav-divider"></div>
-  <button class="nav-btn active" onclick="showSection('home-section')" id="btn-home" title="Home">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-  </button>
-  <button class="nav-btn" onclick="showSection('movies-section')" id="btn-movies" title="Movies">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M8 5v4M16 5v4"/></svg>
-  </button>
-  <button class="nav-btn" onclick="showSection('games-section')" id="btn-games" title="Games">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4M8 10v4M15 12h.01M17 12h.01"/></svg>
-  </button>
-  <button class="nav-btn" onclick="showSection('partners-section')" id="btn-partners" title="Partners">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-  </button>
-  <button class="nav-btn" onclick="showSection('extras-section')" id="btn-extras" title="Extras">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-  </button>
-  <button class="nav-btn" onclick="showSection('settings-section')" id="btn-settings" title="Settings">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-  </button>
-  <div class="nav-spacer"></div>
+ <div class="nav-logo" id="nav-logo-text" style="font-family:'Schoolbell',cursive">13</div>
+ <div class="nav-divider"></div>
+ <button class="nav-btn active" onclick="showSection('home-section')" id="btn-home" title="Home">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+ </button>
+ <button class="nav-btn" onclick="showSection('movies-section')" id="btn-movies" title="Movies">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M8 5v4M16 5v4"/></svg>
+ </button>
+ <button class="nav-btn" onclick="showSection('games-section')" id="btn-games" title="Games">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4M8 10v4M15 12h.01M17 12h.01"/></svg>
+ </button>
+ <button class="nav-btn" onclick="showSection('partners-section')" id="btn-partners" title="Partners">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+ </button>
+ <button class="nav-btn" onclick="showSection('extras-section')" id="btn-extras" title="Extras">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+ </button>
+ <button class="nav-btn" onclick="showSection('settings-section')" id="btn-settings" title="Settings">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+ </button>
+ <div class="nav-spacer"></div>
 </nav>
 
 <!-- HOME -->
 
 <div class="section active" id="home-section">
-  <div id="home-inner">
-    <div class="home-eyebrow" id="home-greeting">good morning</div>
-    <div class="home-title" id="home-title-text">13</div>
-    <div class="home-search">
-      <input type="text" id="home-search-input" placeholder="Search the web…" autocomplete="off" onkeydown="if(event.key==='Enter')homeSearchGo()"/>
-      <button onclick="homeSearchGo()">Search</button>
-    </div>
-    <div class="clock-wrap">
-      <div class="clock-time" id="clock-time"></div>
-      <div class="clock-date" id="clock-date"></div>
-    </div>
-    <div class="home-slogan">set your heart ablaze</div>
-  </div>
+ <div id="home-inner">
+ <div class="home-eyebrow" id="home-greeting">good morning</div>
+ <div class="home-title" id="home-title-text">13</div>
+ <div class="home-search">
+ <input type="text" id="home-search-input" placeholder="Search the web…" autocomplete="off" onkeydown="if(event.key==='Enter')homeSearchGo()"/>
+ <button onclick="homeSearchGo()">Search</button>
+ </div>
+ <div class="clock-wrap">
+ <div class="clock-time" id="clock-time"></div>
+ <div class="clock-date" id="clock-date"></div>
+ </div>
+ <div class="home-slogan">set your heart ablaze</div>
+ </div>
 </div>
 
 <!-- GAMES -->
 
 <div class="section" id="games-section">
-  <div id="games-inner">
-    <!-- Hero banner (no play button) -->
-    <div id="games-hero">
-      <div id="games-hero-bg"></div>
-      <div id="games-hero-overlay"></div>
-      <div id="games-hero-content">
-        <div id="games-hero-label">🎮 Featured</div>
-        <div id="games-hero-title">Game Library</div>
-      </div>
-    </div>
+ <div id="games-inner">
+ <!-- Hero banner (no play button) -->
+ <div id="games-hero">
+ <div id="games-hero-bg"></div>
+ <div id="games-hero-overlay"></div>
+ <div id="games-hero-content">
+ <div id="games-hero-label"> Featured</div>
+ <div id="games-hero-title">Game Library</div>
+ </div>
+ </div>
 
 ```
 <!-- Search bar -->
 <div id="games-hero-search-wrap">
-  <div class="gs-search-inner">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" id="game-search" placeholder="Search games…" oninput="filterGames()" autocomplete="off"/>
-  </div>
-  <span id="game-count"></span>
+ <div class="gs-search-inner">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+ <input type="text" id="game-search" placeholder="Search games…" oninput="filterGames()" autocomplete="off"/>
+ </div>
+ <span id="game-count"></span>
 </div>
 
 <!-- Loading -->
@@ -492,279 +492,279 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 
 <!-- Rows layout -->
 <div id="games-scroll" style="display:none">
-  <!-- Search results -->
-  <div id="games-search-results">
-    <div class="games-row-head">
-      <div class="games-row-title">🔍 Search Results</div>
-      <span class="games-row-count" id="search-count"></span>
-    </div>
-    <div id="games-search-grid"></div>
-  </div>
+ <!-- Search results -->
+ <div id="games-search-results">
+ <div class="games-row-head">
+ <div class="games-row-title"> Search Results</div>
+ <span class="games-row-count" id="search-count"></span>
+ </div>
+ <div id="games-search-grid"></div>
+ </div>
 
-  <!-- Try Something New -->
-  <div class="games-row-section" id="row-new">
-    <div class="games-row-head">
-      <div class="games-row-title"><span class="games-row-title-icon">✨</span> Try Something New!</div>
-      <span class="games-row-count" id="new-count"></span>
-    </div>
-    <div class="games-row-scroll" id="row-new-scroll"></div>
-  </div>
+ <!-- Try Something New -->
+ <div class="games-row-section" id="row-new">
+ <div class="games-row-head">
+ <div class="games-row-title"><span class="games-row-title-icon"> </span> Try Something New!</div>
+ <span class="games-row-count" id="new-count"></span>
+ </div>
+ <div class="games-row-scroll" id="row-new-scroll"></div>
+ </div>
 
-  <!-- What We Recommend -->
-  <div class="games-row-section" id="row-recommended">
-    <div class="games-row-head">
-      <div class="games-row-title"><span class="games-row-title-icon">👍</span> What We Recommend</div>
-      <span class="games-row-count" id="rec-count"></span>
-    </div>
-    <div class="games-row-scroll" id="row-rec-scroll"></div>
-  </div>
+ <!-- What We Recommend -->
+ <div class="games-row-section" id="row-recommended">
+ <div class="games-row-head">
+ <div class="games-row-title"><span class="games-row-title-icon"> </span> What We Recommend</div>
+ <span class="games-row-count" id="rec-count"></span>
+ </div>
+ <div class="games-row-scroll" id="row-rec-scroll"></div>
+ </div>
 
-  <!-- fyinx.wtf — All Games -->
-  <div class="games-row-section" id="row-all">
-    <div class="games-row-head">
-      <div class="games-row-title"><span class="games-row-title-icon">🎮</span> fyinx.wtf</div>
-      <span class="games-row-count" id="all-count"></span>
-    </div>
-    <div class="games-row-scroll" id="row-all-scroll"></div>
-  </div>
+ <!-- fyinx.wtf — All Games -->
+ <div class="games-row-section" id="row-all">
+ <div class="games-row-head">
+ <div class="games-row-title"><span class="games-row-title-icon"> </span> fyinx.wtf</div>
+ <span class="games-row-count" id="all-count"></span>
+ </div>
+ <div class="games-row-scroll" id="row-all-scroll"></div>
+ </div>
 
-  <!-- gn-math.dev — Coming Soon -->
-  <div class="games-row-section" id="row-gnmath">
-    <div class="games-row-head">
-      <div class="games-row-title"><span class="games-row-title-icon">📐</span> gn-math.dev</div>
-      <span class="games-row-count" style="color:var(--accent)">Coming Soon</span>
-    </div>
-    <div class="games-row-scroll">
-      <div class="coming-soon-banner">
-        <div class="coming-soon-banner-icon">🚧</div>
-        <div>
-          <div class="coming-soon-banner-title">Coming Soon</div>
-          <div class="coming-soon-banner-sub">Games from gn-math.dev<br>are on their way…</div>
-        </div>
-      </div>
-    </div>
-  </div>
+ <!-- gn-math.dev — Coming Soon -->
+ <div class="games-row-section" id="row-gnmath">
+ <div class="games-row-head">
+ <div class="games-row-title"><span class="games-row-title-icon"> </span> gn-math.dev</div>
+ <span class="games-row-count" style="color:var(--accent)">Coming Soon</span>
+ </div>
+ <div class="games-row-scroll">
+ <div class="coming-soon-banner">
+ <div class="coming-soon-banner-icon"> </div>
+ <div>
+ <div class="coming-soon-banner-title">Coming Soon</div>
+ <div class="coming-soon-banner-sub">Games from gn-math.dev<br>are on their way…</div>
+ </div>
+ </div>
+ </div>
+ </div>
 
-  <!-- Originals — Coming Soon -->
-  <div class="games-row-section" id="row-original">
-    <div class="games-row-head">
-      <div class="games-row-title"><span class="games-row-title-icon">⭐</span> Originals</div>
-      <span class="games-row-count" style="color:var(--accent)">Coming Soon</span>
-    </div>
-    <div class="games-row-scroll">
-      <div class="coming-soon-banner">
-        <div class="coming-soon-banner-icon">🚧</div>
-        <div>
-          <div class="coming-soon-banner-title">Coming Soon</div>
-          <div class="coming-soon-banner-sub">Original games made just for<br>this platform are coming…</div>
-        </div>
-      </div>
-    </div>
-  </div>
+ <!-- Originals — Coming Soon -->
+ <div class="games-row-section" id="row-original">
+ <div class="games-row-head">
+ <div class="games-row-title"><span class="games-row-title-icon"> </span> Originals</div>
+ <span class="games-row-count" style="color:var(--accent)">Coming Soon</span>
+ </div>
+ <div class="games-row-scroll">
+ <div class="coming-soon-banner">
+ <div class="coming-soon-banner-icon"> </div>
+ <div>
+ <div class="coming-soon-banner-title">Coming Soon</div>
+ <div class="coming-soon-banner-sub">Original games made just for<br>this platform are coming…</div>
+ </div>
+ </div>
+ </div>
+ </div>
 </div>
 ```
 
-  </div>
+ </div>
 </div>
 
 <!-- PARTNERS -->
 
 <div class="section" id="partners-section">
-  <div id="partners-inner">
-    <div class="partners-title">Partners</div>
-    <div class="partners-sub">people we work with</div>
-    <div class="partner-cards">
-      <div class="partner-card">
-        <div class="partner-card-avatar">M</div>
-        <div class="partner-card-info">
-          <div class="partner-card-name">mizumath</div>
-          <div class="partner-card-desc">math tools &amp; resources</div>
-        </div>
-        <a class="partner-card-btn" href="https://mizumath.com" target="_blank" rel="noopener noreferrer">Visit</a>
-      </div>
-      <div class="partner-card">
-        <div class="partner-card-avatar">G</div>
-        <div class="partner-card-info">
-          <div class="partner-card-name">googoogoob</div>
-          <div class="partner-card-desc">googoogoob.github.io</div>
-        </div>
-        <a class="partner-card-btn" href="https://googoogoob.github.io" target="_blank" rel="noopener noreferrer">Visit</a>
-      </div>
+ <div id="partners-inner">
+ <div class="partners-title">Partners</div>
+ <div class="partners-sub">people we work with</div>
+ <div class="partner-cards">
+ <div class="partner-card">
+ <div class="partner-card-avatar">M</div>
+ <div class="partner-card-info">
+ <div class="partner-card-name">mizumath</div>
+ <div class="partner-card-desc">math tools &amp; resources</div>
+ </div>
+ <a class="partner-card-btn" href="https://mizumath.com" target="_blank" rel="noopener noreferrer">Visit</a>
+ </div>
+ <div class="partner-card">
+ <div class="partner-card-avatar">G</div>
+ <div class="partner-card-info">
+ <div class="partner-card-name">googoogoob</div>
+ <div class="partner-card-desc">googoogoob.github.io</div>
+ </div>
+ <a class="partner-card-btn" href="https://googoogoob.github.io" target="_blank" rel="noopener noreferrer">Visit</a>
+ </div>
 
 ```
 </div>
 <div class="partners-ad-slot" id="partners-ad">ad slot</div>
 ```
 
-  </div>
+ </div>
 </div>
 
 <!-- SETTINGS -->
 
 <div class="section" id="settings-section">
-  <div id="settings-inner">
-    <div class="settings-wrap">
-      <div class="clock-popup">
-        <div class="clock-popup-time" id="clock-popup-time"></div>
-        <div class="clock-popup-date" id="clock-popup-date"></div>
-      </div>
+ <div id="settings-inner">
+ <div class="settings-wrap">
+ <div class="clock-popup">
+ <div class="clock-popup-time" id="clock-popup-time"></div>
+ <div class="clock-popup-date" id="clock-popup-date"></div>
+ </div>
 
 ```
-  <div class="settings-section-head">Appearance</div>
-  <div class="settings-group">
-    <div class="theme-card">
-      <div class="theme-card-header">
-        <div class="theme-card-title">Theme</div>
-        <div class="theme-card-sub">set your heart ablaze</div>
-      </div>
-      <div class="theme-card-body">
-        <div class="theme-grid">
-          <div class="theme-swatch active" data-theme="black" style="background:linear-gradient(135deg,#050508,#111118)" onclick="setTheme('black')">Black</div>
-          <div class="theme-swatch disabled" data-theme="soon" style="background:linear-gradient(135deg,#0d0d0d,#1a1a1a);position:relative;" title="Coming soon">
-            Soon
-            <span style="position:absolute;top:4px;right:5px;font-size:.45rem;color:rgba(255,255,255,.35);font-weight:400">🔒</span>
-          </div>
-        </div>
-      </div>
-    </div>
+ <div class="settings-section-head">Appearance</div>
+ <div class="settings-group">
+ <div class="theme-card">
+ <div class="theme-card-header">
+ <div class="theme-card-title">Theme</div>
+ <div class="theme-card-sub">set your heart ablaze</div>
+ </div>
+ <div class="theme-card-body">
+ <div class="theme-grid">
+ <div class="theme-swatch active" data-theme="black" style="background:linear-gradient(135deg,#050508,#111118)" onclick="setTheme('black')">Black</div>
+ <div class="theme-swatch disabled" data-theme="soon" style="background:linear-gradient(135deg,#0d0d0d,#1a1a1a);position:relative;" title="Coming soon">
+ Soon
+ <span style="position:absolute;top:4px;right:5px;font-size:.45rem;color:rgba(255,255,255,.35);font-weight:400"> </span>
+ </div>
+ </div>
+ </div>
+ </div>
 
-    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:10px">
-      <div style="display:flex;align-items:center;gap:10px;width:100%">
-        <div>
-          <div class="settings-row-label">Site Name</div>
-          <div class="settings-row-sub">Shown in tab &amp; on home page</div>
-        </div>
-      </div>
-      <div class="name-pills">
-        <button class="name-pill" onclick="pickName('13hrsofstudying')">13hrsofstudying</button>
-        <button class="name-pill active" onclick="pickName('mizumath copy')">mizumath copy</button>
-      </div>
-    </div>
-  </div>
+ <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+ <div style="display:flex;align-items:center;gap:10px;width:100%">
+ <div>
+ <div class="settings-row-label">Site Name</div>
+ <div class="settings-row-sub">Shown in tab &amp; on home page</div>
+ </div>
+ </div>
+ <div class="name-pills">
+ <button class="name-pill" onclick="pickName('13hrsofstudying')">13hrsofstudying</button>
+ <button class="name-pill active" onclick="pickName('mizumath copy')">mizumath copy</button>
+ </div>
+ </div>
+ </div>
 
-  <div class="settings-section-head">Nav Bar</div>
-  <div class="settings-group">
-    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:10px">
-      <div>
-        <div class="settings-row-label">Bar Placement</div>
-        <div class="settings-row-sub">Where the navigation bar appears</div>
-      </div>
-      <div class="placement-opts" style="width:100%">
-        <div class="placement-opt active" id="place-bottom" onclick="setNavPlacement('bottom')">
-          <div class="placement-preview"><div class="placement-bar-bottom"></div></div>
-          <div class="placement-label">Bottom</div>
-        </div>
-        <div class="placement-opt" id="place-left" onclick="setNavPlacement('left')">
-          <div class="placement-preview"><div class="placement-bar-left"></div></div>
-          <div class="placement-label">Left</div>
-        </div>
-      </div>
-    </div>
-  </div>
+ <div class="settings-section-head">Nav Bar</div>
+ <div class="settings-group">
+ <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+ <div>
+ <div class="settings-row-label">Bar Placement</div>
+ <div class="settings-row-sub">Where the navigation bar appears</div>
+ </div>
+ <div class="placement-opts" style="width:100%">
+ <div class="placement-opt active" id="place-bottom" onclick="setNavPlacement('bottom')">
+ <div class="placement-preview"><div class="placement-bar-bottom"></div></div>
+ <div class="placement-label">Bottom</div>
+ </div>
+ <div class="placement-opt" id="place-left" onclick="setNavPlacement('left')">
+ <div class="placement-preview"><div class="placement-bar-left"></div></div>
+ <div class="placement-label">Left</div>
+ </div>
+ </div>
+ </div>
+ </div>
 
-  <div class="settings-section-head">Proxy</div>
-  <div class="settings-group">
-    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
-      <div><div class="settings-row-label">Proxy Engine</div><div class="settings-row-sub">Engine used for routing requests</div></div>
-      <div class="proxy-opts" style="width:100%">
-        <div class="proxy-opt active" id="proxy-scramjet" onclick="setProxy('scramjet')"><div class="proxy-dot"></div><div class="proxy-label">Scramjet</div><div class="proxy-desc">Bypasses most filters</div></div>
-        <div class="proxy-opt" id="proxy-standard" onclick="setProxy('standard')"><div class="proxy-dot"></div><div class="proxy-label">Standard</div><div class="proxy-desc">Basic proxy</div></div>
-      </div>
-    </div>
-  </div>
+ <div class="settings-section-head">Proxy</div>
+ <div class="settings-group">
+ <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
+ <div><div class="settings-row-label">Proxy Engine</div><div class="settings-row-sub">Engine used for routing requests</div></div>
+ <div class="proxy-opts" style="width:100%">
+ <div class="proxy-opt active" id="proxy-scramjet" onclick="setProxy('scramjet')"><div class="proxy-dot"></div><div class="proxy-label">Scramjet</div><div class="proxy-desc">Bypasses most filters</div></div>
+ <div class="proxy-opt" id="proxy-standard" onclick="setProxy('standard')"><div class="proxy-dot"></div><div class="proxy-label">Standard</div><div class="proxy-desc">Basic proxy</div></div>
+ </div>
+ </div>
+ </div>
 
-  <div class="settings-section-head">Tab Cloak</div>
-  <div class="settings-group">
-    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
-      <div><div class="settings-row-label">Disguise this tab</div><div class="settings-row-sub">Changes what teachers see in your browser tabs</div></div>
-      <div class="cloak-grid" id="cloak-grid">
-        <div class="cloak-opt active" data-cloak="none" onclick="setCloak('none')"><span class="cloak-icon">🔓</span><span class="cloak-label">None</span></div>
-        <div class="cloak-opt" data-cloak="classroom" onclick="setCloak('classroom')"><span class="cloak-icon">🎓</span><span class="cloak-label">Google Classroom</span></div>
-        <div class="cloak-opt" data-cloak="docs" onclick="setCloak('docs')"><span class="cloak-icon">📄</span><span class="cloak-label">Google Docs</span></div>
-        <div class="cloak-opt" data-cloak="khan" onclick="setCloak('khan')"><span class="cloak-icon">📚</span><span class="cloak-label">Khan Academy</span></div>
-        <div class="cloak-opt" data-cloak="duolingo" onclick="setCloak('duolingo')"><span class="cloak-icon">🦉</span><span class="cloak-label">Duolingo</span></div>
-        <div class="cloak-opt" data-cloak="desmos" onclick="setCloak('desmos')"><span class="cloak-icon">📐</span><span class="cloak-label">Desmos</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="settings-version" id="settings-version">v3.3 · 13</div>
+ <div class="settings-section-head">Tab Cloak</div>
+ <div class="settings-group">
+ <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
+ <div><div class="settings-row-label">Disguise this tab</div><div class="settings-row-sub">Changes what teachers see in your browser tabs</div></div>
+ <div class="cloak-grid" id="cloak-grid">
+ <div class="cloak-opt active" data-cloak="none" onclick="setCloak('none')"><span class="cloak-icon"> </span><span class="cloak-label">None</span></div>
+ <div class="cloak-opt" data-cloak="classroom" onclick="setCloak('classroom')"><span class="cloak-icon"> </span><span class="cloak-label">Google Classroom</span></div>
+ <div class="cloak-opt" data-cloak="docs" onclick="setCloak('docs')"><span class="cloak-icon"> </span><span class="cloak-label">Google Docs</span></div>
+ <div class="cloak-opt" data-cloak="khan" onclick="setCloak('khan')"><span class="cloak-icon"> </span><span class="cloak-label">Khan Academy</span></div>
+ <div class="cloak-opt" data-cloak="duolingo" onclick="setCloak('duolingo')"><span class="cloak-icon"> </span><span class="cloak-label">Duolingo</span></div>
+ <div class="cloak-opt" data-cloak="desmos" onclick="setCloak('desmos')"><span class="cloak-icon"> </span><span class="cloak-label">Desmos</span></div>
+ </div>
+ </div>
+ </div>
+ <div class="settings-version" id="settings-version">v3.3 · 13</div>
 </div>
 ```
 
-  </div>
+ </div>
 </div>
 
 <!-- EXTRAS -->
 
 <div class="section" id="extras-section">
-  <div id="extras-inner">
-    <div class="extras-card">
-      <div class="extras-card-header">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <span class="extras-card-title">Notes</span>
-      </div>
-      <div class="extras-card-body"><textarea id="notes-area" placeholder="Write anything…" autocomplete="off"></textarea></div>
-    </div>
-    <div class="extras-card">
-      <div class="extras-card-header">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-        <span class="extras-card-title">Dictionary</span>
-      </div>
-      <div class="extras-card-body">
-        <div class="dict-bar">
-          <input type="text" id="dict-input" placeholder="Look up a word…" autocomplete="off" onkeydown="if(event.key==='Enter')lookupWord()"/>
-          <button id="dict-go" onclick="lookupWord()">Look up</button>
-        </div>
-        <div id="dict-result"><span style="color:var(--muted2);font-size:.72rem">Type a word above to get its definition.</span></div>
-      </div>
-    </div>
-    <div class="extras-card">
-      <div class="extras-card-header">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        <span class="extras-card-title">Music</span>
-      </div>
-      <div class="extras-card-body">
-        <div class="music-picker" id="music-picker">
-          <button class="music-opt" onclick="openMusicPlayer('https://lofi.cafe')"><span class="music-opt-icon">🎵</span><div><div class="music-opt-name">Lofi Cafe</div><div class="music-opt-desc">chill beats to study to</div></div></button>
-          <button class="music-opt" onclick="openMusicPlayer('https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1')"><span class="music-opt-icon">📺</span><div><div class="music-opt-name">Lofi Hip Hop</div><div class="music-opt-desc">lofi girl · youtube live</div></div></button>
-          <button class="music-opt" onclick="openMusicPlayer('https://www.youtube.com/embed/4xDzrJKXOOY?autoplay=1')"><span class="music-opt-icon">🌙</span><div><div class="music-opt-name">Chillhop Radio</div><div class="music-opt-desc">jazzy beats · youtube live</div></div></button>
-          <button class="music-opt" onclick="openMusicPlayer('https://freefy.app')"><span class="music-opt-icon">🎧</span><div><div class="music-opt-name">freefy.app</div><div class="music-opt-desc">music streaming</div></div></button>
-        </div>
-        <div id="music-frame-wrap">
-          <div class="music-back-btn-wrap"><button id="music-back-btn" onclick="backMusic()">← back</button></div>
-          <iframe id="music-frame" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-        </div>
-      </div>
-    </div>
-    <div class="extras-card">
-      <div class="extras-card-header">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
-        <span class="extras-card-title">Weather</span>
-      </div>
-      <div class="extras-card-body"><div id="weather-display"><span style="color:var(--muted2)">Fetching weather…</span></div></div>
-    </div>
-  </div>
+ <div id="extras-inner">
+ <div class="extras-card">
+ <div class="extras-card-header">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+ <span class="extras-card-title">Notes</span>
+ </div>
+ <div class="extras-card-body"><textarea id="notes-area" placeholder="Write anything…" autocomplete="off"></textarea></div>
+ </div>
+ <div class="extras-card">
+ <div class="extras-card-header">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+ <span class="extras-card-title">Dictionary</span>
+ </div>
+ <div class="extras-card-body">
+ <div class="dict-bar">
+ <input type="text" id="dict-input" placeholder="Look up a word…" autocomplete="off" onkeydown="if(event.key==='Enter')lookupWord()"/>
+ <button id="dict-go" onclick="lookupWord()">Look up</button>
+ </div>
+ <div id="dict-result"><span style="color:var(--muted2);font-size:.72rem">Type a word above to get its definition.</span></div>
+ </div>
+ </div>
+ <div class="extras-card">
+ <div class="extras-card-header">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+ <span class="extras-card-title">Music</span>
+ </div>
+ <div class="extras-card-body">
+ <div class="music-picker" id="music-picker">
+ <button class="music-opt" onclick="openMusicPlayer('https://lofi.cafe')"><span class="music-opt-icon"> </span><div><div class="music-opt-name">Lofi Cafe</div><div class="music-opt-desc">chill beats to study to</div></div></button>
+ <button class="music-opt" onclick="openMusicPlayer('https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1')"><span class="music-opt-icon"> </span><div><div class="music-opt-name">Lofi Hip Hop</div><div class="music-opt-desc">lofi girl · youtube live</div></div></button>
+ <button class="music-opt" onclick="openMusicPlayer('https://www.youtube.com/embed/4xDzrJKXOOY?autoplay=1')"><span class="music-opt-icon"> </span><div><div class="music-opt-name">Chillhop Radio</div><div class="music-opt-desc">jazzy beats · youtube live</div></div></button>
+ <button class="music-opt" onclick="openMusicPlayer('https://freefy.app')"><span class="music-opt-icon"> </span><div><div class="music-opt-name">freefy.app</div><div class="music-opt-desc">music streaming</div></div></button>
+ </div>
+ <div id="music-frame-wrap">
+ <div class="music-back-btn-wrap"><button id="music-back-btn" onclick="backMusic()">← back</button></div>
+ <iframe id="music-frame" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+ </div>
+ </div>
+ </div>
+ <div class="extras-card">
+ <div class="extras-card-header">
+ <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
+ <span class="extras-card-title">Weather</span>
+ </div>
+ <div class="extras-card-body"><div id="weather-display"><span style="color:var(--muted2)">Fetching weather…</span></div></div>
+ </div>
+ </div>
 </div>
 
 <!-- MOVIES -->
 
 <div class="section" id="movies-section">
-  <div id="movies-inner">
-    <iframe id="movies-frame" src="/proxy?url=https%3A%2F%2Findica.bond" style="width:100%;height:100%;border:none;background:var(--bg);display:block" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" referrerpolicy="no-referrer"></iframe>
-  </div>
+ <div id="movies-inner">
+ <iframe id="movies-frame" src="/proxy?url=https%3A%2F%2Findica.bond" style="width:100%;height:100%;border:none;background:var(--bg);display:block" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" referrerpolicy="no-referrer"></iframe>
+ </div>
 </div>
 
 <!-- GAME OVERLAY -->
 
 <div id="game-overlay">
-  <div id="proxy-bar">
-    <button class="proxy-nav-btn" id="proxy-back-btn" onclick="proxyBack()" title="Back">←</button>
-    <button class="proxy-nav-btn" id="proxy-fwd-btn" onclick="proxyForward()" title="Forward">→</button>
-    <button class="proxy-nav-btn" onclick="proxyRefresh()" title="Refresh">↻</button>
-    <input type="text" id="proxy-url-bar" placeholder="Enter URL or search…" onkeydown="if(event.key==='Enter')proxyNavigate(this.value)"/>
-    <button id="game-exit-btn" onclick="closeGame()" title="Exit">✕</button>
-  </div>
-  <iframe id="game-overlay-iframe" allow="fullscreen; autoplay; gamepad; encrypted-media" referrerpolicy="no-referrer"></iframe>
+ <div id="proxy-bar">
+ <button class="proxy-nav-btn" id="proxy-back-btn" onclick="proxyBack()" title="Back">←</button>
+ <button class="proxy-nav-btn" id="proxy-fwd-btn" onclick="proxyForward()" title="Forward">→</button>
+ <button class="proxy-nav-btn" onclick="proxyRefresh()" title="Refresh">↻</button>
+ <input type="text" id="proxy-url-bar" placeholder="Enter URL or search…" onkeydown="if(event.key==='Enter')proxyNavigate(this.value)"/>
+ <button id="game-exit-btn" onclick="closeGame()" title="Exit">✕</button>
+ </div>
+ <iframe id="game-overlay-iframe" allow="fullscreen; autoplay; gamepad; encrypted-media" referrerpolicy="no-referrer"></iframe>
 </div>
 
 <script>
@@ -773,168 +773,168 @@ const CORRECT_CODE = 'idontknowhowtocode';
 
 // Skip gate if already verified
 (function() {
-  if (localStorage.getItem('gate_passed') === '1') {
-    const gate = document.getElementById('gate');
-    gate.style.display = 'none';
-    if (!localStorage.getItem('gamertag')) {
-      setTimeout(() => openTagModal(), 300);
-    }
-  }
+ if (localStorage.getItem('gate_passed') === '1') {
+ const gate = document.getElementById('gate');
+ gate.style.display = 'none';
+ if (!localStorage.getItem('gamertag')) {
+ setTimeout(() => openTagModal(), 300);
+ }
+ }
 })();
 
 function checkGate() {
-  const val = document.getElementById('gate-input').value.toLowerCase();
-  const err = document.getElementById('gate-err');
-  if (val === CORRECT_CODE) {
-    localStorage.setItem('gate_passed', '1');
-    const gate = document.getElementById('gate');
-    gate.style.transition = 'opacity .4s';
-    gate.style.opacity = '0';
-    setTimeout(() => { gate.style.display = 'none'; }, 400);
-    if (!localStorage.getItem('gamertag')) {
-      setTimeout(() => openTagModal(), 500);
-    }
-  } else {
-    err.textContent = 'Wrong code. Try again.';
-    const input = document.getElementById('gate-input');
-    input.value = '';
-    input.classList.remove('shake');
-    void input.offsetWidth;
-    input.classList.add('shake');
-    setTimeout(() => err.textContent = '', 2000);
-  }
+ const val = document.getElementById('gate-input').value.toLowerCase();
+ const err = document.getElementById('gate-err');
+ if (val === CORRECT_CODE) {
+ localStorage.setItem('gate_passed', '1');
+ const gate = document.getElementById('gate');
+ gate.style.transition = 'opacity .4s';
+ gate.style.opacity = '0';
+ setTimeout(() => { gate.style.display = 'none'; }, 400);
+ if (!localStorage.getItem('gamertag')) {
+ setTimeout(() => openTagModal(), 500);
+ }
+ } else {
+ err.textContent = 'Wrong code. Try again.';
+ const input = document.getElementById('gate-input');
+ input.value = '';
+ input.classList.remove('shake');
+ void input.offsetWidth;
+ input.classList.add('shake');
+ setTimeout(() => err.textContent = '', 2000);
+ }
 }
 document.getElementById('gate-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') checkGate();
+ if (e.key === 'Enter') checkGate();
 });
 
 // ── GAMERTAG ──────────────────────────────────────────────
 function openTagModal() {
-  const tag = localStorage.getItem('gamertag') || '';
-  document.getElementById('tag-input').value = tag;
-  document.getElementById('tag-err').textContent = '';
-  updateTagModalDisplay(tag);
-  document.getElementById('tag-overlay').classList.add('open');
+ const tag = localStorage.getItem('gamertag') || '';
+ document.getElementById('tag-input').value = tag;
+ document.getElementById('tag-err').textContent = '';
+ updateTagModalDisplay(tag);
+ document.getElementById('tag-overlay').classList.add('open');
 }
 function closeTagModal() {
-  document.getElementById('tag-overlay').classList.remove('open');
+ document.getElementById('tag-overlay').classList.remove('open');
 }
 function updateTagModalDisplay(tag) {
-  document.getElementById('tag-name-display').textContent = tag || 'No tag set';
-  document.getElementById('tag-avatar-big').textContent = tag ? tag[0].toUpperCase() : '?';
+ document.getElementById('tag-name-display').textContent = tag || 'No tag set';
+ document.getElementById('tag-avatar-big').textContent = tag ? tag[0].toUpperCase() : '?';
 }
 function saveTag() {
-  const val = document.getElementById('tag-input').value.trim();
-  const err = document.getElementById('tag-err');
-  if (!val) { err.textContent = 'Please enter a gamertag.'; return; }
-  if (val.length < 2) { err.textContent = 'Must be at least 2 characters.'; return; }
-  if (!/^[a-zA-Z0-9_\-]+$/.test(val)) { err.textContent = 'Letters, numbers, _ and - only.'; return; }
-  localStorage.setItem('gamertag', val);
-  updateStatusBar();
-  updateTagModalDisplay(val);
-  closeTagModal();
-  showToast('Gamertag set: ' + val);
+ const val = document.getElementById('tag-input').value.trim();
+ const err = document.getElementById('tag-err');
+ if (!val) { err.textContent = 'Please enter a gamertag.'; return; }
+ if (val.length < 2) { err.textContent = 'Must be at least 2 characters.'; return; }
+ if (!/^[a-zA-Z0-9_\-]+$/.test(val)) { err.textContent = 'Letters, numbers, _ and - only.'; return; }
+ localStorage.setItem('gamertag', val);
+ updateStatusBar();
+ updateTagModalDisplay(val);
+ closeTagModal();
+ showToast('Gamertag set: ' + val);
 }
 function updateStatusBar() {
-  const tag = localStorage.getItem('gamertag') || '';
-  const usernameEl = document.getElementById('status-username-text');
-  const avatarEl   = document.getElementById('status-avatar-text');
-  if (tag) {
-    usernameEl.textContent = tag; usernameEl.className = 'status-username';
-    avatarEl.textContent = tag[0].toUpperCase();
-  } else {
-    usernameEl.textContent = 'Guest'; usernameEl.className = 'status-username guest';
-    avatarEl.textContent = '?';
-  }
+ const tag = localStorage.getItem('gamertag') || '';
+ const usernameEl = document.getElementById('status-username-text');
+ const avatarEl = document.getElementById('status-avatar-text');
+ if (tag) {
+ usernameEl.textContent = tag; usernameEl.className = 'status-username';
+ avatarEl.textContent = tag[0].toUpperCase();
+ } else {
+ usernameEl.textContent = 'Guest'; usernameEl.className = 'status-username guest';
+ avatarEl.textContent = '?';
+ }
 }
 
 // ── CONSTANTS ─────────────────────────────────────────────
 const CLOAK_MAP = {
-  none:      { title: null, favicon: null },
-  classroom: { title: 'Stream - Google Classroom', favicon: 'https://ssl.gstatic.com/classroom/favicon.png' },
-  docs:      { title: 'Document - Google Docs',    favicon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' },
-  khan:      { title: 'Math | Khan Academy',       favicon: 'https://cdn.kastatic.org/images/favicon.ico' },
-  duolingo:  { title: 'Duolingo',                  favicon: 'https://d35aaqx5ub95lt.cloudfront.net/favicon.ico' },
-  desmos:    { title: 'Desmos | Graphing Calculator', favicon: 'https://www.desmos.com/assets/img/favicon.ico' },
+ none: { title: null, favicon: null },
+ classroom: { title: 'Stream - Google Classroom', favicon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+ docs: { title: 'Document - Google Docs', favicon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' },
+ khan: { title: 'Math | Khan Academy', favicon: 'https://cdn.kastatic.org/images/favicon.ico' },
+ duolingo: { title: 'Duolingo', favicon: 'https://d35aaqx5ub95lt.cloudfront.net/favicon.ico' },
+ desmos: { title: 'Desmos | Graphing Calculator', favicon: 'https://www.desmos.com/assets/img/favicon.ico' },
 };
 
 const S = {
-  theme:    'black',
-  name:     localStorage.getItem('s_name')     || 'mizumath copy',
-  proxy:    localStorage.getItem('s_proxy')    || 'scramjet',
-  cloak:    localStorage.getItem('s_cloak')    || 'none',
-  navPlace: localStorage.getItem('s_navplace') || 'bottom',
+ theme: 'black',
+ name: localStorage.getItem('s_name') || 'mizumath copy',
+ proxy: localStorage.getItem('s_proxy') || 'scramjet',
+ cloak: localStorage.getItem('s_cloak') || 'none',
+ navPlace: localStorage.getItem('s_navplace') || 'bottom',
 };
 
 // ── NAV PLACEMENT ─────────────────────────────────────────
 function applyNavPlacement(p) {
-  document.body.setAttribute('data-nav', p);
-  document.getElementById('place-bottom')?.classList.toggle('active', p === 'bottom');
-  document.getElementById('place-left')?.classList.toggle('active', p === 'left');
+ document.body.setAttribute('data-nav', p);
+ document.getElementById('place-bottom')?.classList.toggle('active', p === 'bottom');
+ document.getElementById('place-left')?.classList.toggle('active', p === 'left');
 }
 function setNavPlacement(p) {
-  S.navPlace = p; localStorage.setItem('s_navplace', p); applyNavPlacement(p);
-  showToast('Bar placement: ' + p);
+ S.navPlace = p; localStorage.setItem('s_navplace', p); applyNavPlacement(p);
+ showToast('Bar placement: ' + p);
 }
 
 // ── THEME (only black) ─────────────────────────────────────
 function applyTheme(t) {
-  // Always black — no attribute changes needed since :root IS the black theme
-  document.documentElement.removeAttribute('data-theme');
-  document.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === 'black'));
-  seedParticles();
+ // Always black — no attribute changes needed since :root IS the black theme
+ document.documentElement.removeAttribute('data-theme');
+ document.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === 'black'));
+ seedParticles();
 }
 function setTheme(t) {
-  if (t === 'soon') { showToast('Coming soon!'); return; }
-  S.theme = 'black'; applyTheme('black');
+ if (t === 'soon') { showToast('Coming soon!'); return; }
+ S.theme = 'black'; applyTheme('black');
 }
 
 // ── NAME ──────────────────────────────────────────────────
 function applyName(n) {
-  const label = n || 'mizumath copy';
-  document.getElementById('home-title-text').textContent = label;
-  document.getElementById('nav-logo-text').textContent = '13';
-  if (S.cloak === 'none') document.getElementById('page-title').textContent = label;
-  document.querySelectorAll('.name-pill').forEach(btn => btn.classList.toggle('active', btn.textContent.trim() === label));
-  document.getElementById('settings-version').textContent = 'v3.3 · ' + label;
+ const label = n || 'mizumath copy';
+ document.getElementById('home-title-text').textContent = label;
+ document.getElementById('nav-logo-text').textContent = '13';
+ if (S.cloak === 'none') document.getElementById('page-title').textContent = label;
+ document.querySelectorAll('.name-pill').forEach(btn => btn.classList.toggle('active', btn.textContent.trim() === label));
+ document.getElementById('settings-version').textContent = 'v3.3 · ' + label;
 }
 function pickName(n) { S.name = n; localStorage.setItem('s_name', n); applyName(n); }
 function saveCustomName() {
-  const v = document.getElementById('name-input').value.trim();
-  if (!v) return;
-  S.name = v; localStorage.setItem('s_name', v); applyName(v); showToast('Name saved: ' + v);
+ const v = document.getElementById('name-input').value.trim();
+ if (!v) return;
+ S.name = v; localStorage.setItem('s_name', v); applyName(v); showToast('Name saved: ' + v);
 }
 
 // ── CLOAK ─────────────────────────────────────────────────
 function applyCloak(c) {
-  const cfg = CLOAK_MAP[c] || CLOAK_MAP.none;
-  document.getElementById('page-title').textContent = cfg.title || (S.name || 'mizumath copy');
-  let link = document.querySelector("link[rel~='icon']");
-  if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
-  link.href = cfg.favicon || '/favicon.ico';
-  document.querySelectorAll('.cloak-opt').forEach(el => el.classList.toggle('active', el.dataset.cloak === c));
+ const cfg = CLOAK_MAP[c] || CLOAK_MAP.none;
+ document.getElementById('page-title').textContent = cfg.title || (S.name || 'mizumath copy');
+ let link = document.querySelector("link[rel~='icon']");
+ if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+ link.href = cfg.favicon || '/favicon.ico';
+ document.querySelectorAll('.cloak-opt').forEach(el => el.classList.toggle('active', el.dataset.cloak === c));
 }
 function setCloak(c) { S.cloak = c; localStorage.setItem('s_cloak', c); applyCloak(c); showToast(c === 'none' ? 'Tab cloak removed.' : 'Tab cloaked!'); }
 
 // ── PROXY ─────────────────────────────────────────────────
 function setProxy(p) {
-  S.proxy = p; localStorage.setItem('s_proxy', p);
-  document.querySelectorAll('.proxy-opt').forEach(o => o.classList.remove('active'));
-  document.getElementById('proxy-' + p)?.classList.add('active');
+ S.proxy = p; localStorage.setItem('s_proxy', p);
+ document.querySelectorAll('.proxy-opt').forEach(o => o.classList.remove('active'));
+ document.getElementById('proxy-' + p)?.classList.add('active');
 }
 
 // ── TOAST ─────────────────────────────────────────────────
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
+ const t = document.getElementById('toast');
+ t.textContent = msg; t.classList.add('show');
+ setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 // ── GREETING ──────────────────────────────────────────────
 (function() {
-  const h = new Date().getHours();
-  document.getElementById('home-greeting').textContent =
-    h >= 5 && h < 12 ? 'good morning' : h >= 12 && h < 17 ? 'good afternoon' : h >= 17 && h < 21 ? 'good evening' : 'good night';
+ const h = new Date().getHours();
+ document.getElementById('home-greeting').textContent =
+ h >= 5 && h < 12 ? 'good morning' : h >= 12 && h < 17 ? 'good afternoon' : h >= 17 && h < 21 ? 'good evening' : 'good night';
 })();
 
 // ── PARTICLES ─────────────────────────────────────────────
@@ -942,145 +942,145 @@ const bgCanvas = document.getElementById('bg');
 const bgCtx = bgCanvas.getContext('2d');
 let pts = [];
 function seedParticles() {
-  pts = [];
-  for (let i=0;i<90;i++) pts.push({x:Math.random()*bgCanvas.width,y:Math.random()*bgCanvas.height,r:.3+Math.random()*1.3,dx:(Math.random()-.5)*.07,dy:(Math.random()-.5)*.07,o:.04+Math.random()*.2,hue:240+Math.random()*40-20});
+ pts = [];
+ for (let i=0;i<90;i++) pts.push({x:Math.random()*bgCanvas.width,y:Math.random()*bgCanvas.height,r:.3+Math.random()*1.3,dx:(Math.random()-.5)*.07,dy:(Math.random()-.5)*.07,o:.04+Math.random()*.2,hue:240+Math.random()*40-20});
 }
 function resizeBg() { bgCanvas.width=innerWidth; bgCanvas.height=innerHeight; seedParticles(); }
 function drawBg() {
-  bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
-  pts.forEach(p=>{bgCtx.beginPath();bgCtx.arc(p.x,p.y,p.r,0,6.28);bgCtx.fillStyle=`hsla(${p.hue},20%,80%,${p.o})`;bgCtx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0)p.x=bgCanvas.width;if(p.x>bgCanvas.width)p.x=0;if(p.y<0)p.y=bgCanvas.height;if(p.y>bgCanvas.height)p.y=0;});
-  requestAnimationFrame(drawBg);
+ bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
+ pts.forEach(p=>{bgCtx.beginPath();bgCtx.arc(p.x,p.y,p.r,0,6.28);bgCtx.fillStyle=`hsla(${p.hue},20%,80%,${p.o})`;bgCtx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0)p.x=bgCanvas.width;if(p.x>bgCanvas.width)p.x=0;if(p.y<0)p.y=bgCanvas.height;if(p.y>bgCanvas.height)p.y=0;});
+ requestAnimationFrame(drawBg);
 }
 resizeBg(); window.addEventListener('resize', resizeBg); drawBg();
 
 // ── NAV ───────────────────────────────────────────────────
 const SECTION_BTNS = {
-  'home-section':'btn-home','games-section':'btn-games','extras-section':'btn-extras',
-  'partners-section':'btn-partners','settings-section':'btn-settings',
-  'movies-section':'btn-movies'
+ 'home-section':'btn-home','games-section':'btn-games','extras-section':'btn-extras',
+ 'partners-section':'btn-partners','settings-section':'btn-settings',
+ 'movies-section':'btn-movies'
 };
 function showSection(id) {
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  Object.values(SECTION_BTNS).forEach(b=>document.getElementById(b)?.classList.remove('active'));
-  document.getElementById(SECTION_BTNS[id])?.classList.add('active');
-  if (id==='extras-section') loadWeather();
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ Object.values(SECTION_BTNS).forEach(b=>document.getElementById(b)?.classList.remove('active'));
+ document.getElementById(SECTION_BTNS[id])?.classList.add('active');
+ if (id==='extras-section') loadWeather();
 }
 
 // ── GAMES ─────────────────────────────────────────────────
 let allGames = [];
 const RECOMMENDED_NAMES = ['slope','cookie clicker','1v1.lol','doodle jump','paper io','run 3','bloons','basketball','five nights','papa'];
 function isRecommended(name) {
-  const n = name.toLowerCase();
-  return RECOMMENDED_NAMES.some(k => n.includes(k));
+ const n = name.toLowerCase();
+ return RECOMMENDED_NAMES.some(k => n.includes(k));
 }
 
 async function loadGames() {
-  const loading = document.getElementById('games-loading');
-  loading.style.display = 'flex';
-  document.getElementById('games-scroll').style.display = 'none';
-  try {
-    const r = await fetch('/api/games/original');
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    allGames = await r.json();
-    renderGameLibrary(allGames);
-  } catch(e) {
-    loading.innerHTML = '<span style="color:var(--muted)">Failed to load — refresh to retry.</span>';
-  }
+ const loading = document.getElementById('games-loading');
+ loading.style.display = 'flex';
+ document.getElementById('games-scroll').style.display = 'none';
+ try {
+ const r = await fetch('/api/games/original');
+ if (!r.ok) throw new Error('HTTP ' + r.status);
+ allGames = await r.json();
+ renderGameLibrary(allGames);
+ } catch(e) {
+ loading.innerHTML = '<span style="color:var(--muted)">Failed to load — refresh to retry.</span>';
+ }
 }
 
 function makeGameCard(g) {
-  const card = document.createElement('div');
-  card.className = 'game-card';
-  const thumbSrc = g.thumb ? '/thumb?url='+encodeURIComponent(g.thumb) : '';
-  const th = thumbSrc
-    ? `<img class="game-thumb" loading="lazy" src="${thumbSrc}" onerror="this.outerHTML='<div class=game-thumb-ph>no preview</div>'">`
-    : '<div class="game-thumb-ph">no preview</div>';
-  card.innerHTML = th + `<div class="game-info"><div class="game-title-bar" title="${g.name}">${g.name}</div></div>`;
-  card.onclick = () => openGame(g);
-  return card;
+ const card = document.createElement('div');
+ card.className = 'game-card';
+ const thumbSrc = g.thumb ? '/thumb?url='+encodeURIComponent(g.thumb) : '';
+ const th = thumbSrc
+ ? `<img class="game-thumb" loading="lazy" src="${thumbSrc}" onerror="this.outerHTML='<div class=game-thumb-ph>no preview</div>'">`
+ : '<div class="game-thumb-ph">no preview</div>';
+ card.innerHTML = th + `<div class="game-info"><div class="game-title-bar" title="${g.name}">${g.name}</div></div>`;
+ card.onclick = () => openGame(g);
+ return card;
 }
 
 function renderGameLibrary(list) {
-  if (!Array.isArray(list)) list = [];
-  document.getElementById('games-loading').style.display = 'none';
-  document.getElementById('games-scroll').style.display = 'flex';
+ if (!Array.isArray(list)) list = [];
+ document.getElementById('games-loading').style.display = 'none';
+ document.getElementById('games-scroll').style.display = 'flex';
 
-  // Hero — random pick, no play button
-  if (list.length > 0) {
-    const heroGame = list[Math.floor(Math.random() * Math.min(list.length, 10))];
-    document.getElementById('games-hero-title').textContent = heroGame.name;
-    if (heroGame.thumb) {
-      const bg = document.getElementById('games-hero-bg');
-      bg.style.backgroundImage = `url('/thumb?url=${encodeURIComponent(heroGame.thumb)}')`;
-      bg.style.backgroundSize = 'cover';
-      bg.style.backgroundPosition = 'center';
-      bg.style.filter = 'blur(2px) brightness(.4)';
-    }
-  }
+ // Hero — random pick, no play button
+ if (list.length > 0) {
+ const heroGame = list[Math.floor(Math.random() * Math.min(list.length, 10))];
+ document.getElementById('games-hero-title').textContent = heroGame.name;
+ if (heroGame.thumb) {
+ const bg = document.getElementById('games-hero-bg');
+ bg.style.backgroundImage = `url('/thumb?url=${encodeURIComponent(heroGame.thumb)}')`;
+ bg.style.backgroundSize = 'cover';
+ bg.style.backgroundPosition = 'center';
+ bg.style.filter = 'blur(2px) brightness(.4)';
+ }
+ }
 
-  document.getElementById('all-count').textContent = list.length + ' games';
-  const shuffled = [...list].sort(() => Math.random() - .5);
-  const newGames = shuffled.slice(0, Math.min(20, list.length));
-  const recGames = list.filter(g => isRecommended(g.name)).slice(0, 20);
+ document.getElementById('all-count').textContent = list.length + ' games';
+ const shuffled = [...list].sort(() => Math.random() - .5);
+ const newGames = shuffled.slice(0, Math.min(20, list.length));
+ const recGames = list.filter(g => isRecommended(g.name)).slice(0, 20);
 
-  const newScroll = document.getElementById('row-new-scroll');
-  const recScroll = document.getElementById('row-rec-scroll');
-  const allScroll = document.getElementById('row-all-scroll');
+ const newScroll = document.getElementById('row-new-scroll');
+ const recScroll = document.getElementById('row-rec-scroll');
+ const allScroll = document.getElementById('row-all-scroll');
 
-  newScroll.innerHTML = ''; recScroll.innerHTML = ''; allScroll.innerHTML = '';
-  document.getElementById('new-count').textContent = newGames.length + ' games';
-  document.getElementById('rec-count').textContent = (recGames.length || '?') + ' games';
+ newScroll.innerHTML = ''; recScroll.innerHTML = ''; allScroll.innerHTML = '';
+ document.getElementById('new-count').textContent = newGames.length + ' games';
+ document.getElementById('rec-count').textContent = (recGames.length || '?') + ' games';
 
-  newGames.forEach(g => newScroll.appendChild(makeGameCard(g)));
-  if (recGames.length) {
-    recGames.forEach(g => recScroll.appendChild(makeGameCard(g)));
-  } else {
-    recScroll.innerHTML = '<span style="color:var(--muted);font-size:.72rem;padding:10px 4px">No matches found.</span>';
-  }
-  list.forEach(g => allScroll.appendChild(makeGameCard(g)));
+ newGames.forEach(g => newScroll.appendChild(makeGameCard(g)));
+ if (recGames.length) {
+ recGames.forEach(g => recScroll.appendChild(makeGameCard(g)));
+ } else {
+ recScroll.innerHTML = '<span style="color:var(--muted);font-size:.72rem;padding:10px 4px">No matches found.</span>';
+ }
+ list.forEach(g => allScroll.appendChild(makeGameCard(g)));
 }
 
 function filterGames() {
-  const q = document.getElementById('game-search').value.toLowerCase().trim();
-  const searchResults = document.getElementById('games-search-results');
-  const rows = document.querySelectorAll('.games-row-section');
+ const q = document.getElementById('game-search').value.toLowerCase().trim();
+ const searchResults = document.getElementById('games-search-results');
+ const rows = document.querySelectorAll('.games-row-section');
 
-  if (!q) {
-    searchResults.classList.remove('active');
-    rows.forEach(r => r.style.display = '');
-    return;
-  }
+ if (!q) {
+ searchResults.classList.remove('active');
+ rows.forEach(r => r.style.display = '');
+ return;
+ }
 
-  const filtered = allGames.filter(g => g.name.toLowerCase().includes(q));
-  searchResults.classList.add('active');
-  rows.forEach(r => r.style.display = 'none');
+ const filtered = allGames.filter(g => g.name.toLowerCase().includes(q));
+ searchResults.classList.add('active');
+ rows.forEach(r => r.style.display = 'none');
 
-  document.getElementById('search-count').textContent = filtered.length + ' results';
-  const grid = document.getElementById('games-search-grid');
-  grid.innerHTML = '';
-  filtered.forEach(g => grid.appendChild(makeGameCard(g)));
+ document.getElementById('search-count').textContent = filtered.length + ' results';
+ const grid = document.getElementById('games-search-grid');
+ grid.innerHTML = '';
+ filtered.forEach(g => grid.appendChild(makeGameCard(g)));
 }
 
 // ── PROXY BROWSER ─────────────────────────────────────────
 let proxyHistory=[], proxyHistoryIndex=-1;
 function openProxyOverlay(url) {
-  proxyHistory=[url]; proxyHistoryIndex=0;
-  document.getElementById('proxy-url-bar').value=url;
-  document.getElementById('game-overlay-iframe').src='/proxy?url='+encodeURIComponent(url);
-  document.getElementById('game-overlay').classList.add('open');
-  document.getElementById('topnav').style.display='none';
-  document.getElementById('status-bar').style.display='none';
-  updateProxyNavBtns();
+ proxyHistory=[url]; proxyHistoryIndex=0;
+ document.getElementById('proxy-url-bar').value=url;
+ document.getElementById('game-overlay-iframe').src='/proxy?url='+encodeURIComponent(url);
+ document.getElementById('game-overlay').classList.add('open');
+ document.getElementById('topnav').style.display='none';
+ document.getElementById('status-bar').style.display='none';
+ updateProxyNavBtns();
 }
 function openGame(g) { openProxyOverlay(g.url); }
 function proxyNavigate(input) {
-  let url=input.trim(); if(!url)return;
-  if(!url.startsWith('http://')&&!url.startsWith('https://')) { url=url.includes('.')&&!url.includes(' ')?'https://'+url:'https://www.google.com/search?q='+encodeURIComponent(url); }
-  document.getElementById('proxy-url-bar').value=url;
-  proxyHistory=proxyHistory.slice(0,proxyHistoryIndex+1); proxyHistory.push(url); proxyHistoryIndex=proxyHistory.length-1;
-  document.getElementById('game-overlay-iframe').src='/proxy?url='+encodeURIComponent(url);
-  updateProxyNavBtns();
+ let url=input.trim(); if(!url)return;
+ if(!url.startsWith('http://')&&!url.startsWith('https://')) { url=url.includes('.')&&!url.includes(' ')?'https://'+url:'https://www.google.com/search?q='+encodeURIComponent(url); }
+ document.getElementById('proxy-url-bar').value=url;
+ proxyHistory=proxyHistory.slice(0,proxyHistoryIndex+1); proxyHistory.push(url); proxyHistoryIndex=proxyHistory.length-1;
+ document.getElementById('game-overlay-iframe').src='/proxy?url='+encodeURIComponent(url);
+ updateProxyNavBtns();
 }
 function proxyBack() { if(proxyHistoryIndex>0){proxyHistoryIndex--;const url=proxyHistory[proxyHistoryIndex];document.getElementById('proxy-url-bar').value=url;document.getElementById('game-overlay-iframe').src='/proxy?url='+encodeURIComponent(url);updateProxyNavBtns();} }
 function proxyForward() { if(proxyHistoryIndex<proxyHistory.length-1){proxyHistoryIndex++;const url=proxyHistory[proxyHistoryIndex];document.getElementById('proxy-url-bar').value=url;document.getElementById('game-overlay-iframe').src='/proxy?url='+encodeURIComponent(url);updateProxyNavBtns();} }
@@ -1088,22 +1088,22 @@ function proxyRefresh() { const iframe=document.getElementById('game-overlay-ifr
 function updateProxyNavBtns() { document.getElementById('proxy-back-btn').disabled=proxyHistoryIndex<=0; document.getElementById('proxy-fwd-btn').disabled=proxyHistoryIndex>=proxyHistory.length-1; }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&document.getElementById('game-overlay').classList.contains('open'))closeGame(); });
 function closeGame() {
-  document.getElementById('game-overlay').classList.remove('open');
-  document.getElementById('game-overlay-iframe').src='';
-  document.getElementById('topnav').style.display='';
-  document.getElementById('status-bar').style.display='flex';
-  proxyHistory=[]; proxyHistoryIndex=-1;
+ document.getElementById('game-overlay').classList.remove('open');
+ document.getElementById('game-overlay-iframe').src='';
+ document.getElementById('topnav').style.display='';
+ document.getElementById('status-bar').style.display='flex';
+ proxyHistory=[]; proxyHistoryIndex=-1;
 }
 
 // ── HOME SEARCH ───────────────────────────────────────────
 function homeSearchGo() {
-  const val=document.getElementById('home-search-input').value.trim(); if(!val)return;
-  document.getElementById('home-search-input').value='';
-  let url;
-  if(val.startsWith('http://')||val.startsWith('https://'))url=val;
-  else if(val.includes('.')&&!val.includes(' '))url='https://'+val;
-  else url='https://www.google.com/search?q='+encodeURIComponent(val);
-  openProxyOverlay(url);
+ const val=document.getElementById('home-search-input').value.trim(); if(!val)return;
+ document.getElementById('home-search-input').value='';
+ let url;
+ if(val.startsWith('http://')||val.startsWith('https://'))url=val;
+ else if(val.includes('.')&&!val.includes(' '))url='https://'+val;
+ else url='https://www.google.com/search?q='+encodeURIComponent(val);
+ openProxyOverlay(url);
 }
 
 // ── MUSIC ─────────────────────────────────────────────────
@@ -1112,38 +1112,38 @@ function backMusic() { document.getElementById('music-frame').src='about:blank';
 
 // ── DICTIONARY ────────────────────────────────────────────
 async function lookupWord() {
-  const word=document.getElementById('dict-input').value.trim(); if(!word)return;
-  const out=document.getElementById('dict-result'); out.innerHTML='<span style="color:var(--muted)">Looking up…</span>';
-  try {
-    const r=await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`); if(!r.ok)throw new Error();
-    const data=await r.json(); const entry=data[0]; let html=`<strong>${entry.word}</strong>`; if(entry.phonetic)html+=`<em>${entry.phonetic}</em>`;
-    entry.meanings.slice(0,3).forEach(m=>{html+=`<div style="margin:6px 0 3px;font-size:.68rem;color:var(--accent);font-weight:700">${m.partOfSpeech}</div>`;m.definitions.slice(0,3).forEach((d,i)=>{html+=`<div class="def">${i+1}. ${d.definition}</div>`;if(d.example)html+=`<div style="color:var(--muted);font-size:.66rem;padding-left:10px">"${d.example}"</div>`;});});
-    out.innerHTML=html;
-  } catch { out.innerHTML=`<span style="color:var(--muted)">No definition found for "<strong style="color:var(--text)">${word}</strong>".</span>`; }
+ const word=document.getElementById('dict-input').value.trim(); if(!word)return;
+ const out=document.getElementById('dict-result'); out.innerHTML='<span style="color:var(--muted)">Looking up…</span>';
+ try {
+ const r=await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`); if(!r.ok)throw new Error();
+ const data=await r.json(); const entry=data[0]; let html=`<strong>${entry.word}</strong>`; if(entry.phonetic)html+=`<em>${entry.phonetic}</em>`;
+ entry.meanings.slice(0,3).forEach(m=>{html+=`<div style="margin:6px 0 3px;font-size:.68rem;color:var(--accent);font-weight:700">${m.partOfSpeech}</div>`;m.definitions.slice(0,3).forEach((d,i)=>{html+=`<div class="def">${i+1}. ${d.definition}</div>`;if(d.example)html+=`<div style="color:var(--muted);font-size:.66rem;padding-left:10px">"${d.example}"</div>`;});});
+ out.innerHTML=html;
+ } catch { out.innerHTML=`<span style="color:var(--muted)">No definition found for "<strong style="color:var(--text)">${word}</strong>".</span>`; }
 }
 
 // ── WEATHER ───────────────────────────────────────────────
 let weatherLoaded=false;
 function loadWeather() {
-  if(weatherLoaded)return;
-  const wd=document.getElementById('weather-display'); wd.innerHTML='<span style="color:var(--muted2)">Fetching weather…</span>';
-  if(!navigator.geolocation){fetchWeatherByIP(wd);return;}
-  navigator.geolocation.getCurrentPosition(pos=>fetchWeather(pos.coords.latitude,pos.coords.longitude,wd),()=>fetchWeatherByIP(wd),{timeout:6000});
+ if(weatherLoaded)return;
+ const wd=document.getElementById('weather-display'); wd.innerHTML='<span style="color:var(--muted2)">Fetching weather…</span>';
+ if(!navigator.geolocation){fetchWeatherByIP(wd);return;}
+ navigator.geolocation.getCurrentPosition(pos=>fetchWeather(pos.coords.latitude,pos.coords.longitude,wd),()=>fetchWeatherByIP(wd),{timeout:6000});
 }
 async function fetchWeatherByIP(el) {
-  try{const ip=await fetch('https://ipapi.co/json/').then(r=>r.json());if(ip.latitude){fetchWeather(ip.latitude,ip.longitude,el,ip.city);return;}}catch{}
-  try{const ip2=await fetch('https://freeipapi.com/api/json').then(r=>r.json());if(ip2.latitude){fetchWeather(ip2.latitude,ip2.longitude,el,ip2.cityName);return;}}catch{}
-  el.innerHTML='<span style="color:var(--muted2)">Weather unavailable.</span>';
+ try{const ip=await fetch('https://ipapi.co/json/').then(r=>r.json());if(ip.latitude){fetchWeather(ip.latitude,ip.longitude,el,ip.city);return;}}catch{}
+ try{const ip2=await fetch('https://freeipapi.com/api/json').then(r=>r.json());if(ip2.latitude){fetchWeather(ip2.latitude,ip2.longitude,el,ip2.cityName);return;}}catch{}
+ el.innerHTML='<span style="color:var(--muted2)">Weather unavailable.</span>';
 }
 async function fetchWeather(lat,lon,el,city) {
-  try{
-    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`);
-    const d=await r.json();const w=d.current_weather;
-    const codes={0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Icy fog',51:'Light drizzle',53:'Moderate drizzle',55:'Dense drizzle',61:'Slight rain',63:'Moderate rain',65:'Heavy rain',71:'Slight snow',73:'Moderate snow',75:'Heavy snow',80:'Slight showers',81:'Moderate showers',82:'Violent showers',95:'Thunderstorm',99:'Thunderstorm hail'};
-    const desc=codes[w.weathercode]||'Unknown',tempC=Math.round(w.temperature),tempF=Math.round(tempC*9/5+32),wind=Math.round(w.windspeed),loc=city||`${lat.toFixed(1)}°, ${lon.toFixed(1)}°`;
-    el.innerHTML=`<div style="font-size:1.4rem;font-weight:700;color:var(--accent);font-family:'DM Mono',monospace">${tempC}°C <span style="font-size:.78rem;color:var(--muted);font-family:'DM Sans',sans-serif">${tempF}°F</span></div><div style="margin-top:3px;color:var(--text);font-weight:500">${desc}</div><div style="margin-top:3px;color:var(--muted);font-size:.62rem">💨 ${wind} km/h &nbsp;·&nbsp; ${loc}</div>`;
-    weatherLoaded=true;
-  }catch{el.innerHTML='<span style="color:var(--muted2)">Weather unavailable.</span>';}
+ try{
+ const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`);
+ const d=await r.json();const w=d.current_weather;
+ const codes={0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Icy fog',51:'Light drizzle',53:'Moderate drizzle',55:'Dense drizzle',61:'Slight rain',63:'Moderate rain',65:'Heavy rain',71:'Slight snow',73:'Moderate snow',75:'Heavy snow',80:'Slight showers',81:'Moderate showers',82:'Violent showers',95:'Thunderstorm',99:'Thunderstorm hail'};
+ const desc=codes[w.weathercode]||'Unknown',tempC=Math.round(w.temperature),tempF=Math.round(tempC*9/5+32),wind=Math.round(w.windspeed),loc=city||`${lat.toFixed(1)}°, ${lon.toFixed(1)}°`;
+ el.innerHTML=`<div style="font-size:1.4rem;font-weight:700;color:var(--accent);font-family:'DM Mono',monospace">${tempC}°C <span style="font-size:.78rem;color:var(--muted);font-family:'DM Sans',sans-serif">${tempF}°F</span></div><div style="margin-top:3px;color:var(--text);font-weight:500">${desc}</div><div style="margin-top:3px;color:var(--muted);font-size:.62rem"> ${wind} km/h &nbsp;·&nbsp; ${loc}</div>`;
+ weatherLoaded=true;
+ }catch{el.innerHTML='<span style="color:var(--muted2)">Weather unavailable.</span>';}
 }
 
 // ── NOTES ─────────────────────────────────────────────────
@@ -1153,11 +1153,11 @@ notesArea.addEventListener('input',()=>localStorage.setItem('notes',notesArea.va
 
 // ── CLOCK ──────────────────────────────────────────────────
 function updateClock() {
-  const n=new Date(),t=n.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-  document.getElementById('clock-time').textContent=t;
-  document.getElementById('clock-date').textContent=n.toLocaleDateString([],{month:'numeric',day:'numeric',year:'2-digit'});
-  document.getElementById('clock-popup-time').textContent=t;
-  document.getElementById('clock-popup-date').textContent=n.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+ const n=new Date(),t=n.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+ document.getElementById('clock-time').textContent=t;
+ document.getElementById('clock-date').textContent=n.toLocaleDateString([],{month:'numeric',day:'numeric',year:'2-digit'});
+ document.getElementById('clock-popup-time').textContent=t;
+ document.getElementById('clock-popup-date').textContent=n.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 }
 updateClock(); setInterval(updateClock,1000);
 
