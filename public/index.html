@@ -422,7 +422,7 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 <!-- NAV -->
 
 <nav id="topnav">
-  <div class="nav-logo" id="nav-logo-text">13</div>
+  <div class="nav-logo" id="nav-logo-text" style="font-family:'Schoolbell',cursive">13</div>
   <div class="nav-divider"></div>
   <button class="nav-btn active" onclick="showSection('home-section')" id="btn-home" title="Home">
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -892,10 +892,8 @@ function setTheme(t) {
 // ── NAME ──────────────────────────────────────────────────
 function applyName(n) {
   const label = n || 'mizumath copy';
-  // If name is too long for the nav logo, abbreviate to 13
-  const navLabel = label.length > 5 ? '13' : label;
   document.getElementById('home-title-text').textContent = label;
-  document.getElementById('nav-logo-text').textContent = navLabel;
+  document.getElementById('nav-logo-text').textContent = '13';
   if (S.cloak === 'none') document.getElementById('page-title').textContent = label;
   document.querySelectorAll('.name-pill').forEach(btn => btn.classList.toggle('active', btn.textContent.trim() === label));
   document.getElementById('settings-version').textContent = 'v3.3 · ' + label;
