@@ -4,6 +4,19 @@ const TRUFFLED_BASE = 'https://truffled.lol';
 const RADON_BASE    = 'https://radon.games';
 const INTERCEPT_DOMAINS = ['truffled.lol', 'fyinx.wtf', 'indica.bond'];
 
+// ─── USER AGENTS FOR ROTATION ─────────────────────────────────
+const USER_AGENTS = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/121.0 Safari/537.36',
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Safari/605.1.15',
+];
+
+function getRandomUserAgent() {
+  return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
+}
+
 // ─── RADON GAMES LIST ─────────────────────────────────────────
 const RADON_SLUGS = [
   '2048','a-dark-room','agario-minigame','align-4','astray','basket-random',
@@ -69,7 +82,7 @@ const CACHE_TTL = 30 * 60 * 1000;
 async function fetchFyinx() {
   if (cache.original && Date.now() - cache.ts.original < CACHE_TTL) return cache.original;
   const r = await fetch(FYINX_BASE + '/', {
-    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36' },
+    headers: { 'User-Agent': getRandomUserAgent() },
     signal: AbortSignal.timeout(12000),
   });
   const text = await r.text();
@@ -96,7 +109,7 @@ async function fetchFyinx() {
 async function fetchTruffled() {
   if (cache.truffled && Date.now() - cache.ts.truffled < CACHE_TTL) return cache.truffled;
   const r = await fetch(TRUFFLED_BASE + '/', {
-    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36' },
+    headers: { 'User-Agent': getRandomUserAgent() },
     signal: AbortSignal.timeout(12000),
   });
   const text = await r.text();
@@ -250,6 +263,38 @@ function rewriteHtml(html, target, origin) {
   return html;
 }
 
+// ─── STRIP SENSITIVE HEADERS FROM PROXIED REQUESTS ────────────
+function buildSafeHeaders(targetUrl) {
+  const targetOrigin = new URL(targetUrl).origin;
+  return {
+    'User-Agent': getRandomUserAgent(),
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Accept-Encoding': 'identity',
+    'DNT': '1',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    // DO NOT include Referer or Origin — proxied origin should not be exposed
+  };
+}
+
+// ─── STRIP SENSITIVE HEADERS FROM RESPONSES ────────────────────
+function stripSensitiveHeaders(headers) {
+  const stripped = new Headers(headers);
+  // Remove headers that expose server/location info
+  stripped.delete('X-Powered-By');
+  stripped.delete('X-Aspnet-Version');
+  stripped.delete('Server');
+  stripped.delete('X-AspNetMvc-Version');
+  stripped.delete('X-Runtime');
+  stripped.delete('X-Rack-Cache');
+  stripped.delete('CF-Ray');
+  stripped.delete('CF-Cache-Status');
+  stripped.delete('CF-ASN');
+  // Keep cache headers for performance
+  return stripped;
+}
+
 // ─── MAIN FETCH HANDLER ────────────────────────────────────────
 export default {
   async fetch(request, env, ctx) {
@@ -294,16 +339,14 @@ export default {
       if (!thumbUrl) return new Response('', { status: 400 });
       try {
         const r = await fetch(thumbUrl, {
-          headers: { 'User-Agent': 'Mozilla/5.0' },
+          headers: buildSafeHeaders(thumbUrl),
           signal: AbortSignal.timeout(6000),
         });
         const type = r.headers.get('content-type') || 'image/webp';
-        return new Response(r.body, {
-          headers: {
-            'Content-Type': type,
-            'Cache-Control': 'public, max-age=7200',
-          },
-        });
+        const respHeaders = stripSensitiveHeaders(r.headers);
+        respHeaders.set('Content-Type', type);
+        respHeaders.set('Cache-Control', 'public, max-age=7200');
+        return new Response(r.body, { headers: respHeaders });
       } catch {
         return new Response('', { status: 404 });
       }
@@ -337,14 +380,7 @@ export default {
 
       try {
         const response = await fetch(target, {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept-Encoding': 'identity',
-            'Referer': targetUrl.origin,
-            'Origin': targetUrl.origin,
-          },
+          headers: buildSafeHeaders(target),
           redirect: 'manual',
           signal: AbortSignal.timeout(12000),
         });
@@ -361,6 +397,7 @@ export default {
         }
 
         const ct = response.headers.get('content-type') || '';
+        const respHeaders = stripSensitiveHeaders(response.headers);
 
         if (ct.includes('text/html')) {
           const html = await response.text();
@@ -368,13 +405,10 @@ export default {
             return new Response('Page too large', { status: 502 });
 
           const rewritten = rewriteHtml(html, target, origin);
-          return new Response(rewritten, {
-            headers: {
-              'Content-Type': 'text/html; charset=utf-8',
-              'X-Frame-Options': 'ALLOWALL',
-              'Content-Security-Policy': '',
-            },
-          });
+          respHeaders.set('Content-Type', 'text/html; charset=utf-8');
+          respHeaders.set('X-Frame-Options', 'ALLOWALL');
+          respHeaders.set('Content-Security-Policy', '');
+          return new Response(rewritten, { headers: respHeaders });
 
         } else if (ct.includes('javascript') || ct.includes('text/plain')) {
           let js = await response.text();
@@ -382,23 +416,17 @@ export default {
             const re = new RegExp('https?://' + domain.replace('.', '\\.'), 'g');
             js = js.replace(re, origin + '/proxy?url=' + encodeURIComponent('https://' + domain));
           }
-          return new Response(js, {
-            headers: {
-              'Content-Type': ct,
-              'Cache-Control': 'public, max-age=300',
-            },
-          });
+          respHeaders.set('Content-Type', ct);
+          respHeaders.set('Cache-Control', 'public, max-age=300');
+          return new Response(js, { headers: respHeaders });
 
         } else {
           const ab = await response.arrayBuffer();
           if (ab.byteLength > MAX) return new Response('Too large', { status: 502 });
-          return new Response(ab, {
-            headers: {
-              'Content-Type': ct,
-              'X-Frame-Options': 'ALLOWALL',
-              'Cache-Control': 'public, max-age=300',
-            },
-          });
+          respHeaders.set('Content-Type', ct);
+          respHeaders.set('X-Frame-Options', 'ALLOWALL');
+          respHeaders.set('Cache-Control', 'public, max-age=300');
+          return new Response(ab, { headers: respHeaders });
         }
 
       } catch (err) {
