@@ -541,6 +541,37 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
 </div>
 
 <script>
+// ── UV XOR codec (extracted from uv.bundle.js) ────────────────────────────
+function uvEncode(e) {
+  if (!e) return e;
+  var t = '';
+  for (var u = 0; u < e.length; u++)
+    t += u % 2 ? String.fromCharCode(e.charCodeAt(u) ^ 2) : e[u];
+  return encodeURIComponent(t);
+}
+
+// Register UV service worker once, under /active/uv/ scope
+var __swRegistered = false;
+async function ensureUVServiceWorker() {
+  if (__swRegistered) return;
+  if (!navigator.serviceWorker) return;
+  try {
+    await navigator.serviceWorker.register('/active/uv/sw.js', { scope: '/active/uv/service/' });
+    __swRegistered = true;
+  } catch(e) {
+    console.warn('[uv-sw]', e);
+  }
+}
+ensureUVServiceWorker();
+
+// Build a proxied URL
+function buildProxyUrl(url) {
+  if (S.proxy === 'scramjet') return '/scramjet/' + encodeURIComponent(url);
+  if (S.proxy === 'standard')  return '/proxy?url=' + encodeURIComponent(url);
+  // Ultraviolet: XOR-encode then prefix
+  return '/active/uv/service/' + uvEncode(url);
+}
+
 var CORRECT_CODE = 'idontknowhowtocode';
 var CLOAK_MAP = {
   none: { title: null, favicon: null },
@@ -562,20 +593,14 @@ var proxyHistory = [], proxyHistoryIndex = -1;
 var weatherLoaded = false;
 var moviesLoaded = false;
 
-// Proxy URL builder — uses the /active/ UV Static app as the proxy engine.
-// The active/ folder is a complete UV Static 2.0 deployment with its own
-// service worker scope at /active/uv/service/. We send URLs to it via
-// the iframe's src, letting it handle SW registration and encoding.
 function buildProxyUrl(url) {
-  if (S.proxy === 'scramjet') return '/scramjet/' + encodeURIComponent(url);
-  if (S.proxy === 'standard')  return '/proxy?url=' + encodeURIComponent(url);
-  // UV: hand off to the active/ app's search page with the URL pre-filled
-  return '/active/?q=' + encodeURIComponent(url);
-}
-
-// Async wrapper kept for compatibility — resolves immediately
-async function buildProxyUrlAsync(url) {
-  return buildProxyUrl(url);
+  if (S.proxy === 'uv') {
+    return '/active/uv/' + btoa(url);
+  } else if (S.proxy === 'scramjet') {
+    return '/scramjet/' + encodeURIComponent(url);
+  } else {
+    return '/proxy?url=' + encodeURIComponent(url);
+  }
 }
 
 // GATE
@@ -666,7 +691,9 @@ function showSection(id) {
   if (id === 'extras-section') loadWeather();
   if (id === 'movies-section' && !moviesLoaded) {
     moviesLoaded = true;
-    document.getElementById('movies-frame').src = buildProxyUrl('https://indica.bond');
+    ensureUVServiceWorker().then(function() {
+      document.getElementById('movies-frame').src = buildProxyUrl('https://indica.bond');
+    });
   }
 }
 
@@ -843,7 +870,9 @@ function openProxyOverlay(url) {
   document.getElementById('topnav').style.display = 'none';
   document.getElementById('status-bar').style.display = 'none';
   updateProxyNavBtns();
-  document.getElementById('game-overlay-iframe').src = buildProxyUrl(url);
+  ensureUVServiceWorker().then(function() {
+    document.getElementById('game-overlay-iframe').src = buildProxyUrl(url);
+  });
 }
 function openGame(g) { openProxyOverlay(g.url); }
 function proxyNavigate(input) {
