@@ -540,6 +540,48 @@ body[data-nav="left"] .nav-btn{width:40px;height:40px;border-radius:10px;}
   <iframe id="game-overlay-iframe" allow="fullscreen; autoplay; gamepad; encrypted-media" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
 </div>
 
+<script type="module">
+// ── Proxy bootstrap (Ultraviolet + BareMux + Epoxy/WISP) ──────────────────
+import { registerSW } from '/active/prxy/register-sw.mjs';
+import * as BareMux   from '/active/prxy/baremux/index.mjs';
+
+const _bmConn   = new BareMux.BareMuxConnection('/active/prxy/baremux/worker.js');
+const _wispUrl  = 'wss://wisp.rhw.one/';
+
+async function _ensureTransport() {
+  const current = await _bmConn.getTransport();
+  if (current !== '/active/prxy/epoxy/index.mjs') {
+    await _bmConn.setTransport('/active/prxy/epoxy/index.mjs', [{ wisp: _wispUrl }]);
+  }
+}
+
+async function _initProxy() {
+  try {
+    await registerSW();
+    await _ensureTransport();
+    window.__proxyReady = true;
+  } catch (e) {
+    console.warn('[proxy] init failed:', e);
+    window.__proxyReady = false;
+  }
+}
+
+_initProxy();
+
+// Expose async proxy URL builder for the main (non-module) script below
+window._buildUVUrl = async function(url) {
+  if (!window.__uv$config) return null;
+  if (!window.__proxyReady) {
+    try { await _initProxy(); } catch(e) {}
+  }
+  return __uv$config.prefix + __uv$config.encodeUrl(url);
+};
+</script>
+
+<!-- UV bundle + config must be loaded before the main script uses them -->
+<script src="/active/uv/uv.bundle.js"></script>
+<script src="/active/uv/uv.config.js"></script>
+
 <script>
 var CORRECT_CODE = 'idontknowhowtocode';
 var CLOAK_MAP = {
@@ -562,14 +604,26 @@ var proxyHistory = [], proxyHistoryIndex = -1;
 var weatherLoaded = false;
 var moviesLoaded = false;
 
-function buildProxyUrl(url) {
-  if (S.proxy === 'uv') {
-    return '/active/uv/' + btoa(url);
-  } else if (S.proxy === 'scramjet') {
-    return '/scramjet/' + encodeURIComponent(url);
-  } else {
-    return '/proxy?url=' + encodeURIComponent(url);
+// Sync fallback (used only when UV isn't ready yet)
+function buildProxyUrlSync(url) {
+  if (S.proxy === 'scramjet') return '/scramjet/' + encodeURIComponent(url);
+  if (S.proxy === 'standard')  return '/proxy?url=' + encodeURIComponent(url);
+  // UV fallback: use XOR encode if config is already loaded
+  if (window.__uv$config) {
+    return __uv$config.prefix + __uv$config.encodeUrl(url);
   }
+  return '/active/uv/service/' + btoa(url); // last-resort
+}
+
+// Async version — always prefer this when opening URLs
+async function buildProxyUrl(url) {
+  if (S.proxy === 'scramjet') return '/scramjet/' + encodeURIComponent(url);
+  if (S.proxy === 'standard')  return '/proxy?url=' + encodeURIComponent(url);
+  // UV path
+  if (window._buildUVUrl) {
+    try { return await window._buildUVUrl(url); } catch(e) {}
+  }
+  return buildProxyUrlSync(url);
 }
 
 // GATE
@@ -660,7 +714,7 @@ function showSection(id) {
   if (id === 'extras-section') loadWeather();
   if (id === 'movies-section' && !moviesLoaded) {
     moviesLoaded = true;
-    document.getElementById('movies-frame').src = buildProxyUrl('https://indica.bond');
+    buildProxyUrl('https://indica.bond').then(function(src){ document.getElementById('movies-frame').src = src; });
   }
 }
 
@@ -830,28 +884,28 @@ document.getElementById('game-exit-btn').addEventListener('click', closeGame);
 document.getElementById('proxy-url-bar').addEventListener('keydown', function(e){ if(e.key==='Enter') proxyNavigate(this.value); });
 document.addEventListener('keydown', function(e){ if(e.key==='Escape' && document.getElementById('game-overlay').classList.contains('open')) closeGame(); });
 
-function openProxyOverlay(url) {
+async function openProxyOverlay(url) {
   proxyHistory=[url]; proxyHistoryIndex=0;
   document.getElementById('proxy-url-bar').value = url;
-  document.getElementById('game-overlay-iframe').src = buildProxyUrl(url);
   document.getElementById('game-overlay').classList.add('open');
   document.getElementById('topnav').style.display = 'none';
   document.getElementById('status-bar').style.display = 'none';
   updateProxyNavBtns();
+  document.getElementById('game-overlay-iframe').src = await buildProxyUrl(url);
 }
 function openGame(g) { openProxyOverlay(g.url); }
-function proxyNavigate(input) {
+async function proxyNavigate(input) {
   var url = input.trim(); if (!url) return;
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     url = (url.indexOf('.')>=0 && url.indexOf(' ')<0) ? 'https://'+url : 'https://www.google.com/search?q='+encodeURIComponent(url);
   }
   document.getElementById('proxy-url-bar').value = url;
   proxyHistory = proxyHistory.slice(0, proxyHistoryIndex+1); proxyHistory.push(url); proxyHistoryIndex = proxyHistory.length-1;
-  document.getElementById('game-overlay-iframe').src = buildProxyUrl(url);
+  document.getElementById('game-overlay-iframe').src = await buildProxyUrl(url);
   updateProxyNavBtns();
 }
-function proxyBack() { if(proxyHistoryIndex>0){proxyHistoryIndex--;var url=proxyHistory[proxyHistoryIndex];document.getElementById('proxy-url-bar').value=url;document.getElementById('game-overlay-iframe').src=buildProxyUrl(url);updateProxyNavBtns();} }
-function proxyForward() { if(proxyHistoryIndex<proxyHistory.length-1){proxyHistoryIndex++;var url=proxyHistory[proxyHistoryIndex];document.getElementById('proxy-url-bar').value=url;document.getElementById('game-overlay-iframe').src=buildProxyUrl(url);updateProxyNavBtns();} }
+async function proxyBack() { if(proxyHistoryIndex>0){proxyHistoryIndex--;var url=proxyHistory[proxyHistoryIndex];document.getElementById('proxy-url-bar').value=url;document.getElementById('game-overlay-iframe').src=await buildProxyUrl(url);updateProxyNavBtns();} }
+async function proxyForward() { if(proxyHistoryIndex<proxyHistory.length-1){proxyHistoryIndex++;var url=proxyHistory[proxyHistoryIndex];document.getElementById('proxy-url-bar').value=url;document.getElementById('game-overlay-iframe').src=await buildProxyUrl(url);updateProxyNavBtns();} }
 function proxyRefresh() { var iframe=document.getElementById('game-overlay-iframe'),src=iframe.src;iframe.src='about:blank';setTimeout(function(){iframe.src=src;},50); }
 function updateProxyNavBtns() { document.getElementById('proxy-back-btn').disabled=proxyHistoryIndex<=0; document.getElementById('proxy-fwd-btn').disabled=proxyHistoryIndex>=proxyHistory.length-1; }
 function closeGame() {
