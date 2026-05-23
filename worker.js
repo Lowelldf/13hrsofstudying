@@ -181,14 +181,37 @@ document.addEventListener('click',function(e){
 // Intercept form submits
 document.addEventListener('submit',function(e){
   var f=e.target;
-  if(!f||!f.action)return;
-  var abs=_abs(f.action);
-  if(abs&&abs.startsWith('http')&&!abs.startsWith(_p)){
-    e.preventDefault();
-    var data=new FormData(f);
-    var params=new URLSearchParams(data).toString();
-    var sep=abs.indexOf('?')===-1?'?':'&';
-    window.location.href=_p+encodeURIComponent(abs+(params?sep+params:''));
+  if(!f)return;
+  e.preventDefault();
+  e.stopPropagation();
+  var method=(f.method||'get').toLowerCase();
+  // Get the real action URL (strip proxy wrapper if already wrapped)
+  var rawAction=f.getAttribute('action')||window.location.href;
+  // If action was rewritten to /proxy?url=..., unwrap it
+  var realAction=rawAction;
+  if(rawAction.indexOf(_p)===0){
+    try{realAction=decodeURIComponent(rawAction.slice(_p.length));}catch(x){}
+  } else {
+    realAction=_abs(rawAction);
+  }
+  if(method==='post'){
+    // For POST just navigate to proxied action — full POST proxying not supported
+    window.location.href=_p+encodeURIComponent(realAction);
+  } else {
+    // GET form — build query string from inputs and append to real URL
+    var data=new URLSearchParams();
+    var els=f.elements;
+    for(var i=0;i<els.length;i++){
+      var el=els[i];
+      if(!el.name||el.disabled)continue;
+      if((el.type==='checkbox'||el.type==='radio')&&!el.checked)continue;
+      data.append(el.name,el.value);
+    }
+    var qs=data.toString();
+    // Strip existing query from action, replace with form data
+    var base=realAction.split('?')[0];
+    var finalUrl=base+(qs?'?'+qs:'');
+    window.location.href=_p+encodeURIComponent(finalUrl);
   }
 },true);
 
@@ -297,9 +320,8 @@ function rewriteHtml(html, target, origin) {
     html = script + html;
   }
 
-  // Inject a <base> pointing to proxy so any missed relative URLs still resolve
-  const baseTag = `<base href="${proxyBase}${encodeURIComponent(target)}">`;
-  html = html.replace(/(<head[^>]*>)/i, '$1' + baseTag);
+  // Note: no <base> tag injected — it breaks form submissions and relative URL resolution
+  // The intercept script handles relative URLs via _abs() instead
 
   return html;
 }
