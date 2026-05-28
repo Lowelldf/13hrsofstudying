@@ -1,488 +1,430 @@
-// ─── SOURCES ──────────────────────────────────────────────────
-const FYINX_BASE    = 'https://fyinx.wtf';
-const TRUFFLED_BASE = 'https://truffled.lol';
-const RADON_BASE    = 'https://radon.games';
-const INTERCEPT_DOMAINS = ['truffled.lol', 'fyinx.wtf', 'indica.bond'];
+// ─── worker.js — fixed & cleaned ──────────────────────────────────────────
 
-// ─── USER AGENTS FOR ROTATION ─────────────────────────────────
-const USER_AGENTS = [
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/121.0 Safari/537.36',
-  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Safari/605.1.15',
+// ─── USER AGENTS ──────────────────────────────────────────────────────────
+const UAS = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/123.0 Safari/537.36',
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/605.1.15 Safari/605.1.15',
 ];
+const ua = () => UAS[Math.floor(Math.random() * UAS.length)];
 
-function getRandomUserAgent() {
-  return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
+// ─── SAFE REQUEST HEADERS ─────────────────────────────────────────────────
+function safeReqHeaders(targetUrl) {
+  const h = new Headers();
+  h.set('User-Agent', ua());
+  h.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8');
+  h.set('Accept-Language', 'en-US,en;q=0.9');
+  h.set('Accept-Encoding', 'identity');
+  h.set('DNT', '1');
+  h.set('Upgrade-Insecure-Requests', '1');
+  h.set('Cache-Control', 'no-cache');
+  try {
+    const u = new URL(targetUrl);
+    h.set('Referer', u.origin + '/');
+    h.set('Origin', u.origin);
+  } catch {}
+  return h;
 }
 
-// ─── RADON GAMES LIST ─────────────────────────────────────────
-const RADON_SLUGS = [
-  '2048','a-dark-room','agario-minigame','align-4','astray','basket-random',
-  'basketball-stars','bike-mania','boxing-random','breaklock','celeste','chroma',
-  'colorun','cookie','cubefield','dinosaur','donut-boy','doodle-jump',
-  'fire-truck-dash','fireboy-and-watergirl-forest-temple','flakboy','flappy-2048',
-  'flappybird','friday-night-funkin--vs-ex','friday-night-funkin--week-6',
-  'friendlyfire','geometry-dash-remastered','geometry','google-snake',
-  'google-solitaire','gopher-kart','gun-knight','hacker-typer','hexgl','hextris',
-  'hill-racing','mc-classic','microsoft-flight-simulator','minesweeper',
-  'moto-x3m-pool-party','moto-x3m-spooky-land','moto-x3m-winter','moto-x3m',
-  'muffin-knight','pacman','radius-raid','retro-bowl','ritz','run-3',
-  'running-bot-xmas-gifts','sans-fight','sm64','soccer-random','spaceinvaders',
-  'super-smash-flash-2a','super-smash-flash-2b','tanktrouble','there-is-no-game',
-  'unfair-dyne','uno','vex3','vex4','vex5','volley-random','webgl-rollingsky',
-  'wordle','zombotron-2-time-machine','zombotron-2','zombotron','zombsroyale'
-];
-
-const RADON_NAME_OVERRIDES = {
-  '2048': '2048', 'mc-classic': 'Minecraft Classic', 'sm64': 'Super Mario 64',
-  'friday-night-funkin--vs-ex': 'FNF: Vs Ex',
-  'friday-night-funkin--week-6': 'FNF: Week 6',
-  'super-smash-flash-2a': 'Super Smash Flash 2 (A)',
-  'super-smash-flash-2b': 'Super Smash Flash 2 (B)',
-  'moto-x3m': 'Moto X3M', 'moto-x3m-pool-party': 'Moto X3M Pool Party',
-  'moto-x3m-spooky-land': 'Moto X3M Spooky Land', 'moto-x3m-winter': 'Moto X3M Winter',
-  'vex3': 'Vex 3', 'vex4': 'Vex 4', 'vex5': 'Vex 5',
-  'zombsroyale': 'Zombs Royale', 'hexgl': 'HexGL', 'hextris': 'Hextris',
-  'flappybird': 'Flappy Bird', 'flappy-2048': 'Flappy 2048',
-  'pacman': 'Pac-Man', 'spaceinvaders': 'Space Invaders',
-  'run-3': 'Run 3', 'colorun': 'Color Run',
-  'webgl-rollingsky': 'Rolling Sky', 'agario-minigame': 'Agar.io',
-  'fireboy-and-watergirl-forest-temple': 'Fireboy & Watergirl',
-  'google-snake': 'Google Snake', 'google-solitaire': 'Google Solitaire',
-  'a-dark-room': 'A Dark Room', 'align-4': 'Align 4',
-  'geometry-dash-remastered': 'Geometry Dash', 'there-is-no-game': 'There Is No Game',
-  'zombotron-2-time-machine': 'Zombotron 2: Time Machine',
-  'microsoft-flight-simulator': 'Flight Simulator', 'hill-racing': 'Hill Racing',
-  'retro-bowl': 'Retro Bowl', 'sans-fight': 'Sans Fight',
-  'basket-random': 'Basket Random', 'basketball-stars': 'Basketball Stars',
-  'boxing-random': 'Boxing Random', 'soccer-random': 'Soccer Random',
-  'volley-random': 'Volley Random', 'running-bot-xmas-gifts': 'Running Bot',
-};
-
-function prettifyRadonName(slug) {
-  if (RADON_NAME_OVERRIDES[slug]) return RADON_NAME_OVERRIDES[slug];
-  return slug.replace(/-+/g,' ').replace(/\b\w/g, c => c.toUpperCase());
-}
-
-function fetchRadon() {
-  return RADON_SLUGS.map(slug => ({
-    name:  prettifyRadonName(slug),
-    url:   RADON_BASE + '/games/' + slug,
-    thumb: RADON_BASE + '/cdn/thumbnails/' + slug + '.webp',
-    src:   'radon',
-  }));
-}
-
-// ─── IN-MEMORY CACHE ──────────────────────────────────────────
-const cache = { original: null, truffled: null, ts: {} };
-const CACHE_TTL = 30 * 60 * 1000;
-
-async function fetchFyinx() {
-  if (cache.original && Date.now() - cache.ts.original < CACHE_TTL) return cache.original;
-  const r = await fetch(FYINX_BASE + '/', {
-    headers: { 'User-Agent': getRandomUserAgent() },
-    signal: AbortSignal.timeout(12000),
-  });
-  const text = await r.text();
-  const arrayStart = text.indexOf('gamesData=[');
-  if (arrayStart === -1) { cache.original = []; cache.ts.original = Date.now(); return []; }
-  const entries = [];
-  const re = /\{id:"([^"]+)",name:"([^"]+)",url:"([^"]+)"\}/g;
-  const chunk = text.slice(arrayStart);
-  let m;
-  while ((m = re.exec(chunk)) !== null) {
-    const [, id, name, relUrl] = m;
-    const gameUrl = relUrl.startsWith('http') ? relUrl : FYINX_BASE + '/' + relUrl;
-    entries.push({ id, name, url: gameUrl, thumb: FYINX_BASE + '/img/games/' + id + '.webp', src: 'original' });
-  }
-  cache.original = entries; cache.ts.original = Date.now();
-  return entries;
-}
-
-async function fetchTruffled() {
-  if (cache.truffled && Date.now() - cache.ts.truffled < CACHE_TTL) return cache.truffled;
-  const r = await fetch(TRUFFLED_BASE + '/', {
-    headers: { 'User-Agent': getRandomUserAgent() },
-    signal: AbortSignal.timeout(12000),
-  });
-  const text = await r.text();
-  const entries = [];
-  const jsonMatch = text.match(/(?:gamesData|games|data)\s*[=:]\s*(\[[\s\S]{10,}\])/);
-  if (jsonMatch) {
-    try {
-      const arr = JSON.parse(jsonMatch[1]);
-      arr.filter(g => g.name && (g.url || g.path || g.slug)).forEach(g => {
-        const rel = g.url || g.path || ('/' + g.slug);
-        const absUrl = rel.startsWith('http') ? rel : TRUFFLED_BASE + (rel.startsWith('/') ? rel : '/' + rel);
-        const t = g.thumbnail || g.thumb || g.image || '';
-        entries.push({ name: g.name, url: absUrl, thumb: t ? (t.startsWith('http') ? t : TRUFFLED_BASE + (t.startsWith('/') ? t : '/' + t)) : '', src: 'truffled' });
-      });
-    } catch {}
-  }
-  if (entries.length === 0) {
-    const re = /<a[^>]+href=["']([^"'#?]+)["'][^>]*>[\s\S]{0,600}?<img[^>]+(?:src=["']([^"']+)["'][^>]*alt=["']([^"']+)["']|alt=["']([^"']+)["'][^>]*src=["']([^"']+)["'])/gi;
-    let m;
-    while ((m = re.exec(text)) !== null) {
-      const href = m[1], imgSrc = m[2] || m[5] || '', alt = m[3] || m[4] || '';
-      if (!alt || alt.length < 2) continue;
-      const absUrl   = href.startsWith('http') ? href : TRUFFLED_BASE + (href.startsWith('/') ? href : '/' + href);
-      const absThumb = imgSrc ? (imgSrc.startsWith('http') ? imgSrc : TRUFFLED_BASE + (imgSrc.startsWith('/') ? imgSrc : '/' + imgSrc)) : '';
-      entries.push({ name: alt, url: absUrl, thumb: absThumb, src: 'truffled' });
+// ─── RESPONSE HEADER CLEANUP ──────────────────────────────────────────────
+function cleanResHeaders(src, extra = {}) {
+  const out = new Headers();
+  // Copy safe headers
+  for (const [k, v] of src.entries()) {
+    const kl = k.toLowerCase();
+    if ([
+      'content-type','content-language','content-length',
+      'cache-control','last-modified','etag','vary',
+      'transfer-encoding','date',
+    ].includes(kl)) {
+      out.set(k, v);
     }
   }
-  cache.truffled = entries; cache.ts.truffled = Date.now();
-  return entries;
+  // Always allow framing and cross-origin access
+  out.set('Access-Control-Allow-Origin', '*');
+  out.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  out.set('Access-Control-Allow-Headers', '*');
+  out.set('X-Frame-Options', 'ALLOWALL');
+  // Apply extras
+  for (const [k, v] of Object.entries(extra)) out.set(k, v);
+  return out;
 }
 
-// ─── INTERCEPT INJECTION SCRIPT ───────────────────────────────
-function buildInterceptScript(origin, targetUrl) {
-  let targetOrigin = '';
-  try { targetOrigin = new URL(targetUrl).origin; } catch {}
-  return `<script>(function(){
+// ─── TIMEOUT FETCH (CF-compatible, no AbortSignal.timeout) ────────────────
+function fetchWithTimeout(url, opts = {}, ms = 14000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+
+// ─── INTERCEPT INJECTION SCRIPT ───────────────────────────────────────────
+// Injected into every proxied HTML page so that clicks, XHR, fetch,
+// history, window.open, and form submissions all stay within the proxy.
+function buildIntercept(origin, targetUrl) {
+  // We build the script as a string and return it ready to inject.
+  // IMPORTANT: we avoid </script> literally so the surrounding template literal
+  // doesn't accidentally close the outer script tag.
+  const proxyBase = origin + '/proxy?url=';
+  const script = `(function(){
+var _pb=${JSON.stringify(proxyBase)};
+var _base=${JSON.stringify(targetUrl)};
 var _o=${JSON.stringify(origin)};
-var _p=_o+'/proxy?url=';
-var _b=${JSON.stringify(targetUrl)};
 
-// Resolve any URL relative to the current proxied page
 function _abs(u){
-  if(!u||u.startsWith('javascript:')||u.startsWith('data:')||u.startsWith('blob:')||u.startsWith('#'))return u;
-  if(u.startsWith(_p))return u; // already proxied
-  try{return new URL(u,_b).href;}catch(e){return u;}
+  if(!u)return u;
+  var s=String(u);
+  // already proxied
+  if(s.startsWith(_pb))return s;
+  // protocol-relative
+  if(s.startsWith('//')){s='https:'+s;}
+  // skip special schemes
+  if(/^(javascript|data|blob|mailto|tel):/i.test(s))return s;
+  // fragment only
+  if(s.startsWith('#'))return s;
+  try{return new URL(s,_base).href;}catch(e){return s;}
 }
-function _wrap(u){
+function _prx(u){
   var a=_abs(u);
-  return(a&&a.startsWith('http'))?_p+encodeURIComponent(a):a;
+  return(a&&/^https?:/.test(a))?_pb+encodeURIComponent(a):a;
 }
 
-// Override window.location
-try{
-  Object.defineProperty(window,'top',{get:function(){return window;},configurable:true});
-  Object.defineProperty(window,'parent',{get:function(){return window;},configurable:true});
-  Object.defineProperty(window,'frameElement',{get:function(){return null;},configurable:true});
-}catch(e){}
+// Sandbox escape prevention
+try{Object.defineProperty(window,'top',{get:function(){return window;},configurable:true});}catch(e){}
+try{Object.defineProperty(window,'parent',{get:function(){return window;},configurable:true});}catch(e){}
+try{Object.defineProperty(window,'frameElement',{get:function(){return null;},configurable:true});}catch(e){}
 
-// Intercept ALL link clicks — catches JS-driven navigation too
+// Click interception
 document.addEventListener('click',function(e){
   var el=e.target;
-  while(el&&el.tagName!=='A')el=el.parentElement;
-  if(!el||!el.href)return;
-  var h=el.getAttribute('href');
-  if(!h||h.startsWith('javascript:')||h.startsWith('#'))return;
-  var abs=_abs(el.href);
-  if(abs&&abs.startsWith('http')&&!abs.startsWith(_p)){
-    e.preventDefault();
-    e.stopPropagation();
-    window.location.href=_p+encodeURIComponent(abs);
+  for(var i=0;i<5&&el;i++){if(el.tagName==='A')break;el=el.parentElement;}
+  if(!el||el.tagName!=='A')return;
+  var href=el.getAttribute('href');
+  if(!href||/^(javascript|#)/i.test(href))return;
+  var abs=_abs(el.href||href);
+  if(abs&&/^https?:/.test(abs)&&!abs.startsWith(_pb)){
+    e.preventDefault();e.stopPropagation();
+    window.location.href=_pb+encodeURIComponent(abs);
   }
 },true);
 
-// Intercept form submits
+// Form interception
 document.addEventListener('submit',function(e){
-  var f=e.target;
-  if(!f)return;
-  e.preventDefault();
-  e.stopPropagation();
+  var f=e.target;if(!f)return;
+  e.preventDefault();e.stopPropagation();
   var method=(f.method||'get').toLowerCase();
-  // Get the real action URL (strip proxy wrapper if already wrapped)
-  var rawAction=f.getAttribute('action')||window.location.href;
-  // If action was rewritten to /proxy?url=..., unwrap it
-  var realAction=rawAction;
-  if(rawAction.indexOf(_p)===0){
-    try{realAction=decodeURIComponent(rawAction.slice(_p.length));}catch(x){}
-  } else {
-    realAction=_abs(rawAction);
-  }
+  var raw=f.getAttribute('action')||window.location.href;
+  var real=raw.startsWith(_pb)?decodeURIComponent(raw.slice(_pb.length)):_abs(raw);
   if(method==='post'){
-    // For POST just navigate to proxied action — full POST proxying not supported
-    window.location.href=_p+encodeURIComponent(realAction);
+    window.location.href=_pb+encodeURIComponent(real);
   } else {
-    // GET form — build query string from inputs and append to real URL
     var data=new URLSearchParams();
-    var els=f.elements;
-    for(var i=0;i<els.length;i++){
-      var el=els[i];
-      if(!el.name||el.disabled)continue;
-      if((el.type==='checkbox'||el.type==='radio')&&!el.checked)continue;
+    Array.from(f.elements).forEach(function(el){
+      if(!el.name||el.disabled)return;
+      if((el.type==='checkbox'||el.type==='radio')&&!el.checked)return;
       data.append(el.name,el.value);
-    }
+    });
     var qs=data.toString();
-    // Strip existing query from action, replace with form data
-    var base=realAction.split('?')[0];
-    var finalUrl=base+(qs?'?'+qs:'');
-    window.location.href=_p+encodeURIComponent(finalUrl);
+    window.location.href=_pb+encodeURIComponent(real.split('?')[0]+(qs?'?'+qs:''));
   }
 },true);
 
 // fetch override
 var _of=window.fetch;
 window.fetch=function(u,opts){
-  var s=typeof u==='string'?u:(u&&u.url?u.url:String(u));
-  s=_abs(s);
-  if(s&&s.startsWith('http')&&!s.startsWith(_o))
-    return _of(_p+encodeURIComponent(s),opts);
+  var s=typeof u==='string'?u:(u&&u.url?u.url:'');
+  var a=_abs(s);
+  if(a&&/^https?:/.test(a)&&!a.startsWith(_o))
+    return _of(_pb+encodeURIComponent(a),opts);
   return _of.apply(this,arguments);
 };
 
-// XHR override
+// XMLHttpRequest override
 var _xo=XMLHttpRequest.prototype.open;
 XMLHttpRequest.prototype.open=function(m,u){
   if(typeof u==='string'){
-    var s=_abs(u);
-    if(s&&s.startsWith('http')&&!s.startsWith(_o))
-      arguments[1]=_p+encodeURIComponent(s);
+    var a=_abs(u);
+    if(a&&/^https?:/.test(a)&&!a.startsWith(_o))
+      arguments[1]=_pb+encodeURIComponent(a);
   }
   return _xo.apply(this,arguments);
 };
 
-// history.pushState / replaceState
+// history overrides
 try{
-  var _ps=history.pushState.bind(history);
-  history.pushState=function(st,t,u){
-    if(u){var a=_wrap(String(u));return _ps(st,t,a);}
-    return _ps(st,t,u);
-  };
-  var _rs=history.replaceState.bind(history);
-  history.replaceState=function(st,t,u){
-    if(u){var a=_wrap(String(u));return _rs(st,t,a);}
-    return _rs(st,t,u);
-  };
+  ['pushState','replaceState'].forEach(function(fn){
+    var orig=history[fn].bind(history);
+    history[fn]=function(st,t,u){
+      return u?orig(st,t,_prx(String(u))):orig(st,t,u);
+    };
+  });
 }catch(e){}
 
-// location.href, assign, replace
+// location.href setter
 try{
-  var _lhDesc=Object.getOwnPropertyDescriptor(Location.prototype,'href');
-  if(_lhDesc&&_lhDesc.set){
+  var _ld=Object.getOwnPropertyDescriptor(Location.prototype,'href');
+  if(_ld&&_ld.set){
     Object.defineProperty(Location.prototype,'href',{
-      get:_lhDesc.get,
-      set:function(u){_lhDesc.set.call(this,_wrap(String(u)));},
+      get:_ld.get,
+      set:function(u){_ld.set.call(this,_prx(String(u)));},
       configurable:true
     });
   }
-  Location.prototype.assign=function(u){window.location.href=_wrap(String(u));};
-  Location.prototype.replace=function(u){window.location.replace(_wrap(String(u)));};
+  Location.prototype.assign=function(u){window.location.href=_prx(String(u));};
+  Location.prototype.replace=function(u){window.location.replace(_prx(String(u)));};
 }catch(e){}
 
-// window.open
+// window.open override
 try{
   var _wo=window.open;
   window.open=function(u,t,f){
-    if(u){var a=_abs(String(u));if(a&&a.startsWith('http'))return _wo.call(window,_p+encodeURIComponent(a),t,f);}
-    return _wo.apply(window,arguments);
+    if(u){var a=_abs(String(u));if(a&&/^https?:/.test(a))return _wo(_pb+encodeURIComponent(a),t,f);}
+    return _wo.apply(this,arguments);
   };
 }catch(e){}
 
-})();<\/script>`;
+})();`;
+
+  // Return as an inline <script> tag, avoiding literal </script> in the source
+  return '<scr'+'ipt>' + script + '<\/scr'+'ipt>';
 }
 
-// ─── HTML REWRITER ─────────────────────────────────────────────
-function rewriteHtml(html, target, origin) {
-  const proxyBase = origin + '/proxy?url=';
+// ─── HTML REWRITER ─────────────────────────────────────────────────────────
+function rewriteHtml(html, targetUrl, origin) {
+  const pb = origin + '/proxy?url=';
 
-  function absUrl(val) {
+  function abs(val) {
     if (!val) return val;
     val = val.trim();
-    if (val.startsWith('data:') || val.startsWith('javascript:') ||
-        val.startsWith('#') || val.startsWith('mailto:') || val.startsWith('blob:')) return val;
-    // already proxied
-    if (val.startsWith(proxyBase)) return val;
+    if (/^(data:|javascript:|blob:|mailto:|tel:|#)/i.test(val)) return val;
+    if (val.startsWith(pb)) return val;
+    if (val.startsWith('//')) val = 'https:' + val;
     try {
-      const abs = new URL(val, target).href;
-      if (abs.startsWith('http')) return proxyBase + encodeURIComponent(abs);
+      const a = new URL(val, targetUrl).href;
+      if (/^https?:/.test(a)) return pb + encodeURIComponent(a);
     } catch {}
     return val;
   }
 
-  // Remove existing base tags (they break relative URL resolution)
+  // Remove base tags
   html = html.replace(/<base[^>]*>/gi, '');
 
-  // Rewrite src, href, action, srcset attributes
-  html = html.replace(/(<[^>]+?\s)(src|href|action|poster|data)(\s*=\s*)(["'])([^"']*)\4/gi, (match, pre, attr, eq, quote, val) => {
-    return pre + attr + eq + quote + absUrl(val) + quote;
+  // Rewrite src, href, action, poster, data attributes
+  html = html.replace(
+    /(<[^>]+?\s)(src|href|action|poster|data)(\s*=\s*)(["'])([^"']*)\4/gi,
+    (_, pre, attr, eq, q, val) => pre + attr + eq + q + abs(val) + q
+  );
+
+  // Rewrite srcset
+  html = html.replace(
+    /(<[^>]+?\s)srcset(\s*=\s*)(["'])([^"']*)\3/gi,
+    (_, pre, eq, q, val) => {
+      const rw = val.split(',').map(e => {
+        const p = e.trim().split(/\s+/);
+        if (p[0]) p[0] = abs(p[0]);
+        return p.join(' ');
+      }).join(', ');
+      return pre + 'srcset' + eq + q + rw + q;
+    }
+  );
+
+  // Rewrite CSS url() inside <style> blocks
+  html = html.replace(/(<style[^>]*>)([\s\S]*?)(<\/style>)/gi, (_, open, css, close) => {
+    css = css.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/gi, (m, q, u) => {
+      if (/^(data:|#)/i.test(u)) return m;
+      return 'url(' + q + abs(u) + q + ')';
+    });
+    return open + css + close;
   });
 
-  // Rewrite srcset (comma-separated list of url [descriptor])
-  html = html.replace(/(<[^>]+?\s)srcset(\s*=\s*)(["'])([^"']*)\3/gi, (match, pre, eq, quote, val) => {
-    const rewritten = val.split(',').map(entry => {
-      const parts = entry.trim().split(/\s+/);
-      if (parts[0]) parts[0] = absUrl(parts[0]);
-      return parts.join(' ');
-    }).join(', ');
-    return pre + 'srcset' + eq + quote + rewritten + quote;
-  });
-
-  // Inject intercept script as first thing in <head>
-  const script = buildInterceptScript(origin, target);
+  // Inject intercept script right after <head> (or at top if no head)
+  const inject = buildIntercept(origin, targetUrl);
   if (/<head[\s>]/i.test(html)) {
-    html = html.replace(/(<head[^>]*>)/i, '$1' + script);
+    html = html.replace(/(<head[^>]*>)/i, '$1' + inject);
+  } else if (/<body[\s>]/i.test(html)) {
+    html = html.replace(/(<body[^>]*>)/i, '$1' + inject);
   } else {
-    html = script + html;
+    html = inject + html;
   }
-
-  // Note: no <base> tag injected — it breaks form submissions and relative URL resolution
-  // The intercept script handles relative URLs via _abs() instead
 
   return html;
 }
 
-// ─── HEADER HELPERS ───────────────────────────────────────────
-function buildSafeHeaders(targetUrl) {
-  return {
-    'User-Agent': getRandomUserAgent(),
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept-Encoding': 'identity',
-    'DNT': '1',
-    'Connection': 'keep-alive',
-    'Upgrade-Insecure-Requests': '1',
-  };
+// ─── CSS REWRITER ─────────────────────────────────────────────────────────
+function rewriteCss(css, targetUrl, origin) {
+  const pb = origin + '/proxy?url=';
+  return css.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/gi, (m, q, val) => {
+    if (/^(data:|#)/i.test(val)) return m;
+    if (val.startsWith('//')) val = 'https:' + val;
+    try {
+      const a = new URL(val, targetUrl).href;
+      if (/^https?:/.test(a)) return 'url(' + q + pb + encodeURIComponent(a) + q + ')';
+    } catch {}
+    return m;
+  });
 }
 
-function stripSensitiveHeaders(headers) {
-  const stripped = new Headers(headers);
-  ['X-Powered-By','X-Aspnet-Version','Server','X-AspNetMvc-Version',
-   'X-Runtime','X-Rack-Cache','CF-Ray','CF-Cache-Status','CF-ASN',
-   'Content-Security-Policy','Content-Security-Policy-Report-Only',
-   'X-Frame-Options','X-Content-Type-Options'].forEach(h => stripped.delete(h));
-  return stripped;
+// ─── CORS PREFLIGHT ───────────────────────────────────────────────────────
+function handleOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Max-Age': '86400',
+    },
+  });
 }
 
-// ─── MAIN FETCH HANDLER ────────────────────────────────────────
+// ─── JSON RESPONSE HELPER ─────────────────────────────────────────────────
+function jsonRes(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'no-store',
+    },
+  });
+}
+
+// ─── MAIN HANDLER ─────────────────────────────────────────────────────────
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    const path = url.pathname;
-    const origin = url.origin;
+    const { pathname: path, origin } = url;
+    const method = request.method.toUpperCase();
 
-    if (path === '/api/games/radon') {
-      return new Response(JSON.stringify(fetchRadon()), {
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-      });
-    }
+    // CORS preflight
+    if (method === 'OPTIONS') return handleOptions();
 
-    if (path === '/api/games/original') {
-      try {
-        return new Response(JSON.stringify(await fetchFyinx()), {
-          headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-        });
-      } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), { status: 502, headers: { 'Content-Type': 'application/json' } });
-      }
-    }
-
-    if (path === '/api/games/truffled') {
-      try {
-        return new Response(JSON.stringify(await fetchTruffled()), {
-          headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-        });
-      } catch (e) {
-        return new Response(JSON.stringify({ error: e.message }), { status: 502, headers: { 'Content-Type': 'application/json' } });
-      }
-    }
-
+    // ── /thumb — image proxy ─────────────────────────────────────────────
     if (path === '/thumb') {
       const thumbUrl = url.searchParams.get('url');
-      if (!thumbUrl) return new Response('', { status: 400 });
+      if (!thumbUrl) return new Response('Missing url', { status: 400 });
       try {
-        const r = await fetch(thumbUrl, { headers: buildSafeHeaders(thumbUrl), signal: AbortSignal.timeout(6000) });
-        const type = r.headers.get('content-type') || 'image/webp';
-        const respHeaders = stripSensitiveHeaders(r.headers);
-        respHeaders.set('Content-Type', type);
-        respHeaders.set('Cache-Control', 'public, max-age=7200');
-        return new Response(r.body, { headers: respHeaders });
-      } catch {
+        const r = await fetchWithTimeout(thumbUrl, { headers: safeReqHeaders(thumbUrl) }, 8000);
+        const ct = r.headers.get('content-type') || 'image/webp';
+        const h = cleanResHeaders(r.headers, {
+          'Content-Type': ct,
+          'Cache-Control': 'public, max-age=86400',
+        });
+        return new Response(r.body, { status: r.status, headers: h });
+      } catch (e) {
         return new Response('', { status: 404 });
       }
     }
 
+    // ── /go — redirect helper ────────────────────────────────────────────
     if (path === '/go') {
       let target = url.searchParams.get('url') || '';
       if (!target) return Response.redirect(origin + '/', 302);
-      if (!target.startsWith('http://') && !target.startsWith('https://'))
-        target = target.includes('.') && !target.includes(' ') ? 'https://' + target : 'https://www.google.com/search?q=' + encodeURIComponent(target);
+      if (!/^https?:\/\//i.test(target)) {
+        target = target.includes('.') && !target.includes(' ')
+          ? 'https://' + target
+          : 'https://www.google.com/search?q=' + encodeURIComponent(target);
+      }
       return Response.redirect(origin + '/proxy?url=' + encodeURIComponent(target), 302);
     }
 
+    // ── /proxy — the main proxy ──────────────────────────────────────────
     if (path === '/proxy') {
-      const target = url.searchParams.get('url');
-      if (!target) return Response.redirect(origin + '/', 302);
+      const raw = url.searchParams.get('url');
+      if (!raw) return Response.redirect(origin + '/', 302);
 
+      // Decode and validate URL
       let targetUrl;
-      try { targetUrl = new URL(target); } catch {
-        return new Response('Invalid URL', { status: 400 });
+      try {
+        // Handle double-encoding gracefully
+        const decoded = raw.startsWith('http') ? raw : decodeURIComponent(raw);
+        targetUrl = new URL(decoded);
+      } catch {
+        return new Response('Invalid URL: ' + raw, { status: 400 });
       }
-      if (targetUrl.protocol !== 'http:' && targetUrl.protocol !== 'https:')
-        return new Response('Unsupported scheme', { status: 400 });
+      if (!['http:', 'https:'].includes(targetUrl.protocol)) {
+        return new Response('Unsupported protocol', { status: 400 });
+      }
 
-      const MAX = 15 * 1024 * 1024;
+      const target = targetUrl.href;
+      const MAX = 20 * 1024 * 1024; // 20 MB limit
 
       try {
-        const response = await fetch(target, {
-          headers: buildSafeHeaders(target),
+        const response = await fetchWithTimeout(target, {
+          method: method === 'POST' ? 'POST' : 'GET',
+          headers: safeReqHeaders(target),
+          body: method === 'POST' ? request.body : undefined,
           redirect: 'manual',
-          signal: AbortSignal.timeout(12000),
-        });
+        }, 15000);
 
         // Follow redirects through proxy
         if (response.status >= 300 && response.status < 400) {
-          const location = response.headers.get('location');
-          if (location) {
+          const loc = response.headers.get('location');
+          if (loc) {
             try {
-              const abs = new URL(location, target).href;
+              const abs = new URL(loc, target).href;
               return Response.redirect(origin + '/proxy?url=' + encodeURIComponent(abs), 302);
             } catch {}
           }
+          return new Response('Redirect loop', { status: 502 });
         }
 
-        const ct = response.headers.get('content-type') || '';
-        const respHeaders = stripSensitiveHeaders(response.headers);
-        // Always allow framing
-        respHeaders.set('X-Frame-Options', 'ALLOWALL');
-        respHeaders.set('Access-Control-Allow-Origin', '*');
+        const ct = (response.headers.get('content-type') || '').toLowerCase();
+        const isHtml = ct.includes('text/html');
+        const isCss  = ct.includes('text/css');
+        const isJs   = ct.includes('javascript') || ct.includes('text/plain');
 
-        if (ct.includes('text/html')) {
-          const html = await response.text();
-          if (new TextEncoder().encode(html).length > MAX)
+        const h = cleanResHeaders(response.headers);
+
+        if (isHtml) {
+          let body = await response.text();
+          if (new TextEncoder().encode(body).length > MAX) {
             return new Response('Page too large', { status: 502 });
-          const rewritten = rewriteHtml(html, target, origin);
-          respHeaders.set('Content-Type', 'text/html; charset=utf-8');
-          return new Response(rewritten, { headers: respHeaders });
+          }
+          body = rewriteHtml(body, target, origin);
+          h.set('Content-Type', 'text/html; charset=utf-8');
+          // Remove content-length since we modified the body
+          h.delete('content-length');
+          return new Response(body, { status: response.status, headers: h });
 
-        } else if (ct.includes('javascript') || ct.includes('text/plain')) {
-          const js = await response.text();
-          respHeaders.set('Content-Type', ct);
-          respHeaders.set('Cache-Control', 'public, max-age=300');
-          return new Response(js, { headers: respHeaders });
+        } else if (isCss) {
+          let body = await response.text();
+          body = rewriteCss(body, target, origin);
+          h.set('Content-Type', ct || 'text/css');
+          h.delete('content-length');
+          h.set('Cache-Control', 'public, max-age=300');
+          return new Response(body, { status: response.status, headers: h });
 
-        } else if (ct.includes('text/css')) {
-          let css = await response.text();
-          // Rewrite url() in CSS
-          css = css.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/gi, (match, quote, val) => {
-            if (val.startsWith('data:') || val.startsWith('#')) return match;
-            try {
-              const abs = new URL(val, target).href;
-              return 'url(' + quote + origin + '/proxy?url=' + encodeURIComponent(abs) + quote + ')';
-            } catch { return match; }
-          });
-          respHeaders.set('Content-Type', ct);
-          respHeaders.set('Cache-Control', 'public, max-age=300');
-          return new Response(css, { headers: respHeaders });
+        } else if (isJs) {
+          const body = await response.text();
+          h.set('Content-Type', ct || 'text/javascript');
+          h.set('Cache-Control', 'public, max-age=300');
+          return new Response(body, { status: response.status, headers: h });
 
         } else {
-          const ab = await response.arrayBuffer();
-          if (ab.byteLength > MAX) return new Response('Too large', { status: 502 });
-          respHeaders.set('Content-Type', ct);
-          respHeaders.set('Cache-Control', 'public, max-age=300');
-          return new Response(ab, { headers: respHeaders });
+          // Binary: images, fonts, wasm, etc.
+          const buf = await response.arrayBuffer();
+          if (buf.byteLength > MAX) return new Response('Too large', { status: 502 });
+          h.set('Content-Type', ct || 'application/octet-stream');
+          h.set('Cache-Control', 'public, max-age=86400');
+          return new Response(buf, { status: response.status, headers: h });
         }
 
       } catch (err) {
-        const msg = err.name === 'AbortError' ? 'Request timed out' : 'Could not load: ' + err.message;
-        return new Response(msg, { status: 502 });
+        const msg = err.name === 'AbortError'
+          ? 'Proxy timed out fetching: ' + target
+          : 'Proxy error: ' + err.message;
+        return new Response(msg, { status: 502, headers: { 'Access-Control-Allow-Origin': '*' } });
       }
     }
 
-    return env.ASSETS.fetch(request);
-  }
+    // ── Static assets (Cloudflare Pages / Workers Sites) ─────────────────
+    // Falls through to your static files (index.html, etc.)
+    try {
+      return await env.ASSETS.fetch(request);
+    } catch {
+      return new Response('Not found', { status: 404 });
+    }
+  },
 };
